@@ -435,29 +435,8 @@ const config: HardhatUserConfig = {
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : []
     }
   },
-  etherscan: {
-    apiKey: {
-      seiMainnet: 'dummy', // Seitrace doesn't require API key
-      seiTestnet: 'dummy'
-    },
-    customChains: [
-      {
-        network: 'seiMainnet',
-        chainId: 1329,
-        urls: {
-          apiURL: 'https://seitrace.com/pacific-1/api',
-          browserURL: 'https://seitrace.com'
-        }
-      },
-      {
-        network: 'seiTestnet',
-        chainId: 1328,
-        urls: {
-          apiURL: 'https://seitrace.com/atlantic-2/api',
-          browserURL: 'https://seitrace.com'
-        }
-      }
-    ]
+  sourcify: {
+    enabled: true
   }
 };
 
@@ -478,9 +457,8 @@ solc_version = "0.8.22"
 sei_mainnet = "https://evm-rpc.sei-apis.com"
 sei_testnet = "https://evm-rpc-testnet.sei-apis.com"
 
-[etherscan]
-sei_mainnet = { key = "dummy", url = "https://seitrace.com/pacific-1/api", chain = 1329 }
-sei_testnet = { key = "dummy", url = "https://seitrace.com/atlantic-2/api", chain = 1328 }
+# Verification uses Sourcify (no API key needed)
+# Run: forge verify-contract --verifier sourcify --chain-id <CHAIN_ID> <ADDRESS> <PATH:CONTRACT>
 ```
 
   </Tabs.Tab>
@@ -819,8 +797,7 @@ npx hardhat verify --network seiTestnet <CONTRACT_ADDRESS>
 # Foundry
 forge verify-contract \
   --chain-id 1328 \
-  --verifier blockscout \
-  --verifier-url https://seitrace.com/atlantic-2/api \
+  --verifier sourcify \
   <CONTRACT_ADDRESS> \
   src/Counter.sol:Counter
 ```

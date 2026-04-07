@@ -21,7 +21,7 @@ const footerLinkGroups = [
 			{ label: 'Join the Eco', href: 'https://sei-forms.typeform.com/join-ecosystem?typeform-source=p12rt1ecint.typeform.com' },
 			{ label: 'Bridge', href: 'https://dashboard.sei.io/bridge' },
 			{ label: 'Explorer (Seiscan)', href: 'https://seiscan.io/' },
-			{ label: 'Explorer (SeiTrace)', href: 'https://seitrace.com/' },
+			{ label: 'Explorer (Mintscan)', href: 'https://www.mintscan.io/sei' },
 			{ label: 'Stake', href: 'https://dashboard.sei.io/stake' }
 		]
 	},

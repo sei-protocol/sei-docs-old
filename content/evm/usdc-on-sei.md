@@ -244,7 +244,7 @@ Tx hash: 0xabc123...def456 # transaction hash of the transfer
 Explorer: https://testnet.seiscan.io/tx/0xabc123...def456
 ```
 
-You should see “Transfer successful\!” and a transaction hash. You can copy the explorer URL into a browser to view the transaction details on SeiTrace.
+You should see “Transfer successful\!” and a transaction hash. You can copy the explorer URL into a browser to view the transaction details on Seiscan.
 
 Continue building by checking for more information in the [Circle Developer Docs.](https://developers.circle.com/)
 

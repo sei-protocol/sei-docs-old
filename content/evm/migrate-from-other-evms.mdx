@@ -622,29 +622,8 @@ const config = {
       accounts: process.env.DEPLOYER_KEYS?.split(',') ?? []
     }
   },
-  etherscan: {
-    apiKey: {
-      seiMainnet: 'dummy', // Seitrace doesn't require real API key
-      seiTestnet: 'dummy'
-    },
-    customChains: [
-      {
-        network: 'seiMainnet',
-        chainId: 1329,
-        urls: {
-          apiURL: 'https://seitrace.com/pacific-1/api',
-          browserURL: 'https://seitrace.com'
-        }
-      },
-      {
-        network: 'seiTestnet',
-        chainId: 1328,
-        urls: {
-          apiURL: 'https://seitrace.com/atlantic-2/api',
-          browserURL: 'https://seitrace.com'
-        }
-      }
-    ]
+  sourcify: {
+    enabled: true
   }
 };
 
@@ -663,9 +642,8 @@ libs = ["lib"]
 sei_mainnet = "https://evm-rpc.sei-apis.com"
 sei_testnet = "https://evm-rpc-testnet.sei-apis.com"
 
-[etherscan]
-sei_mainnet = { key = "dummy", url = "https://seitrace.com/pacific-1/api", chain = 1329 }
-sei_testnet = { key = "dummy", url = "https://seitrace.com/atlantic-2/api", chain = 1328 }
+# Verification uses Sourcify (no API key needed)
+# Run: forge verify-contract --verifier sourcify --chain-id <CHAIN_ID> <ADDRESS> <PATH:CONTRACT>
 ```
 
 See the [Hardhat tutorial](./evm-hardhat) and [Foundry guide](./evm-foundry) for complete setup instructions.
@@ -862,7 +840,7 @@ Sei supports multiple oracle solutions:
 
 - [ ] Deploy all contracts to testnet (chain ID: `1328`)
 - [ ] Run full integration test suite
-- [ ] Verify contracts via [Seitrace](./evm-verify-contracts)
+- [ ] Verify contracts via [Sourcify](./evm-verify-contracts)
 - [ ] Test wallet connections and transaction flows
 - [ ] Validate oracle integrations
 - [ ] Test cross-chain messaging if applicable
@@ -871,7 +849,7 @@ Sei supports multiple oracle solutions:
 
 - [ ] Deploy contracts to mainnet (chain ID: `1329`)
 - [ ] Re-run smoke tests
-- [ ] Verify all contracts on Seitrace
+- [ ] Verify all contracts on Sourcify
 - [ ] Update frontend configurations
 - [ ] Prepare user migration documentation
 
@@ -881,15 +859,12 @@ Sei supports multiple oracle solutions:
 
 ### Contract Verification
 
-Automate verification through CI using the [Seitrace APIs](./evm-verify-contracts):
+Automate verification through CI using [Sourcify](./evm-verify-contracts):
 
 ```bash
 # Foundry verification
 forge verify-contract --watch \
-  --compiler-version "0.8.22" \
-  --verifier blockscout \
-  --verifier-url https://seitrace.com/pacific-1/api \
-  --etherscan-api-key dummy \
+  --verifier sourcify \
   --chain-id 1329 \
   <CONTRACT_ADDRESS> \
   <CONTRACT_NAME>
@@ -930,7 +905,7 @@ Here's how to mirror a Uniswap V3 experience on Sei:
 
 4. **Price Oracles:** Reuse TWAP/Chainlink logic but shorten observation windows for Sei's faster blocks.
 
-5. **Verification:** Submit to [Seitrace](./evm-verify-contracts) and the [Ecosystem Contracts registry](./ecosystem-contracts).
+5. **Verification:** Submit to [Sourcify](./evm-verify-contracts) and the [Ecosystem Contracts registry](./ecosystem-contracts).
 
 ## Helpful References
 
