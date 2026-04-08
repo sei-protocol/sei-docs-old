@@ -19,5 +19,4 @@ lib/search-index.json
 # Per-page .md files generated at build time (Solana-style LLM access)
 /public/**/*.md
 public/_seo-audit.json
-src/data/ecosystem-cache.json
 .env.local

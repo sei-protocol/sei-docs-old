@@ -4,8 +4,8 @@
 	"description": "Sei docs",
 	"private": true,
 	"scripts": {
-		"dev": "bun scripts/fetch-ecosystem-data.js && next dev --turbopack",
-		"build": "bun scripts/build-search-index.js && bun scripts/fetch-ecosystem-data.js && next build",
+		"dev": "next dev --turbopack",
+		"build": "bun scripts/build-search-index.js && next build",
 		"postbuild": "concurrently \"pagefind --site .next/server/app --output-path public/_pagefind --verbose\" \"next-sitemap\" \"bun scripts/scrape-docs-html.js\" && bun scripts/build-search-index.js",
 		"start": "next start",
 		"format": "biome format --write .",

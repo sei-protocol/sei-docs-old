@@ -6,13 +6,7 @@ keywords: ['sei blockchain explorer', 'transaction tracking', 'block analysis', 
 
 import { Tabs } from 'nextra/components';
 import { Callout } from 'nextra/components';
-import AppCardV2 from '../../src/components/AppCard/AppCard.v2';
-import ecosystemData from '../../src/data/ecosystem-cache.json';
-
-export const getLogoUrl = (name) => {
-  const app = ecosystemData.data.find((a) => a.fieldData.name.toLowerCase() === name.toLowerCase());
-  return app?.fieldData?.logo?.url;
-};
+import { AppCardWithLogo } from '../../src/components';
 
 # Block Explorers
 
@@ -53,17 +47,17 @@ with the network including:
 <Tabs items={[`mainnet (pacific-1)`, `testnet (atlantic-2)`]}>
   <Tabs.Tab>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-      <AppCardV2 title="Seiscan" logoUrl={getLogoUrl('Seiscan')} href="https://seiscan.io" description="A user-friendly block explorer for the Sei Pacific-1 mainnet." />
-      <AppCardV2 title="Mintscan" logoUrl={getLogoUrl('Mintscan')} href="https://www.mintscan.io/sei" description="Comprehensive blockchain explorer and analytics platform for Sei mainnet." />
-      <AppCardV2 title="Seistream" logoUrl={getLogoUrl('Seistream')} href="https://seistream.app/" description="Real-time transaction streaming and monitoring tool for Sei mainnet." />
-      <AppCardV2 title="NG Explorer" logoUrl={getLogoUrl('Nodes Guru')} href="https://sei.explorers.guru" description="Comprehensive blockchain explorer provided by Nodes Guru for Sei mainnet." />
+      <AppCardWithLogo title="Seiscan" logoName="Seiscan" href="https://seiscan.io" description="A user-friendly block explorer for the Sei Pacific-1 mainnet." />
+      <AppCardWithLogo title="Mintscan" logoName="Mintscan" href="https://www.mintscan.io/sei" description="Comprehensive blockchain explorer and analytics platform for Sei mainnet." />
+      <AppCardWithLogo title="Seistream" logoName="Seistream" href="https://seistream.app/" description="Real-time transaction streaming and monitoring tool for Sei mainnet." />
+      <AppCardWithLogo title="NG Explorer" logoName="Nodes Guru" href="https://sei.explorers.guru" description="Comprehensive blockchain explorer provided by Nodes Guru for Sei mainnet." />
     </div>
   </Tabs.Tab>
   <Tabs.Tab>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-      <AppCardV2 title="Seiscan" logoUrl={getLogoUrl('Seiscan')} href="https://testnet.seiscan.io" description="A user-friendly block explorer for the Sei Atlantic-2 testnet." />
-      <AppCardV2 title="Seistream" logoUrl={getLogoUrl('Seistream')} href="https://testnet.seistream.app/" description="Real-time transaction streaming and monitoring tool for Sei testnet." />
-      <AppCardV2 title="NG Explorer" logoUrl={getLogoUrl('Nodes Guru')} href="https://testnet.sei.explorers.guru" description="Comprehensive blockchain explorer provided by Nodes Guru for Sei testnet." />
+      <AppCardWithLogo title="Seiscan" logoName="Seiscan" href="https://testnet.seiscan.io" description="A user-friendly block explorer for the Sei Atlantic-2 testnet." />
+      <AppCardWithLogo title="Seistream" logoName="Seistream" href="https://testnet.seistream.app/" description="Real-time transaction streaming and monitoring tool for Sei testnet." />
+      <AppCardWithLogo title="NG Explorer" logoName="Nodes Guru" href="https://testnet.sei.explorers.guru" description="Comprehensive blockchain explorer provided by Nodes Guru for Sei testnet." />
     </div>
   </Tabs.Tab>
 </Tabs>
