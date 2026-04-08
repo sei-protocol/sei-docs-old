@@ -10,7 +10,6 @@ import { ContextualMenu } from '../components/ContextualMenu/ContextualMenu';
 import '../components/ContextualMenu/contextual-menu.css';
 import { Footer } from '../components/Footer/Footer';
 import { Logo, LogoMobile } from '../components/Logo';
-import { Confetti, Snowflakes } from '../components/SeasonalEffects';
 
 const SearchDynamic = dynamic(() => import('../components/NextraSearch/NextraSearch'), { ssr: false, loading: () => <div /> });
 
@@ -80,8 +79,6 @@ export default function DocsProviders({ children, pageMap }) {
 				pageMap={pageMap}>
 				{isMobile && <ConditionalNavbar />}
 				<div>
-					<Snowflakes />
-					<Confetti />
 					{!isMobile && <ConditionalNavbar />}
 					<div className='relative z-10'>{children}</div>
 					<ContextualMenu />
