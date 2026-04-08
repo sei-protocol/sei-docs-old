@@ -20,7 +20,7 @@ Sei fully supports the standard Ethereum JSON-RPC API, so existing EVM tooling (
   - [Block Information](#block-information)
   - [Blockchain Information](#blockchain-information)
   - [Filter Endpoints](#filter-endpoints)
-  - [Simulation & Debugging](#other-standard-endpoint-categories)
+  - [Simulation & Debugging](#simulation--debugging)
 - [Sei Custom Endpoints (Deprecated)](#sei-custom-endpoints)
   - [Legacy API Configuration](#legacy-api-configuration)
   - [Address & Cross-VM Helpers](#address--cross-vm-helpers)
@@ -66,7 +66,7 @@ These endpoints allow you to send transactions to the Sei network.
 <details>
 <summary>View Send Transaction Endpoints</summary>
 
-### eth_sendRawTransaction
+#### eth_sendRawTransaction
 
 Sends a signed transaction.
 
@@ -82,28 +82,6 @@ Sends a signed transaction.
 | :------- | :-------------------- |
 | `string` | The transaction hash. |
 
-### sei_associate
-
-Sends a transaction to establish association between the signer's Sei address
-and EVM address on-chain.
-
-- **Parameters**:
-
-| Type     | Description                                                                        |
-| :------- | :--------------------------------------------------------------------------------- |
-| `object` | A custom object containing a string message and the v, r, s of the signed message. |
-
-Object Schema:
-
-```json copy
-{
-    custom_message: // Any string message
-    r: // The R-part of the signature over the Keccak256 hash of the custom message.
-    s: // The S-part of the signature over the Keccak256 hash of the custom message.
-    v: // The V-part of the signature over the Keccak256 hash of the custom message.
-}
-```
-
 </details>
 
 ### Transaction Lookup
@@ -113,7 +91,7 @@ These endpoints allow you to find transaction details.
 <details>
 <summary>View Transaction Lookup Endpoints</summary>
 
-### eth_getTransactionReceipt
+#### eth_getTransactionReceipt
 
 Gets the receipt of a sent transaction
 
@@ -129,7 +107,7 @@ Gets the receipt of a sent transaction
 | :------- | :------------------------------------------------------------------------------------------------------ |
 | `object` | The [receipt object](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_gettransactionreceipt). |
 
-### eth_getTransactionByBlockNumberAndIndex
+#### eth_getTransactionByBlockNumberAndIndex
 
 Gets transaction by the block number and the index of the transaction in the
 block
@@ -147,7 +125,7 @@ block
 | :------- | :---------------------------------------------------------------------------------------------------------- |
 | `object` | The [transaction details](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_gettransactionbyhash). |
 
-### eth_getTransactionByBlockHashAndIndex
+#### eth_getTransactionByBlockHashAndIndex
 
 Gets transaction by the block hash and the index of the transaction in the
 block.
@@ -165,7 +143,7 @@ block.
 | :------- | :---------------------------------------------------------------------------------------------------------- |
 | `object` | The [transaction details](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_gettransactionbyhash). |
 
-### eth_getTransactionByHash
+#### eth_getTransactionByHash
 
 Gets transaction by the transaction hash.
 
@@ -190,7 +168,7 @@ These endpoints allow you to query account-related information.
 <details>
 <summary>View Account Information Endpoints</summary>
 
-### eth_getTransactionCount
+#### eth_getTransactionCount
 
 Gets the number of transactions sent by the account
 
@@ -207,7 +185,7 @@ Gets the number of transactions sent by the account
 | :------- | :-------------------------------------------------- |
 | `string` | The hexadecimal form of the number of transactions. |
 
-### eth_getBalance
+#### eth_getBalance
 
 Gets the balance in wei (i.e. 10^-12 usei) of the account
 
@@ -224,7 +202,7 @@ Gets the balance in wei (i.e. 10^-12 usei) of the account
 | :------- | :--------------------------------------- |
 | `string` | The hexadecimal form of the wei balance. |
 
-### eth_getCode
+#### eth_getCode
 
 Gets EVM code stored at the account address
 
@@ -241,7 +219,7 @@ Gets EVM code stored at the account address
 | :------- | :--------------------------------------- |
 | `string` | The hexadecimal form of the code binary. |
 
-### eth_getStorageAt
+#### eth_getStorageAt
 
 Gets value at given key of the account
 
@@ -259,9 +237,13 @@ Gets value at given key of the account
 | :------- | :----------------------------------------- |
 | `string` | The hexadecimal form of the storage value. |
 
-### eth_getProof
+#### eth_getProof
 
-Gets the IAVL proof (note: not a MPT proof) of the given keys for an account.
+<Callout type="warning">
+Sei uses IAVL trees instead of Merkle Patricia Tries (MPT). The proof returned by this endpoint is an IAVL proof, not an MPT proof. Ethereum tooling that expects MPT proofs may not parse the response correctly.
+</Callout>
+
+Gets the IAVL proof of the given keys for an account.
 
 - **Parameters**:
 
@@ -299,7 +281,7 @@ Endpoints for retrieving block data and related information.
 <details>
 <summary>View complete list of Block Information endpoints</summary>
 
-### eth_getBlockTransactionCountByNumber
+#### eth_getBlockTransactionCountByNumber
 
 Gets the count of EVM transactions in a block by its number.
 
@@ -317,7 +299,7 @@ Gets the count of EVM transactions in a block by its number.
 
 ---
 
-### eth_getBlockTransactionCountByHash
+#### eth_getBlockTransactionCountByHash
 
 Gets the count of EVM transactions in a block by its hash.
 
@@ -335,7 +317,7 @@ Gets the count of EVM transactions in a block by its hash.
 
 ---
 
-### eth_getBlockByHash
+#### eth_getBlockByHash
 
 Gets block metadata and, optionally, its EVM transactions by block hash.
 
@@ -354,7 +336,7 @@ Gets block metadata and, optionally, its EVM transactions by block hash.
 
 ---
 
-### eth_getBlockByNumber
+#### eth_getBlockByNumber
 
 Gets block metadata and, optionally, its EVM transactions by block number.
 
@@ -373,7 +355,7 @@ Gets block metadata and, optionally, its EVM transactions by block number.
 
 ---
 
-### eth_getBlockReceipts
+#### eth_getBlockReceipts
 
 Gets an array of EVM transaction receipts in a block by its number.
 
@@ -398,7 +380,7 @@ Endpoints for querying general blockchain data.
 <details>
 <summary>View complete list of Blockchain Information endpoints</summary>
 
-### eth_blockNumber
+#### eth_blockNumber
 
 Gets the latest committed block number.
 
@@ -414,7 +396,7 @@ _None_
 
 ---
 
-### eth_chainId
+#### eth_chainId
 
 Gets the chain ID.
 
@@ -430,7 +412,7 @@ _None_
 
 ---
 
-### eth_coinbase
+#### eth_coinbase
 
 Gets the fee-collector (coinbase) address.
 
@@ -446,7 +428,7 @@ _None_
 
 ---
 
-### eth_feeHistory
+#### eth_feeHistory
 
 Gets fee history over a block range.
 
@@ -466,7 +448,7 @@ Gets fee history over a block range.
 
 ---
 
-### eth_gasPrice
+#### eth_gasPrice
 
 Gets the 50th-percentile gas price in the most recent block.
 
@@ -482,7 +464,7 @@ _None_
 
 ---
 
-### net_version
+#### net_version
 
 Gets the chain ID. Alias for `eth_chainId`, but returns the chain ID as a decimal instead of hex.
 
@@ -496,7 +478,7 @@ Gets the chain ID. Alias for `eth_chainId`, but returns the chain ID as a decima
 
 ---
 
-### web3_clientVersion
+#### web3_clientVersion
 
 Gets the RPC node's client version.
 
@@ -529,7 +511,7 @@ Note that log filters are subject to the following limits by default:
 <details>
 <summary>View complete list of Filter endpoints</summary>
 
-### eth_newFilter
+#### eth_newFilter
 
 Creates a new log filter.
 
@@ -547,7 +529,7 @@ Creates a new log filter.
 
 ---
 
-### eth_newBlockFilter
+#### eth_newBlockFilter
 
 Creates a new block filter.
 
@@ -563,7 +545,7 @@ _None_
 
 ---
 
-### eth_getFilterChanges
+#### eth_getFilterChanges
 
 Fetches updates since the last poll for a filter.
 
@@ -582,7 +564,7 @@ Fetches updates since the last poll for a filter.
 
 ---
 
-### eth_getFilterLogs
+#### eth_getFilterLogs
 
 Retrieves all logs matching a log filter, including historical logs.
 
@@ -600,7 +582,7 @@ Retrieves all logs matching a log filter, including historical logs.
 
 ---
 
-### eth_getLogs
+#### eth_getLogs
 
 Fetches logs matching given filter criteria.
 
@@ -618,7 +600,7 @@ Fetches logs matching given filter criteria.
 
 ---
 
-### eth_uninstallFilter
+#### eth_uninstallFilter
 
 Removes a previously created filter.
 
@@ -636,14 +618,14 @@ Removes a previously created filter.
 
 </details>
 
-### Other Standard Endpoint Categories
+### Simulation & Debugging
 
 <details>
 <summary>Simulation Endpoints</summary>
 
 Endpoints for simulating contract execution.
 
-### eth_estimateGas
+#### eth_estimateGas
 
 Estimates gas usage for a transaction without broadcasting it.
 
@@ -662,7 +644,7 @@ Estimates gas usage for a transaction without broadcasting it.
 
 ---
 
-### eth_call
+#### eth_call
 
 Executes a message call immediately without creating a transaction.
 
@@ -686,7 +668,7 @@ Executes a message call immediately without creating a transaction.
 
 Endpoints for debugging transactions and blocks.
 
-### debug_traceTransaction
+#### debug_traceTransaction
 
 Traces the execution of a transaction by its hash.
 
@@ -705,7 +687,7 @@ Traces the execution of a transaction by its hash.
 
 ---
 
-### debug_traceBlockByNumber
+#### debug_traceBlockByNumber
 
 Traces all transactions in a block specified by number.
 
@@ -724,7 +706,7 @@ Traces all transactions in a block specified by number.
 
 ---
 
-### debug_traceBlockByHash
+#### debug_traceBlockByHash
 
 Traces all transactions in a block specified by hash.
 
@@ -777,7 +759,6 @@ To enable additional legacy methods, add them to this array. All other `sei_*` a
 | Method | Description |
 | ------ | ----------- |
 | `sei_associate` | Associate Sei and EVM addresses |
-| `sei_sign` | Sign a message |
 | `sei_getSeiAddress` | Get Sei address for an EVM address |
 | `sei_getEVMAddress` | Get EVM address for a Sei address |
 | `sei_getCosmosTx` | Get Cosmos transaction by EVM tx hash |
@@ -820,24 +801,42 @@ To enable additional legacy methods, add them to this array. All other `sei_*` a
 
 </details>
 
-### Endpoint Categories
-
-1. Use these endpoints when you need to:
-   - Filter out failed transactions
-   - Get cleaner debugging output
-   - Focus on successfully executed transactions
-
-2. Consider using the standard `eth_` endpoints when you need to:
-   - See all transactions, including failures
-   - Debug specific failure cases
-   - Maintain compatibility with standard Ethereum tooling
-
 ### Address & Cross-VM Helpers
 
 These endpoints provide cross-VM address resolution and transaction lookup between the EVM and Cosmos environments. `sei_getSeiAddress`, `sei_getEVMAddress`, and `sei_getCosmosTx` are enabled by default.
 
 <details>
 <summary>View Address & Cross-VM Helper Endpoints</summary>
+
+#### sei_associate
+
+Sends a transaction to establish association between the signer's Sei address
+and EVM address on-chain.
+
+- **Parameters**:
+
+| Type     | Description                                                                        |
+| :------- | :--------------------------------------------------------------------------------- |
+| `object` | A custom object containing a string message and the v, r, s of the signed message. |
+
+Object Schema:
+
+```json copy
+{
+    custom_message: // Any string message
+    r: // The R-part of the signature over the Keccak256 hash of the custom message.
+    s: // The S-part of the signature over the Keccak256 hash of the custom message.
+    v: // The V-part of the signature over the Keccak256 hash of the custom message.
+}
+```
+
+- **Result**:
+
+| Type     | Description                           |
+| :------- | :------------------------------------ |
+| `string` | The transaction hash of the association transaction. |
+
+---
 
 #### sei_getSeiAddress
 
