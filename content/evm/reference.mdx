@@ -8,18 +8,22 @@ import { Callout } from 'nextra/components';
 
 # RPC Reference Guide
 
-Sei provides comprehensive RPC (Remote Procedure Call) support for its EVM implementation, including both standard Ethereum JSON-RPC endpoints and Sei-specific custom extensions that enhance functionality for developers.
+Sei fully supports the standard Ethereum JSON-RPC API, so existing EVM tooling (ethers.js, viem, Hardhat, Foundry, etc.) works out of the box. This page covers every supported `eth_*` and `debug_*` method, plus the legacy `sei_*`/`sei2_*` extensions (now deprecated) for cross-VM address resolution and synthetic transactions.
 
 ## Table of Contents
 
 - [Overview](#overview)
 - [Standard Ethereum Endpoints](#standard-ethereum-endpoints)
-- [Sei Custom Endpoints](#sei-custom-endpoints)
-- [Understanding Synthetic Transactions](#understanding-synthetic-transactions)
-- [Use Case Examples](#use-case-examples)
-- [Performance Considerations](#performance-considerations)
-- [Error Handling](#error-handling)
-- [Advanced Topics](#advanced-topics)
+  - [Send Transactions](#send-transactions)
+  - [Transaction Lookup](#transaction-lookup)
+  - [Account Information](#account-information)
+  - [Block Information](#block-information)
+  - [Blockchain Information](#blockchain-information)
+  - [Filter Endpoints](#filter-endpoints)
+  - [Simulation & Debugging](#simulation--debugging)
+- [Sei Custom Endpoints (Deprecated)](#sei-custom-endpoints)
+  - [Legacy API Configuration](#legacy-api-configuration)
+  - [Address & Cross-VM Helpers](#address--cross-vm-helpers)
 
 ## Overview
 
@@ -62,7 +66,7 @@ These endpoints allow you to send transactions to the Sei network.
 <details>
 <summary>View Send Transaction Endpoints</summary>
 
-### eth_sendRawTransaction
+#### eth_sendRawTransaction
 
 Sends a signed transaction.
 
@@ -78,28 +82,6 @@ Sends a signed transaction.
 | :------- | :-------------------- |
 | `string` | The transaction hash. |
 
-### sei_associate
-
-Sends a transaction to establish association between the signer's Sei address
-and EVM address on-chain.
-
-- **Parameters**:
-
-| Type     | Description                                                                        |
-| :------- | :--------------------------------------------------------------------------------- |
-| `object` | A custom object containing a string message and the v, r, s of the signed message. |
-
-Object Schema:
-
-```json copy
-{
-    custom_message: // Any string message
-    r: // The R-part of the signature over the Keccak256 hash of the custom message.
-    s: // The S-part of the signature over the Keccak256 hash of the custom message.
-    v: // The V-part of the signature over the Keccak256 hash of the custom message.
-}
-```
-
 </details>
 
 ### Transaction Lookup
@@ -109,7 +91,7 @@ These endpoints allow you to find transaction details.
 <details>
 <summary>View Transaction Lookup Endpoints</summary>
 
-### eth_getTransactionReceipt
+#### eth_getTransactionReceipt
 
 Gets the receipt of a sent transaction
 
@@ -125,7 +107,7 @@ Gets the receipt of a sent transaction
 | :------- | :------------------------------------------------------------------------------------------------------ |
 | `object` | The [receipt object](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_gettransactionreceipt). |
 
-### eth_getTransactionByBlockNumberAndIndex
+#### eth_getTransactionByBlockNumberAndIndex
 
 Gets transaction by the block number and the index of the transaction in the
 block
@@ -143,7 +125,7 @@ block
 | :------- | :---------------------------------------------------------------------------------------------------------- |
 | `object` | The [transaction details](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_gettransactionbyhash). |
 
-### eth_getTransactionByBlockHashAndIndex
+#### eth_getTransactionByBlockHashAndIndex
 
 Gets transaction by the block hash and the index of the transaction in the
 block.
@@ -161,7 +143,7 @@ block.
 | :------- | :---------------------------------------------------------------------------------------------------------- |
 | `object` | The [transaction details](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_gettransactionbyhash). |
 
-### eth_getTransactionByHash
+#### eth_getTransactionByHash
 
 Gets transaction by the transaction hash.
 
@@ -186,7 +168,7 @@ These endpoints allow you to query account-related information.
 <details>
 <summary>View Account Information Endpoints</summary>
 
-### eth_getTransactionCount
+#### eth_getTransactionCount
 
 Gets the number of transactions sent by the account
 
@@ -203,7 +185,7 @@ Gets the number of transactions sent by the account
 | :------- | :-------------------------------------------------- |
 | `string` | The hexadecimal form of the number of transactions. |
 
-### eth_getBalance
+#### eth_getBalance
 
 Gets the balance in wei (i.e. 10^-12 usei) of the account
 
@@ -220,7 +202,7 @@ Gets the balance in wei (i.e. 10^-12 usei) of the account
 | :------- | :--------------------------------------- |
 | `string` | The hexadecimal form of the wei balance. |
 
-### eth_getCode
+#### eth_getCode
 
 Gets EVM code stored at the account address
 
@@ -237,7 +219,7 @@ Gets EVM code stored at the account address
 | :------- | :--------------------------------------- |
 | `string` | The hexadecimal form of the code binary. |
 
-### eth_getStorageAt
+#### eth_getStorageAt
 
 Gets value at given key of the account
 
@@ -255,9 +237,13 @@ Gets value at given key of the account
 | :------- | :----------------------------------------- |
 | `string` | The hexadecimal form of the storage value. |
 
-### eth_getProof
+#### eth_getProof
 
-Gets the IAVL proof (note: not a MPT proof) of the given keys for an account.
+<Callout type="warning">
+Sei uses IAVL trees instead of Merkle Patricia Tries (MPT). The proof returned by this endpoint is an IAVL proof, not an MPT proof. Ethereum tooling that expects MPT proofs may not parse the response correctly.
+</Callout>
+
+Gets the IAVL proof of the given keys for an account.
 
 - **Parameters**:
 
@@ -295,7 +281,7 @@ Endpoints for retrieving block data and related information.
 <details>
 <summary>View complete list of Block Information endpoints</summary>
 
-### eth_getBlockTransactionCountByNumber
+#### eth_getBlockTransactionCountByNumber
 
 Gets the count of EVM transactions in a block by its number.
 
@@ -313,7 +299,7 @@ Gets the count of EVM transactions in a block by its number.
 
 ---
 
-### eth_getBlockTransactionCountByHash
+#### eth_getBlockTransactionCountByHash
 
 Gets the count of EVM transactions in a block by its hash.
 
@@ -331,7 +317,7 @@ Gets the count of EVM transactions in a block by its hash.
 
 ---
 
-### eth_getBlockByHash
+#### eth_getBlockByHash
 
 Gets block metadata and, optionally, its EVM transactions by block hash.
 
@@ -350,7 +336,7 @@ Gets block metadata and, optionally, its EVM transactions by block hash.
 
 ---
 
-### eth_getBlockByNumber
+#### eth_getBlockByNumber
 
 Gets block metadata and, optionally, its EVM transactions by block number.
 
@@ -369,7 +355,7 @@ Gets block metadata and, optionally, its EVM transactions by block number.
 
 ---
 
-### eth_getBlockReceipts
+#### eth_getBlockReceipts
 
 Gets an array of EVM transaction receipts in a block by its number.
 
@@ -394,7 +380,7 @@ Endpoints for querying general blockchain data.
 <details>
 <summary>View complete list of Blockchain Information endpoints</summary>
 
-### eth_blockNumber
+#### eth_blockNumber
 
 Gets the latest committed block number.
 
@@ -410,7 +396,7 @@ _None_
 
 ---
 
-### eth_chainId
+#### eth_chainId
 
 Gets the chain ID.
 
@@ -426,7 +412,7 @@ _None_
 
 ---
 
-### eth_coinbase
+#### eth_coinbase
 
 Gets the fee-collector (coinbase) address.
 
@@ -442,7 +428,7 @@ _None_
 
 ---
 
-### eth_feeHistory
+#### eth_feeHistory
 
 Gets fee history over a block range.
 
@@ -462,7 +448,7 @@ Gets fee history over a block range.
 
 ---
 
-### eth_gasPrice
+#### eth_gasPrice
 
 Gets the 50th-percentile gas price in the most recent block.
 
@@ -478,7 +464,7 @@ _None_
 
 ---
 
-### net_version
+#### net_version
 
 Gets the chain ID. Alias for `eth_chainId`, but returns the chain ID as a decimal instead of hex.
 
@@ -492,7 +478,7 @@ Gets the chain ID. Alias for `eth_chainId`, but returns the chain ID as a decima
 
 ---
 
-### web3_clientVersion
+#### web3_clientVersion
 
 Gets the RPC node's client version.
 
@@ -525,7 +511,7 @@ Note that log filters are subject to the following limits by default:
 <details>
 <summary>View complete list of Filter endpoints</summary>
 
-### eth_newFilter
+#### eth_newFilter
 
 Creates a new log filter.
 
@@ -543,7 +529,7 @@ Creates a new log filter.
 
 ---
 
-### eth_newBlockFilter
+#### eth_newBlockFilter
 
 Creates a new block filter.
 
@@ -559,7 +545,7 @@ _None_
 
 ---
 
-### eth_getFilterChanges
+#### eth_getFilterChanges
 
 Fetches updates since the last poll for a filter.
 
@@ -578,7 +564,7 @@ Fetches updates since the last poll for a filter.
 
 ---
 
-### eth_getFilterLogs
+#### eth_getFilterLogs
 
 Retrieves all logs matching a log filter, including historical logs.
 
@@ -596,7 +582,7 @@ Retrieves all logs matching a log filter, including historical logs.
 
 ---
 
-### eth_getLogs
+#### eth_getLogs
 
 Fetches logs matching given filter criteria.
 
@@ -614,7 +600,7 @@ Fetches logs matching given filter criteria.
 
 ---
 
-### eth_uninstallFilter
+#### eth_uninstallFilter
 
 Removes a previously created filter.
 
@@ -632,14 +618,14 @@ Removes a previously created filter.
 
 </details>
 
-### Other Standard Endpoint Categories
+### Simulation & Debugging
 
 <details>
 <summary>Simulation Endpoints</summary>
 
 Endpoints for simulating contract execution.
 
-### eth_estimateGas
+#### eth_estimateGas
 
 Estimates gas usage for a transaction without broadcasting it.
 
@@ -658,7 +644,7 @@ Estimates gas usage for a transaction without broadcasting it.
 
 ---
 
-### eth_call
+#### eth_call
 
 Executes a message call immediately without creating a transaction.
 
@@ -682,7 +668,7 @@ Executes a message call immediately without creating a transaction.
 
 Endpoints for debugging transactions and blocks.
 
-### debug_traceTransaction
+#### debug_traceTransaction
 
 Traces the execution of a transaction by its hash.
 
@@ -701,7 +687,7 @@ Traces the execution of a transaction by its hash.
 
 ---
 
-### debug_traceBlockByNumber
+#### debug_traceBlockByNumber
 
 Traces all transactions in a block specified by number.
 
@@ -720,7 +706,7 @@ Traces all transactions in a block specified by number.
 
 ---
 
-### debug_traceBlockByHash
+#### debug_traceBlockByHash
 
 Traces all transactions in a block specified by hash.
 
@@ -742,482 +728,226 @@ Traces all transactions in a block specified by hash.
 
 Sei extends the standard Ethereum JSON-RPC API with custom endpoints that enhance functionality for developers. These extensions enable better handling of cross-VM interactions, synthetic transactions, improved error reporting, and other Sei-specific features.
 
-1. Use these endpoints when you need to:
-   - Filter out failed transactions
-   - Get cleaner debugging output
-   - Focus on successfully executed transactions
+<Callout type="warning">
+**Deprecation Notice:** All `sei_*` and `sei2_*` JSON-RPC methods are deprecated and scheduled for removal. Do not build new integrations on these endpoints. Use standard `eth_*` and `debug_*` methods instead.
 
-2. Consider using the standard `eth_` endpoints when you need to:
-   - See all transactions, including failures
-   - Debug specific failure cases
-   - Maintain compatibility with standard Ethereum tooling
+Access is controlled by the `enabled_legacy_sei_apis` setting under `[evm]` in `app.toml`. Only methods explicitly listed in this allowlist are available. Disabled methods return a standard JSON-RPC error (code `-32601`, data `"legacy_sei_deprecated"`). Allowed methods pass through unchanged, with an optional `Sei-Legacy-RPC-Deprecation` HTTP response header signaling deprecation.
+</Callout>
 
-### Synthetic Transaction Support
+### Legacy API Configuration
 
-These endpoints provide support for synthetic transactions, which represent activity from the Cosmos SDK modules in a way that is EVM client compatible:
+The `enabled_legacy_sei_apis` setting in `app.toml` controls which `sei_*` and `sei2_*` methods are accessible on the EVM HTTP endpoint.
 
-| Endpoint               | Description                                                             |
-| ---------------------- | ----------------------------------------------------------------------- |
-| `sei_getFilterLogs`    | Like `eth_getFilterLogs` but includes synthetic logs from Cosmos events |
-| `sei_getLogs`          | Like `eth_getLogs` but includes synthetic logs from Cosmos events       |
-| `sei_getBlockByNumber` | Like `eth_getBlockByNumber` but includes synthetic transactions         |
-| `sei_getBlockByHash`   | Like `eth_getBlockByHash` but includes synthetic transactions           |
+**Default allowlist** (enabled on `seid init`):
 
-## Transaction Index Mismatches
-
-### Overview
-
-When querying block receipts, there is a discrepancy between the transaction indices returned by `eth_getBlockReceipts` and `sei_getBlockReceipts` endpoints. This occurs because `eth_getBlockReceipts` only includes EVM transactions, while `sei_getBlockReceipts` includes both EVM and Cosmos transactions.
-
-### Example
-
-Consider a block containing the following transactions in order:
-
-```
-Block Transactions:
-1. EVM Transaction 1
-2. Cosmos Transaction 1
-3. EVM Transaction 2
+```toml copy
+[evm]
+enabled_legacy_sei_apis = [
+  "sei_getSeiAddress",
+  "sei_getEVMAddress",
+  "sei_getCosmosTx",
+]
 ```
 
-The transaction indices will differ between endpoints:
-
-#### eth_getBlockReceipts
-
-Returns only EVM transactions with sequential indices:
-
-- EVM Transaction `1` (tx index: `0`)
-- EVM Transaction `2` (tx index: `1`)
-
-#### sei_getBlockReceipts
-
-Returns all transactions (both EVM and Cosmos) with sequential indices:
-
-- EVM Transaction `1` (tx index: `0`)
-- Cosmos Transaction `1` (tx index: `1`)
-- EVM Transaction `2` (tx index: `2`)
-
-### Important Note
-
-When working with transaction indices, be aware that:
-
-1. The same transaction will have different indices depending on which endpoint you use
-2. `eth_getBlockReceipts` indices are based only on EVM transactions
-3. `sei_getBlockReceipts` indices include all transactions in the block
-4. Applications should handle these differences appropriately based on which endpoint they're using
-
-### Best Practices
-
-- Always use the same endpoint consistently within your application
-- When switching between endpoints, be sure to account for the index differences
-- Consider using transaction hashes instead of indices when possible, as they remain consistent across endpoints
+To enable additional legacy methods, add them to this array. All other `sei_*` and `sei2_*` methods (including all `sei2_*` block methods) are disabled by default and must be explicitly enabled.
 
 <details>
-<summary>View Synthetic Transaction Support API Details</summary>
+<summary>View all available legacy methods</summary>
 
-### sei_getFilterLogs
+**`sei_*` methods:**
 
-Returns an array of logs for a filter, including synthetic logs from Cosmos events.
+| Method | Description |
+| ------ | ----------- |
+| `sei_associate` | Associate Sei and EVM addresses |
+| `sei_getSeiAddress` | Get Sei address for an EVM address |
+| `sei_getEVMAddress` | Get EVM address for a Sei address |
+| `sei_getCosmosTx` | Get Cosmos transaction by EVM tx hash |
+| `sei_getEvmTx` | Get EVM transaction by Cosmos tx hash |
+| `sei_getTransactionErrorByHash` | Get error message for a failed transaction |
+| `sei_getVMError` | Get VM error details for a transaction |
+| `sei_getBlockByHash` | Get block by hash (includes synthetic txs) |
+| `sei_getBlockByNumber` | Get block by number (includes synthetic txs) |
+| `sei_getBlockReceipts` | Get block receipts (includes synthetic txs) |
+| `sei_getBlockTransactionCountByHash` | Get tx count by block hash (includes synthetic txs) |
+| `sei_getBlockTransactionCountByNumber` | Get tx count by block number (includes synthetic txs) |
+| `sei_getTransactionByBlockHashAndIndex` | Get tx by block hash and index (includes synthetic txs) |
+| `sei_getTransactionByBlockNumberAndIndex` | Get tx by block number and index (includes synthetic txs) |
+| `sei_getTransactionByHash` | Get transaction by hash (includes synthetic txs) |
+| `sei_getTransactionCount` | Get account transaction count |
+| `sei_getTransactionReceipt` | Get transaction receipt (includes synthetic txs) |
+| `sei_getFilterLogs` | Get filter logs (includes synthetic logs) |
+| `sei_getLogs` | Get logs (includes synthetic logs) |
+| `sei_getFilterChanges` | Get filter changes (includes synthetic events) |
+| `sei_newFilter` | Create a new log filter |
+| `sei_newBlockFilter` | Create a new block filter |
+| `sei_uninstallFilter` | Remove a filter |
+| `sei_getBlockByHashExcludeTraceFail` | Get block by hash excluding failed traces |
+| `sei_getBlockByNumberExcludeTraceFail` | Get block by number excluding failed traces |
+| `sei_getTransactionReceiptExcludeTraceFail` | Get receipt excluding failed traces |
+| `sei_traceBlockByHashExcludeTraceFail` | Trace block by hash excluding failed traces |
+| `sei_traceBlockByNumberExcludeTraceFail` | Trace block by number excluding failed traces |
 
-**Parameters**
+**`sei2_*` methods** (block queries with bank transfers included):
 
-- `QUANTITY` - The filter ID
+| Method | Description |
+| ------ | ----------- |
+| `sei2_getBlockByHash` | Get block by hash (includes bank transfers) |
+| `sei2_getBlockByNumber` | Get block by number (includes bank transfers) |
+| `sei2_getBlockReceipts` | Get block receipts (includes bank transfers) |
+| `sei2_getBlockTransactionCountByHash` | Get tx count by block hash (includes bank transfers) |
+| `sei2_getBlockTransactionCountByNumber` | Get tx count by block number (includes bank transfers) |
+| `sei2_getBlockByHashExcludeTraceFail` | Get block by hash excluding failed traces (includes bank transfers) |
+| `sei2_getBlockByNumberExcludeTraceFail` | Get block by number excluding failed traces (includes bank transfers) |
 
-**Returns**
+</details>
 
-- `Array` - Array of log objects, including synthetic logs
+### Address & Cross-VM Helpers
+
+These endpoints provide cross-VM address resolution and transaction lookup between the EVM and Cosmos environments. `sei_getSeiAddress`, `sei_getEVMAddress`, and `sei_getCosmosTx` are enabled by default.
+
+<details>
+<summary>View Address & Cross-VM Helper Endpoints</summary>
+
+#### sei_associate
+
+Sends a transaction to establish association between the signer's Sei address
+and EVM address on-chain.
+
+- **Parameters**:
+
+| Type     | Description                                                                        |
+| :------- | :--------------------------------------------------------------------------------- |
+| `object` | A custom object containing a string message and the v, r, s of the signed message. |
+
+Object Schema:
+
+```json copy
+{
+    custom_message: // Any string message
+    r: // The R-part of the signature over the Keccak256 hash of the custom message.
+    s: // The S-part of the signature over the Keccak256 hash of the custom message.
+    v: // The V-part of the signature over the Keccak256 hash of the custom message.
+}
+```
+
+- **Result**:
+
+| Type     | Description                           |
+| :------- | :------------------------------------ |
+| `string` | The transaction hash of the association transaction. |
+
+---
+
+#### sei_getSeiAddress
+
+Returns the Sei (bech32) address associated with an EVM address.
+
+- **Parameters**:
+
+| Type     | Description                         |
+| :------- | :---------------------------------- |
+| `string` | The EVM address (0x-prefixed hex).  |
+
+- **Result**:
+
+| Type     | Description                            |
+| :------- | :------------------------------------- |
+| `string` | The associated Sei bech32 address.     |
 
 **Example Request**
 
 ```json copy
 {
   "jsonrpc": "2.0",
-  "method": "sei_getFilterLogs",
-  "params": ["0x16"],
+  "method": "sei_getSeiAddress",
+  "params": ["0x1234567890abcdef1234567890abcdef12345678"],
   "id": 1
 }
 ```
 
-**Example Response**
+---
 
-```json copy
-{
-  "jsonrpc": "2.0",
-  "id": 1,
-  "result": [
-    {
-      "address": "0x37dc71366ec655093b9930bc816e16e6b587f968",
-      "blockHash": "0xf9e709...",
-      "blockNumber": "0x5daf3b",
-      "data": "0x0000000000000000000000000000000000000000000000000000000000000001",
-      "logIndex": "0x0",
-      "removed": false,
-      "topics": ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"],
-      "transactionHash": "0x5490b7...",
-      "transactionIndex": "0x0",
-      "synthetic": true
-    }
-    // ... more logs
-  ]
-}
-```
+#### sei_getEVMAddress
 
-### sei_getLogs
+Returns the EVM address associated with a Sei (bech32) address.
 
-Returns an array of logs matching a given filter, including synthetic logs.
+- **Parameters**:
 
-**Parameters**
+| Type     | Description                     |
+| :------- | :------------------------------ |
+| `string` | The Sei bech32 address.         |
 
-- `Object` - Filter options object with:
-  - `fromBlock`: `QUANTITY|TAG` - Block number or `latest`, `earliest` or `pending`
-  - `toBlock`: `QUANTITY|TAG` - Block number or `latest`, `earliest` or `pending`
-  - `address`: `DATA|Array` - Contract address or array of addresses
-  - `topics`: `Array` - Array of topic specifiers
+- **Result**:
 
-**Returns**
-
-- `Array` - Array of log objects, including synthetic logs
+| Type     | Description                      |
+| :------- | :------------------------------- |
+| `string` | The associated EVM address.      |
 
 **Example Request**
 
 ```json copy
 {
   "jsonrpc": "2.0",
-  "method": "sei_getLogs",
-  "params": [
-    {
-      "fromBlock": "0x1",
-      "toBlock": "latest",
-      "address": "0x37dc71366ec655093b9930bc816e16e6b587f968",
-      "topics": ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]
-    }
-  ],
+  "method": "sei_getEVMAddress",
+  "params": ["sei1..."],
+  "id": 1
+}
+```
+
+---
+
+#### sei_getCosmosTx
+
+Returns the Cosmos transaction details for a given EVM transaction hash.
+
+- **Parameters**:
+
+| Type     | Description                |
+| :------- | :------------------------- |
+| `string` | The EVM transaction hash.  |
+
+- **Result**:
+
+| Type     | Description                        |
+| :------- | :--------------------------------- |
+| `object` | The Cosmos transaction object.     |
+
+**Example Request**
+
+```json copy
+{
+  "jsonrpc": "2.0",
+  "method": "sei_getCosmosTx",
+  "params": ["0xabc123..."],
   "id": 1
 }
 ```
 
 </details>
 
-### Tracing Failure Exclusion
 
-These endpoints provide variants of standard Ethereum endpoints that exclude transactions that fail tracing:
+### Legacy Deprecation Error
 
-| Endpoint                                    | Description                                                              |
-| ------------------------------------------- | ------------------------------------------------------------------------ |
-| `sei_traceBlockByNumberExcludeTraceFail`    | Like `debug_traceBlockByNumber` but excludes traces that panic           |
-| `sei_traceBlockByHashExcludeTraceFail`      | Like `debug_traceBlockByHash` but excludes traces that panic             |
-| `sei_getTransactionReceiptExcludeTraceFail` | Like `eth_getTransactionReceipt` but excludes receipts for failed traces |
-| `sei_getBlockByNumberExcludeTraceFail`      | Like `eth_getBlockByNumber` but excludes transactions with failed traces |
-| `sei_getBlockByHashExcludeTraceFail`        | Like `eth_getBlockByHash` but excludes transactions with failed traces   |
-
-<details>
-<summary>View Tracing Failure Exclusion API Details</summary>
-
-#### sei_traceBlockByNumberExcludeTraceFail
-
-Traces all transactions in a block, excluding those that fail tracing.
-
-- Enhanced version of `debug_traceBlockByNumber`
-- Excludes transactions that failed pre-state checks
-- Provides cleaner tracing output
-
-**Parameters**
-
-- `QUANTITY|TAG` - Integer block number or `latest`, `earliest` or `pending`
-- `Object` - Trace options
-
-**Returns**
-
-- `Array` - Array of trace results for successful traces
-
-**Example Request**
-
-```json copy
-{
-  "jsonrpc": "2.0",
-  "method": "sei_traceBlockByNumberExcludeTraceFail",
-  "params": [
-    "0x5BAD55",
-    {
-      "tracer": "callTracer"
-    }
-  ],
-  "id": 1
-}
-```
-
-#### sei_getTransactionReceiptExcludeTraceFail
-
-Returns the transaction receipt for a given hash, but returns null for transactions that fail tracing.
-
-- Enhanced version of `eth_getTransactionReceipt`
-- Only returns receipts for successfully executed transactions
-- Helps avoid confusion with failed transactions
-
-**Parameters**
-
-- `DATA` - Transaction hash
-
-**Returns**
-
-- `Object|null` - Transaction receipt object or null if transaction fails tracing
-
-**Example Request**
-
-```json copy
-{
-  "jsonrpc": "2.0",
-  "method": "sei_getTransactionReceiptExcludeTraceFail",
-  "params": ["0xb903239f8543d04b5dc1ba6579132b143087c68db1b2168786408fcbce568238"],
-  "id": 1
-}
-```
-
-</details>
-
-## Understanding Synthetic Transactions
-
-Synthetic transactions are a key concept in Sei's cross-VM architecture. They are representations of Cosmos events on the EVM side and are generated when:
-
-1. Cosmos modules interact with pointer contracts
-2. Token transfers occur between the two environments
-3. Cross-VM events need to be represented in the EVM execution environment
-
-### Structure of Synthetic Transactions
-
-Synthetic transactions have the following structure:
-
-```json copy
-{
-  "hash": "0xsyntheticTransactionHash...",
-  "from": "0xderivedfromCosmWasmAddress...",
-  "to": "0xpointerContractAddress...",
-  "value": "0x0",
-  "input": "0xencoded_function_data...",
-  "v": "0x0",
-  "r": "0x0",
-  "s": "0x0",
-  "synthetic": true
-}
-```
-
-The `synthetic` field is a boolean indicator that the underlying transaction was a Cosmos event.
-
-## Use Case Examples
-
-Here are practical examples of how to use Sei's RPC endpoints for common tasks:
-
-### Tracking Cross-VM Token Transfers
-
-To track token transfers across both EVM and Cosmos environments:
-
-```javascript copy
-const Web3 = require('web3');
-const web3 = new Web3('https://evm-rpc.sei-apis.com');
-
-// Create a filter for Transfer events from a token contract
-async function trackCrossVMTransfers(tokenAddress) {
-  // Topic0 is the event signature for Transfer(address,address,uint256)
-  const transferEventSignature = web3.utils.sha3('Transfer(address,address,uint256)');
-
-  // Get logs including synthetic logs from Cosmos
-  const logs = await web3.eth.send('sei_getLogs', [
-    {
-      fromBlock: 'latest',
-      toBlock: 'latest',
-      address: tokenAddress,
-      topics: [transferEventSignature]
-    }
-  ]);
-
-  // Process logs
-  for (const log of logs) {
-    const isSynthetic = log.synthetic === true;
-    console.log(`Transfer detected: ${isSynthetic ? 'Cross-VM' : 'EVM-only'}`);
-    console.log(`From: ${web3.eth.abi.decodeParameter('address', log.topics[1])}`);
-    console.log(`To: ${web3.eth.abi.decodeParameter('address', log.topics[2])}`);
-    console.log(`Value: ${web3.eth.abi.decodeParameter('uint256', log.data)}`);
-  }
-}
-```
-
-<details>
-<summary>View Additional Use Case Examples</summary>
-
-### Block Explorer with Trace Failure Exclusion
-
-When building a block explorer, you can use the trace failure exclusion endpoints to show only valid transactions:
-
-```javascript copy
-const Web3 = require('web3');
-const web3 = new Web3('https://evm-rpc.sei-apis.com');
-
-async function getCleanBlock(blockNumber) {
-  // Get block without failed trace transactions
-  const block = await web3.eth.send('sei_getBlockByNumberExcludeTraceFail', [
-    web3.utils.toHex(blockNumber),
-    true // include transaction details
-  ]);
-
-  // For each transaction, get a receipt that's guaranteed to be from a successful trace
-  const receipts = await Promise.all(block.transactions.map((tx) => web3.eth.send('sei_getTransactionReceiptExcludeTraceFail', [tx.hash])));
-
-  return {
-    block,
-    receipts
-  };
-}
-```
-
-### Retrieving Synthetic Transactions in a Block
-
-To get all transactions in a block, including synthetic ones:
-
-```javascript copy
-const Web3 = require('web3');
-const web3 = new Web3('https://evm-rpc.sei-apis.com');
-
-async function getBlockWithSyntheticTxs(blockNumber) {
-  const block = await web3.eth.send('sei_getBlockByNumber', [
-    web3.utils.toHex(blockNumber),
-    true // include transaction details
-  ]);
-
-  // Separate regular and synthetic transactions
-  const regularTxs = block.transactions.filter((tx) => !tx.synthetic);
-  const syntheticTxs = block.transactions.filter((tx) => tx.synthetic);
-
-  console.log(`Block ${blockNumber} has:`);
-  console.log(`- ${regularTxs.length} regular transactions`);
-  console.log(`- ${syntheticTxs.length} synthetic transactions`);
-
-  return {
-    regularTxs,
-    syntheticTxs
-  };
-}
-```
-
-</details>
-
-## Performance Considerations
-
-When using Sei's custom endpoints, consider these performance recommendations:
-
-### Optimizing Log Queries
-
-- Use specific topic filters to narrow down results
-- Limit block ranges to manageable chunks (e.g., 1,000 blocks at a time)
-- Consider using event subscriptions for real-time updates instead of polling
-
-### Handling Synthetic Transactions
-
-- Synthetic [Cosmos] transactions may have higher latency in appearing than EVM transactions
-- Consider slightly longer polling intervals when tracking synthetic data
-- Implement retry logic for recent synthetic transactions that might not be immediately available
-
-### Trace Failure Exclusion
-
-- The exclusion endpoints generally perform additional computation, so use them when needed
-- For high-volume applications, consider caching results
-
-## Error Handling
-
-Sei's custom endpoints return standard Ethereum JSON-RPC errors plus some additional error codes:
-
-| Code     | Message               | Description                              |
-| -------- | --------------------- | ---------------------------------------- |
-| `-32000` | Invalid input         | Generic input error                      |
-| `-32001` | Resource not found    | The requested resource was not found     |
-| `-32002` | Resource unavailable  | The resource exists but is not available |
-| `-32003` | Transaction rejected  | The transaction was rejected             |
-| `-32004` | Method not supported  | The method is not supported              |
-| `-32005` | Limit exceeded        | Request exceeds defined limit            |
-| `-32006` | Version not supported | JSON-RPC version is not supported        |
-| `-32500` | Cross-VM error        | Error in cross-VM operation              |
-| `-32501` | Synthetic tx error    | Error processing synthetic transaction   |
-
-Example error response:
+When a `sei_*` or `sei2_*` method is called but not listed in `enabled_legacy_sei_apis`, the node returns:
 
 ```json copy
 {
   "jsonrpc": "2.0",
   "id": 1,
   "error": {
-    "code": -32500,
-    "message": "Cross-VM operation failed",
-    "data": {
-      "details": "CosmWasm contract execution reverted"
-    }
+    "code": -32601,
+    "message": "sei_getBlockByNumber is not enabled on this node. The sei_* and sei2_* JSON-RPC surfaces are deprecated, scheduled for removal, and should not be used for new integrations - prefer standard eth_* (and debug_*) methods and official migration guidance. To allow this legacy method, add it to enabled_legacy_sei_apis under [evm] in app.toml.",
+    "data": "legacy_sei_deprecated"
   }
 }
 ```
 
-## Advanced Topics
+### Deprecation HTTP Header
 
-<details>
-<summary>Creating Custom Tracers with Sei Extensions</summary>
+When an allowlisted `sei_*` or `sei2_*` method is successfully called, the response includes an optional HTTP header signaling deprecation:
 
-Sei supports custom JavaScript tracers with additional capabilities for cross-VM operations:
-
-```javascript copy
-// Custom tracer with Sei extensions
-const customTracer = {
-  // Standard tracer functions
-  step: function (log, db) {
-    /* ... */
-  },
-  fault: function (log, db) {
-    /* ... */
-  },
-  result: function (ctx, db) {
-    /* ... */
-  },
-
-  // Sei extension to process synthetic operations
-  syntheticOp: function (op, db) {
-    // Handle synthetic operations
-    if (op.type === 'cwTransfer') {
-      // Process CosmWasm transfer
-    }
-    return null;
-  }
-};
-
-// Convert to string for JSON-RPC call
-const tracerJson = JSON.stringify(customTracer);
-
-// Use the custom tracer
-web3.eth.send('debug_traceTransaction', [txHash, { tracer: tracerJson }]);
+```
+Sei-Legacy-RPC-Deprecation: All sei_* and sei2_* JSON-RPC methods are deprecated and scheduled for removal; migrate to eth_* and supported APIs.
 ```
 
-</details>
-
-<details>
-<summary>Subscribing to Synthetic Events</summary>
-
-Sei supports subscriptions that include synthetic events:
-
-```javascript copy
-const Web3 = require('web3');
-const web3 = new Web3('wss://evm-rpc.sei-apis.com');
-
-// Subscribe to all logs including synthetic ones
-const subscription = web3.eth.subscribe('sei_logs', {
-  address: '0x123...',
-  topics: [...]
-}, (error, log) => {
-  if (!error) {
-    console.log(`New log: ${log.transactionHash} (Synthetic: ${!!log.synthetic})`);
-  }
-});
-
-// Unsubscribe
-subscription.unsubscribe((error, success) => {
-  if (success) {
-    console.log('Successfully unsubscribed');
-  }
-});
-```
-
-</details>
+Clients can use this header to detect legacy API usage and plan migration.
