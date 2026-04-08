@@ -1,14 +1,24 @@
 'use client';
 
-import ecosystemData from '../../data/ecosystem-cache.json';
-import type { EcosystemDocsCategory, EcosystemItem } from '../../data/ecosystemData';
+import type { EcosystemDocsCategory } from '../../data/ecosystemData';
+import { useEcosystemData } from '../../data/useEcosystemData';
 import AppCardV2 from './AppCard.v2';
-
-// Ensure the data is typed correctly
-const appsData = (ecosystemData as { data: EcosystemItem[] }).data;
+import AppCardSkeleton from './AppCardSkeleton';
 
 function AppCardsGridCategory({ category }: { category: EcosystemDocsCategory }) {
-	const apps = appsData.filter((app) => app.fieldData['docs-category'] === category);
+	const { data, isLoading } = useEcosystemData();
+
+	if (isLoading) {
+		return (
+			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 py-2'>
+				{Array.from({ length: 4 }).map((_, i) => (
+					<AppCardSkeleton key={`skeleton-${i}`} />
+				))}
+			</div>
+		);
+	}
+
+	const apps = data.filter((app) => app.fieldData['docs-category'] === category);
 
 	if (!apps || apps.length === 0) return null;
 
