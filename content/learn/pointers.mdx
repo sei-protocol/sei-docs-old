@@ -4,10 +4,7 @@ description: "Understand how Sei's pointer contract system enables seamless asse
 keywords: ['pointer contracts', 'cross-vm interoperability', 'evm cosmos bridge', 'token bridging', 'smart contract integration']
 ---
 
-import { ImageWithCaption } from '../../src/components';
-import PointerContractsWithout from '../../public/assets/pointer-contracts-without.png';
-import PointerContractsSimplified from '../../public/assets/pointer-contracts-simplified.png';
-import HowItWorks from '../../public/assets/pointer-contracts-how-it-works.png';
+
 import { Cards } from 'nextra/components';
 import { Icon } from '../../src/components/Icon';
 
@@ -20,7 +17,8 @@ execution environment.
 
 ## Why Pointer Contracts
 
-<ImageWithCaption img={PointerContractsWithout} alt="Without Pointer Contracts" caption="A world without pointer contracts" />
+![Without Pointer Contracts](/assets/pointer-contracts-without.png)
+*A world without pointer contracts*
 
 Wallets and clients for feature-rich protocols typically support only a single
 execution environment. EVM wallets handle ERC-20 coins and ERC-721 NFTs but
@@ -31,11 +29,13 @@ protocols (like Cosmos and its various SDK modules) which cannot directly intera
 Pointer Contracts solve this by enabling interoperability of either protocol,
 regardless of the client interface.
 
-<ImageWithCaption img={PointerContractsSimplified} alt="With Pointer Contracts" caption="With pointer contracts, all tokens can be accessed by wallets of either environment" />
+![With Pointer Contracts](/assets/pointer-contracts-simplified.png)
+*With pointer contracts, all tokens can be accessed by wallets of either environment*
 
 ## How Pointer Contracts Work
 
-<ImageWithCaption img={HowItWorks} alt="How Pointer Contracts Work" caption="Pointer contracts enable seamless interoperability" />
+![How Pointer Contracts Work](/assets/pointer-contracts-how-it-works.png)
+*Pointer contracts enable seamless interoperability*
 
 Each smart contract is limited to **one** associated pointer contract, which
 must be registered on chain when deploying. This prevents conflicts and provides

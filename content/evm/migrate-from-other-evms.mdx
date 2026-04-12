@@ -127,7 +127,7 @@ const tx = await contract.method({
 uint256 blockNum = block.number; // Standard EVM
 ```
 
-5. **Cross-chain messaging:** Replace Arbitrum's native bridge with [LayerZero V2](./bridging/layerzero) for omnichain connectivity.
+5. **Cross-chain messaging:** Replace Arbitrum's native bridge with [LayerZero V2](/evm/bridging/layerzero) for omnichain connectivity.
 
   </Tabs.Tab>
   <Tabs.Tab>
@@ -227,7 +227,7 @@ const boostedPrice = gasPrice.mul(120).div(100); // 20% buffer
 const gasPrice = await provider.getGasPrice(); // Usually sufficient as-is
 ```
 
-6. **Bridge integrations:** Replace Polygon Bridge with [LayerZero](./bridging/layerzero) or other Sei-supported bridges.
+6. **Bridge integrations:** Replace Polygon Bridge with [LayerZero](/evm/bridging/layerzero) or other Sei-supported bridges.
 
   </Tabs.Tab>
   <Tabs.Tab>
@@ -291,7 +291,7 @@ uint32 constant TWAP_PERIOD = 9000; // Adjust for Sei's block time
 
 ## Step 1: Evaluate Compatibility
 
-Revisit the [Divergence from Ethereum](./differences-with-ethereum) doc and confirm every assumption your contracts/frontends make still holds.
+Revisit the [Divergence from Ethereum](/evm/differences-with-ethereum) doc and confirm every assumption your contracts/frontends make still holds.
 
 <div className="comparison-table sei-highlight-col-2">
 
@@ -363,7 +363,7 @@ sei_testnet = "https://evm-rpc-testnet.sei-apis.com"
 # Run: forge verify-contract --verifier sourcify --chain-id <CHAIN_ID> <ADDRESS> <PATH:CONTRACT>
 ```
 
-See the [Hardhat tutorial](./evm-hardhat) and [Foundry guide](./evm-foundry) for complete setup instructions.
+See the [Hardhat tutorial](/evm/evm-hardhat) and [Foundry guide](/evm/evm-foundry) for complete setup instructions.
 
 ### Wallet Configuration
 
@@ -399,7 +399,7 @@ Sei already exposes canonical helper contracts—reference them instead of redep
 
 </div>
 
-For third-party contracts (LayerZero, Safe, etc.), consult the full [Ecosystem Contracts page](./ecosystem-contracts).
+For third-party contracts (LayerZero, Safe, etc.), consult the full [Ecosystem Contracts page](/evm/ecosystem-contracts).
 
 ## Step 4: Port Contracts and Configuration
 
@@ -451,7 +451,7 @@ modifier notClosed() {
 
 ### LayerZero V2
 
-Sei's LayerZero Endpoint ID is `30280`. See the complete [LayerZero integration guide](./bridging/layerzero).
+Sei's LayerZero Endpoint ID is `30280`. See the complete [LayerZero integration guide](/evm/bridging/layerzero).
 
 ```ts filename="layerzero.config.ts"
 import { EndpointId } from '@layerzerolabs/lz-definitions';
@@ -479,9 +479,9 @@ Sei supports multiple oracle solutions:
 | Provider | Use Case | Documentation |
 | --- | --- | --- |
 | Pyth Network | High-frequency price feeds | [Pyth Network](https://docs.pyth.network/) |
-| Chainlink | Industry-standard data feeds | [Chainlink on Sei](./oracles/chainlink) |
-| RedStone | Modular oracle with push model | [RedStone on Sei](./oracles/redstone) |
-| API3 | First-party oracle data | [API3 on Sei](./oracles/api3) |
+| Chainlink | Industry-standard data feeds | [Chainlink on Sei](/evm/oracles/chainlink) |
+| RedStone | Modular oracle with push model | [RedStone on Sei](/evm/oracles/redstone) |
+| API3 | First-party oracle data | [API3 on Sei](/evm/oracles/api3) |
 
 </div>
 
@@ -493,7 +493,7 @@ Sei supports multiple oracle solutions:
 
 - [ ] Deploy all contracts to testnet (chain ID: `1328`)
 - [ ] Run full integration test suite
-- [ ] Verify contracts via [Sourcify](./evm-verify-contracts)
+- [ ] Verify contracts via [Sourcify](/evm/evm-verify-contracts)
 - [ ] Test wallet connections and transaction flows
 - [ ] Validate oracle integrations
 - [ ] Test cross-chain messaging if applicable
@@ -512,7 +512,7 @@ Sei supports multiple oracle solutions:
 
 ### Contract Verification
 
-Automate verification through CI using [Sourcify](./evm-verify-contracts):
+Automate verification through CI using [Sourcify](/evm/evm-verify-contracts):
 
 ```bash
 # Foundry verification
@@ -558,13 +558,13 @@ Here's how to mirror a Uniswap V3 experience on Sei:
 
 4. **Price Oracles:** Reuse TWAP/Chainlink logic but shorten observation windows for Sei's faster blocks.
 
-5. **Verification:** Submit to [Sourcify](./evm-verify-contracts) and the [Ecosystem Contracts registry](./ecosystem-contracts).
+5. **Verification:** Submit to [Sourcify](/evm/evm-verify-contracts) and the [Ecosystem Contracts registry](/evm/ecosystem-contracts).
 
 ## Helpful References
 
-- [Divergence from Ethereum](./differences-with-ethereum) – Opcode, gas, and state nuances
-- [EVM Networks](./networks) – RPCs, explorers, and MetaMask payloads
-- [Precompiles](./precompiles/example-usage) – Interoperability patterns
-- [Ecosystem Contracts](./ecosystem-contracts) – Canonical addresses
-- [LayerZero Integration](./bridging/layerzero) – Cross-chain messaging
-- [Contract Verification](./evm-verify-contracts) – Contract verification guide
+- [Divergence from Ethereum](/evm/differences-with-ethereum) – Opcode, gas, and state nuances
+- [EVM Networks](/evm/networks) – RPCs, explorers, and MetaMask payloads
+- [Precompiles](/evm/precompiles/example-usage) – Interoperability patterns
+- [Ecosystem Contracts](/evm/ecosystem-contracts) – Canonical addresses
+- [LayerZero Integration](/evm/bridging/layerzero) – Cross-chain messaging
+- [Contract Verification](/evm/evm-verify-contracts) – Contract verification guide

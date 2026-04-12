@@ -240,17 +240,16 @@ Heading levels should never be skipped. A level 2 heading should follow a level 
 
 To use images, first add them to the `./public/assets` folder.
 
-Afterwards, they can be imported in each page using an import statement. For example:
+Then reference them using absolute paths with standard Markdown image syntax:
 
 ```md
-import nameOfImage from "../../public/assets/nameOfImage.png";
+![alt text for my image](/assets/image-name.png)
 ```
 
-Lastly, use the `ImageWithCaption` component to add the image to the page, along with a descriptive label:
-
-```md
-<ImageWithCaption img={nameOfImage} alt="alt text for my image" caption="Your caption here" />
-```
+{/* For images with captions, use:
+![alt text](/assets/image-name.png)
+*Your caption here*
+*/}
 
 ### Callouts and Admonitions
 

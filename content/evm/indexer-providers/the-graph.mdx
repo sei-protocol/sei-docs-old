@@ -3,16 +3,6 @@ title: "The Graph"
 description: "Build and deploy subgraphs on The Graph to efficiently index and query data from Sei smart contracts, with step-by-step instructions from initialization to production deployment."
 keywords: ["the graph", "subgraphs", "blockchain indexing", "graphql", "dapp data"]
 ---
-import { ImageWithCaption } from '../../../src/components';
-
-import imgApiKeys from '../../../public/assets/ecosystem/resources/the-graph/api_keys.png';
-import imgCliCommands from '../../../public/assets/ecosystem/resources/the-graph/cli_commands.png';
-import imgCliSample from '../../../public/assets/ecosystem/resources/the-graph/cli_sample.png';
-import imgCreateSubgraph from '../../../public/assets/ecosystem/resources/the-graph/create_subgraph.png';
-import imgPlayground from '../../../public/assets/ecosystem/resources/the-graph/playground.png';
-import imgPublishButton from '../../../public/assets/ecosystem/resources/the-graph/publish_button.png';
-import imgPublishScreen from '../../../public/assets/ecosystem/resources/the-graph/publish_screen.png';
-import imgQueryUrl from '../../../public/assets/ecosystem/resources/the-graph/query_url.png';
 
 
 # The Graph
@@ -47,17 +37,14 @@ wallet. Once your wallet is connected, you can begin by clicking "Create a
 Subgraph". When entering the subgraph name, it is recommended to use Title Case:
 "Subgraph Name Chain Name."
 
-<ImageWithCaption img={imgCreateSubgraph} alt="Create a Subgraph" caption="Create a Subgraph" />
+![Create a Subgraph](/assets/ecosystem/resources/the-graph/create_subgraph.png)
+*Create a Subgraph*
 
 You will then land on your subgraph's page. All the CLI commands you need will
 be visible on the right side of the page:
 
-<ImageWithCaption
-  img={imgCliCommands}
-  alt="CLI commands"
-  caption="CLI commands"
-
-/>
+![CLI commands](/assets/ecosystem/resources/the-graph/cli_commands.png)
+*CLI Commands*
 
 ### Install the Graph CLI⁠
 
@@ -78,7 +65,8 @@ graph init --studio <SUBGRAPH_SLUG>
 
 You'll be prompted to provide some info on your subgraph like this:
 
-<ImageWithCaption img={imgCliSample} alt="CLI sample" caption="CLI" />
+![CLI sample](/assets/ecosystem/resources/the-graph/cli_sample.png)
+*CLI*
 
 Simply have your contract verified on the block explorer and the CLI will
 automatically obtain the ABI and set up your subgraph. The default settings will
@@ -113,7 +101,8 @@ You can test your subgraph by making a sample query in the playground section.
 The Details tab will show you an API endpoint. You can use that endpoint to test
 from your dapp.
 
-<ImageWithCaption img={imgPlayground} alt="Playground" caption="Run your graphql query in Studio" />
+![Playground](/assets/ecosystem/resources/the-graph/playground.png)
+*Run your graphql query in Studio*
 
 ### Publish Your Subgraph to The Graph's Decentralized Network
 
@@ -121,7 +110,8 @@ Once your subgraph is ready to be put into production, you can publish it to the
 decentralized network. On your subgraph's page in Subgraph Studio, click on the
 Publish button:
 
-<ImageWithCaption img={imgPublishButton} alt="Publish button" caption="Click Publish" />
+![Publish button](/assets/ecosystem/resources/the-graph/publish_button.png)
+*Click Publish*
 
 Before you can query your subgraph, Indexers need to begin serving queries on
 it. In order to streamline this process, you can curate your own subgraph using
@@ -131,7 +121,8 @@ When publishing, you'll see the option to curate your subgraph. As of May 2024,
 it is recommended that you curate your own subgraph with at least 3,000 GRT to
 ensure that it is indexed and available for querying as soon as possible.
 
-<ImageWithCaption img={imgPublishScreen} alt="Publish screen" caption="Publish Screen" />
+![Publish screen](/assets/ecosystem/resources/the-graph/publish_screen.png)
+*Publish Screen*
 
 <Warning>**Note:** The Graph's smart contracts are all on Arbitrum One, even though > your subgraph is indexing data from Ethereum, BSC or any other > [supported chain](https://thegraph.com/docs/en/developing/supported-networks/).</Warning>
 
@@ -147,7 +138,8 @@ Here's an example from the
 [CryptoPunks Ethereum subgraph](https://thegraph.com/explorer/subgraphs/HdVdERFUe8h61vm2fDyycHgxjsde5PbB832NHgJfZNqK)
 by Messari:
 
-<ImageWithCaption img={imgQueryUrl} alt="Query URL" caption="Query URL" />
+![Query URL](/assets/ecosystem/resources/the-graph/query_url.png)
+*Query URL*
 
 The query URL for this subgraph is:
 `https://gateway-arbitrum.network.thegraph.com/api/`**[api-key]**`/subgraphs/id/HdVdERFUe8h61vm2fDyycgxjsde5PbB832NHgJfZNqK`
@@ -157,7 +149,8 @@ queries to this endpoint.
 
 ### Getting your own API Key
 
-<ImageWithCaption img={imgApiKeys} alt="API keys" caption="API keys" />
+![API keys](/assets/ecosystem/resources/the-graph/api_keys.png)
+*API keys*
 
 In Subgraph Studio, you'll see the "API Keys" menu at the top of the page. Here
 you can create API Keys.

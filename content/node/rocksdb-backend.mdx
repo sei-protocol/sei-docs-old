@@ -4,9 +4,7 @@ description: 'Build and enable the RocksDB backend for seid to significantly imp
 keywords: ['rocksdb', 'sei node', 'state store', 'performance', 'traceBlock', 'archive node', 'rpc']
 ---
 
-import { ImageWithCaption } from '../../src/components';
 
-import image1 from '../../public/assets/pebbledb-vs-rocksdb.png';
 
 # RocksDB Backend Setup & Performance Guide
 
@@ -36,7 +34,8 @@ In Sei’s benchmarks, RocksDB achieved up to **10–30× faster traceBlock iter
 
 The following chart compares iteration (trace time) performance between **PebbleDB** and **RocksDB** over a 3 million block history:
 
-<ImageWithCaption img={image1} alt="PebbleDB vs RocksDB Trace Times" caption="Trace Times: Pebble vs Rocks (3M history): RocksDB shows a significantly flatter latency curve as state grows, while PebbleDB’s iteration times increase sharply for older blocks." />
+![PebbleDB vs RocksDB Trace Times](/assets/pebbledb-vs-rocksdb.png)
+*Trace Times: Pebble vs Rocks (3M history): RocksDB shows a significantly flatter latency curve as state grows, while PebbleDB’s iteration times increase sharply for older blocks.*
 
 ## Setup Instructions
 
