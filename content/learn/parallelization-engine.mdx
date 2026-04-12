@@ -4,8 +4,6 @@ description: "Learn how Sei's Parallelization Engine enables simultaneous transa
 keywords: ['parallelization engine', 'multi-core processing', 'blockchain concurrency', 'transaction throughput', 'optimistic execution', 'dai algorithm']
 ---
 
-import { Callout } from 'nextra/components';
-import { Icon } from '../../src/components/Icon';
 
 # Sei Parallelization Engine
 
@@ -13,9 +11,9 @@ import { Icon } from '../../src/components/Icon';
 
 The Sei Parallelization Engine is a core component designed to increase transaction processing throughput beyond the limitations of traditional sequential execution models common in many blockchain systems. The engine enables concurrent execution of non-conflicting transactions within a block and leverages multi-core processors to improve performance and scalability. This document provides a technical explanation of its architecture and mechanisms.
 
-<Callout type="info" emoji={<Icon icon="rocket" className="h-5 w-5 mt-1" />}>
+<Tip>
   The Parallelization Engine is a key innovation that allows Sei to process transactions concurrently across multiple CPU cores, significantly increasing throughput while maintaining deterministic outcomes identical to sequential processing.
-</Callout>
+</Tip>
 
 ## Core Mechanism: Optimistic Concurrency Control
 
@@ -185,9 +183,9 @@ The dependency analyzer might also consider secondary effects such as:
 - Fee payment impacts on the transaction sender's account
 - Potential interactions with staking or governance mechanisms if the tokens have such properties
 
-<Callout type="default" emoji={<Icon icon="cpu" className="h-5 w-5 mt-1" />}>
+<Note>
   For smart contract calls, the analyzer employs heuristic methods that consider the contract's address and storage layout, the specific function selectors being called, any parameters passed to the contract functions, and historical patterns of state access from previous similar calls.
-</Callout>
+</Note>
 
 The dependency generator outputs an estimated read/write set for each transaction. These sets contain the state keys expected to be accessed, with additional metadata indicating access types (read vs. write) and confidence levels for each prediction. The system uses these confidence levels during scheduling decisions to minimize the likelihood of conflicts.
 
@@ -276,9 +274,9 @@ The system must identify and resolve any conflicts that emerge during and after 
    - The temporary buffer preserves successfully executed state transitions
    - Resolution attempts track their own read/write sets to detect cascading conflicts
 
-<Callout type="default" emoji={<Icon icon="arrows-shuffle" className="h-5 w-5 mt-1" />}>
+<Note>
   This conflict resolution makes the final state after parallel execution identical to what sequential processing would have produced, which maintains blockchain consistency.
-</Callout>
+</Note>
 
 ### 5. Fallback Mechanism
 
@@ -317,9 +315,9 @@ SeiDB integration offers several technical advantages crucial for parallelizatio
 - Hybrid storage tiers optimize for different access patterns across workloads
 - Asynchronous persistence decouples block execution from storage commit latency
 
-<Callout type="info" emoji={<Icon icon="database" className="h-5 w-5 mt-1" />}>
+<Info>
   The tight integration between the parallelization engine and SeiDB enables the system to maintain high throughput even under challenging workloads with complex dependency patterns or high conflict rates.
-</Callout>
+</Info>
 
 ## Performance Impact
 

@@ -4,7 +4,6 @@ description: 'Strategies for clearing unused EVM storage on Sei to reduce state 
 keywords: ['sei evm', 'state management', 'gas refund', 'storage clearing', 'contract optimization', 'stale state']
 ---
 
-import { Callout } from 'nextra/components';
 
 # Zeroing Out Stale State
 
@@ -14,7 +13,7 @@ Zeroing out state means setting stored contract values back to their defaults (e
 
 Non-zero storage contributes to global state size. Clearing stale state reduces state growth pressure and can improve node operations, sync, and restart behavior. This matters especially on high-throughput chains like Sei where state growth can be aggressive.
 
-<Callout type="info">Clearing a non-zero storage slot to zero earns a **4,800 gas refund** per slot.</Callout>
+<Info>Clearing a non-zero storage slot to zero earns a **4,800 gas refund** per slot.</Info>
 
 ## Clearing State Variables, Arrays, and Maps
 
@@ -42,7 +41,7 @@ Using `delete` on a dynamic array resets its length to 0 and clears all elements
 
 The safer approach is **batched clearing** by repeatedly calling `pop()` in chunks.
 
-<Callout type="warning">If a dynamic array might exceed **~500 elements**, use batched clearing to avoid running out of gas.</Callout>
+<Warning>If a dynamic array might exceed **~500 elements**, use batched clearing to avoid running out of gas.</Warning>
 
 ```solidity
 uint256[] public dynamicArr;
@@ -60,7 +59,7 @@ function batchClear(uint256 batchSize) external {
 
 You can't iterate a mapping, so you can't clear it unless you can enumerate keys. The main strategy is to **maintain an index of keys** (e.g., a `holders[]` array plus an `_isHolder` flag) whenever you write, then later delete mapping entries in batches by iterating that key list.
 
-<Callout type="info">Maintaining an index costs approximately **~20k gas per write** (extra SSTOREs), but makes future clearing possible.</Callout>
+<Info>Maintaining an index costs approximately **~20k gas per write** (extra SSTOREs), but makes future clearing possible.</Info>
 
 ```solidity
 mapping(address => uint256) public balances;
@@ -91,7 +90,7 @@ function batchClearBalances(uint256 start, uint256 end) external {
 
 If you control permissions and the original contract has callable setters/entrypoints, deploy a separate "cleaner" contract that loops through user/key batches and calls the original contract to set values to zero.
 
-<Callout type="warning">This only clears state reachable through the **public/external interface**. Truly internal or private state with no setters can't be touched.</Callout>
+<Warning>This only clears state reachable through the **public/external interface**. Truly internal or private state with no setters can't be touched.</Warning>
 
 See [Appendix A](#appendix-a---external-cleaner-contract) for example code.
 
@@ -113,7 +112,7 @@ For complex or nested state, use [The Graph](https://thegraph.com/) or your own 
 
 If you have a candidate universe of keys (e.g., all addresses that ever interacted), compute each mapping slot (`keccak256(key, slot)` — tools like `cast index` do this), read storage via RPC, and keep only the non-zero keys to clear.
 
-<Callout type="info">This approach is tedious and RPC-heavy but works when events are missing or unreliable.</Callout>
+<Info>This approach is tedious and RPC-heavy but works when events are missing or unreliable.</Info>
 
 ## Appendix A - External Cleaner Contract
 

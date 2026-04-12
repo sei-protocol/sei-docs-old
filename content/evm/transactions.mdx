@@ -6,7 +6,6 @@ keywords: ['transactions', 'EVM transactions', 'gas', 'EIP-1559', 'nonce', 'tran
 
 import { Tabs } from 'nextra/components';
 import { SyntaxHighlighter } from '../../src/components/SyntaxHighlighter';
-import { Callout } from 'nextra/components';
 import { Icon } from '../../src/components/Icon';
 
 # Transactions
@@ -30,9 +29,9 @@ Sei supports EVM transactions, allowing compatibility with Ethereum-based tools 
 
 </div>
 
-<Callout type="info">
+<Info>
   Unlike other EVM chains where you need to wait for multiple confirmations, Sei's consensus mechanism provides immediate transaction finality. Once a transaction is included in a block, it cannot be reversed.
-</Callout>
+</Info>
 
 ## Gas Mechanics
 
@@ -50,15 +49,15 @@ Gas is a unit of computational work in the EVM that helps prevent spam and alloc
 
 </div>
 
-<Callout type="warning">
-** Gas Requirements for Common Operations:**
+<Warning>
+**Gas Requirements for Common Operations:**
 
 - Simple SEI transfer: 21,000 gas
 - ERC-20 transfer: ~45,000 gas
 - Contract deployment: Varies based on contract size and complexity
 - Always estimate gas before sending transactions using `eth_estimateGas`
 
-</Callout>
+</Warning>
 
 ## Transaction Structure
 
@@ -310,7 +309,7 @@ sendTransaction().catch(console.error);
 
 ## Transaction Guidelines
 
-<Callout type="info" emoji={<Icon icon="shield-lock" className="h-5 w-5 mt-1" />}>
+<Info>
 ** Transaction Best Practices:**
 
 - **Set appropriate gas parameters:** Use network conditions to estimate optimal values for `maxFeePerGas` and `maxPriorityFeePerGas`.
@@ -319,7 +318,7 @@ sendTransaction().catch(console.error);
 - **Implement proper error handling:** Account for potential transaction failures and revert reasons.
 - **Verify recipient addresses:** Always double-check destination addresses, as transactions cannot be reversed.
 
-</Callout>
+</Info>
 
 <div className="data-table">
 

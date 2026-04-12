@@ -4,13 +4,12 @@ description: "Learn how to interact with Sei's precompiles through ethers.js, co
 keywords: ['precompile usage', 'ethers.js', 'sei precompiles', 'evm integration', 'quick start guide']
 ---
 
-import { Callout } from 'nextra/components';
 
 # Example Usage
 
 Sei precompiles are special smart contracts deployed at fixed addresses that expose native Sei functionality to EVM applications. They can be used like any standard smart contract, enabling powerful cross-chain capabilities.
 
-<Callout type="info">
+<Info>
 **Available Precompiles:**
 
 - **Staking** (`0x1005`) - Delegation and staking operations
@@ -19,7 +18,7 @@ Sei precompiles are special smart contracts deployed at fixed addresses that exp
 - **P256** (`0x1011`) - Verifying `P-256` elliptic curve signatures
 - **Distribution** (`0x1007`) - Staking rewards and validator commissions
 
-</Callout>
+</Info>
 
 ## Quick Setup
 
@@ -204,7 +203,7 @@ PRIVATE_KEY=your_key node multi-precompile-demo.js
 
 ## Best Practices
 
-<Callout type="warning">
+<Warning>
 **Important Guidelines:**
 
 - Always validate inputs before calling precompiles
@@ -213,7 +212,7 @@ PRIVATE_KEY=your_key node multi-precompile-demo.js
 - Set reasonable gas limits to avoid failed transactions
 - Never expose private keys in code
 
-</Callout>
+</Warning>
 
 ## Next Steps
 
@@ -225,4 +224,4 @@ For detailed documentation on each precompile:
 - [P256 Precompile Usage →](p256-precompile)
 - [JSON Precompile Usage →](json)
 
-<Callout type="info">**Need Help?** Join the [Sei Discord](https://discord.gg/sei) for community support or check the [GitHub repository](https://github.com/sei-protocol/sei-chain) for more examples.</Callout>
+<Info>**Need Help?** Join the [Sei Discord](https://discord.gg/sei) for community support or check the [GitHub repository](https://github.com/sei-protocol/sei-chain) for more examples.</Info>

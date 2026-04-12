@@ -4,11 +4,10 @@ description: 'Detailed guide for using snapshots to join the network'
 keywords: ['sei node', 'blockchain node', 'node configuration', 'seidb', 'node maintenance', 'system operations']
 ---
 
-import { Callout } from 'nextra/components';
 
 # Join the testnet and mainnet network using Node Snapshots
 
-<Callout type="warning">Before you resync a node using snapshots, make sure that in case of a successful resync that you _under no circumstance_ double sign blocks at previous heights with your validator. Failure to do so will cause tombstoning of your validator.</Callout>
+<Warning>Before you resync a node using snapshots, make sure that in case of a successful resync that you _under no circumstance_ double sign blocks at previous heights with your validator. Failure to do so will cause tombstoning of your validator.</Warning>
 
 Follow this guide to join an existing network through **snapshot sync**. To quickly spin up a fresh full node and join the network, it's recommended to restore from a snapshot instead of replaying all historical blocks.
 
@@ -31,7 +30,7 @@ You can select from various providers for downloading snapshots:
 
 If you are **not** starting a node from fresh, perform the following backups and clean‑ups first.
 
-<Callout type="info">Note: This step is not needed for fresh nodes.</Callout>
+<Info>Note: This step is not needed for fresh nodes.</Info>
 
 1. **Stop the service**
 
@@ -59,11 +58,11 @@ If you are **not** starting a node from fresh, perform the following backups and
    rm -rf $HOME/.sei/wasm
    ```
 
-<Callout type="warning">All snapshots also include the `wasm` folder. Make sure to copy over the `wasm` folder as well, the node cannot successfully sync without it.</Callout>
+<Warning>All snapshots also include the `wasm` folder. Make sure to copy over the `wasm` folder as well, the node cannot successfully sync without it.</Warning>
 
 ## Download & Restore
 
-<Callout type="info">The following commands are generic examples. Please verify the `SNAPSHOT_URL` and extraction command from your chosen provider above.</Callout>
+<Info>The following commands are generic examples. Please verify the `SNAPSHOT_URL` and extraction command from your chosen provider above.</Info>
 
 ### Prerequisites
 
@@ -111,9 +110,9 @@ sudo apt install curl lz4 wget aria2 pv -y
    pv snapshot.tar.lz4 | lz4 -c -d | tar -x -C $HOME/.sei
    ```
 
-   <Callout type="info">The `-x 16` flag sets the maximum connections per server, and `-s 16` splits the file into 16 segments for parallel downloading. You can adjust these values based on your network conditions.</Callout>
+   <Info>The `-x 16` flag sets the maximum connections per server, and `-s 16` splits the file into 16 segments for parallel downloading. You can adjust these values based on your network conditions.</Info>
 
-   <Callout type="warning">**Variation Warning**: Some providers might wrap the data in a folder or use different compression. - If the snapshot is a `.tar.gz`, use `tar -xzf`. - If the snapshot contains a root folder (e.g. `sei/data`), you might need to adjust the `-C` target or use `--strip-components`. - Always check the provider's specific page for exact commands.</Callout>
+   <Warning>**Variation Warning**: Some providers might wrap the data in a folder or use different compression. - If the snapshot is a `.tar.gz`, use `tar -xzf`. - If the snapshot contains a root folder (e.g. `sei/data`), you might need to adjust the `-C` target or use `--strip-components`. - Always check the provider's specific page for exact commands.</Warning>
 
 3. **Restore Validator State**
 

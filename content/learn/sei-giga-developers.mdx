@@ -4,11 +4,10 @@ description: 'Key patterns and techniques for building high-performance dApps on
 keywords: ['sei giga development', 'smart contracts', 'dapp development', 'solidity', 'parallel execution']
 ---
 
-import { Callout } from 'nextra/components';
 
 # Sei Giga Developer Guide
 
-<Callout type="info">This is a sneak peek at the patterns and optimizations developers should consider when building on Sei Giga. For current EVM development tutorials, check out the [EVM development guides](/evm/evm-general).</Callout>
+<Info>This is a sneak peek at the patterns and optimizations developers should consider when building on Sei Giga. For current EVM development tutorials, check out the [EVM development guides](/evm/evm-general).</Info>
 
 ## Why Build on Sei Giga?
 
@@ -89,13 +88,13 @@ contract EventDrivenAuction {
 
 ## Gas Optimization Tips
 
-<Callout type="info">
+<Info>
 **Quick Wins:**
 - Use `memory` for temporary data, `calldata` for read-only parameters
 - Cache array lengths in loops: `uint256 len = arr.length;`
 - Use `unchecked { i++; }` in loops where overflow is impossible
 - Batch operations to amortize base transaction costs
-</Callout>
+</Info>
 
 ## Native Precompiles
 

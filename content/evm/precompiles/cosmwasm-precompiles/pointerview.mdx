@@ -4,7 +4,6 @@ description: "Learn how to use Sei's PointerView precompile to query and discove
 keywords: ['pointerview precompile', 'pointer query', 'cosmos sdk', 'cosmwasm', 'asset discovery', 'pointer registry', 'interoperability', 'sei development']
 ---
 
-import { Callout } from 'nextra/components';
 import { Tabs } from 'nextra/components';
 
 # PointerView Precompile
@@ -13,7 +12,7 @@ import { Tabs } from 'nextra/components';
 
 The Sei PointerView precompile provides read-only access to query existing EVM pointers for Cosmos SDK native tokens and CosmWasm contracts. This precompile acts as a registry lookup service, allowing developers to discover and verify pointer addresses without creating new ones.
 
-<Callout type="info">**What is PointerView?** PointerView is a query-only precompile that allows you to check if EVM pointers already exist for Cosmos assets, retrieve their addresses and status. It's essential for building applications that need to discover existing pointers before attempting to create new ones.</Callout>
+<Info>**What is PointerView?** PointerView is a query-only precompile that allows you to check if EVM pointers already exist for Cosmos assets, retrieve their addresses and status. It's essential for building applications that need to discover existing pointers before attempting to create new ones.</Info>
 
 ## How Does the PointerView Precompile Work?
 
@@ -144,7 +143,7 @@ interface IPointerViewPrecompile {
 </Tabs.Tab>
 </Tabs>
 
-<Callout type="info">**Precompile Address:** The PointerView precompile is deployed at `0x000000000000000000000000000000000000100A`</Callout>
+<Info>**Precompile Address:** The PointerView precompile is deployed at `0x000000000000000000000000000000000000100A`</Info>
 
 ### Contract Initialization
 
@@ -983,7 +982,7 @@ function validateAssetFormat(assetType, asset) {
 
 ## Important Notes
 
-<Callout type="info">Remember: PointerView is read-only! It only queries existing pointers and cannot create new ones. Use the Pointer precompile to create pointers first.</Callout>
+<Info>Remember: PointerView is read-only! It only queries existing pointers and cannot create new ones. Use the Pointer precompile to create pointers first.</Info>
 
 ### Best Practices
 
@@ -1021,4 +1020,4 @@ function validateAssetFormat(assetType, asset) {
 4. **Integration:** Build applications using the discovered/created pointers
 5. **Monitoring:** Periodically check for new pointers or updates
 
-<Callout type="info">View the PointerView precompile source code and the contract ABI [here](https://github.com/sei-protocol/sei-chain/tree/main/precompiles/pointerview).</Callout>
+<Info>View the PointerView precompile source code and the contract ABI [here](https://github.com/sei-protocol/sei-chain/tree/main/precompiles/pointerview).</Info>

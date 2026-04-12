@@ -4,16 +4,14 @@ description: 'Design patterns to reduce state conflicts and maximize Sei EVM par
 keywords: ['sei evm', 'parallelization', 'gas optimization', 'storage conflicts', 'throughput', 'precompiles']
 ---
 
-import { Callout } from 'nextra/components';
-import { Icon } from '../../../src/components/Icon';
 
 # Optimizing Contracts for Parallelization
 
 Sei EVM executes non-conflicting transactions in parallel. You can significantly increase throughput and reduce gas by designing contracts that minimize shared state access and avoid unnecessary storage writes.
 
-<Callout type="info" emoji={<Icon icon="cpu" className="h-5 w-5 mt-1" />}>
+<Info>
   This guide is based on Sei's recommendations for reducing gas usage and enhancing parallel execution. For the engine design, see [Parallelization Engine](/learn/parallelization-engine).
-</Callout>
+</Info>
 
 ## Principles for Parallel-Friendly Contracts
 
@@ -24,7 +22,7 @@ Sei EVM executes non-conflicting transactions in parallel. You can significantly
 - **Batch internal work; isolate external effects**: Do heavy computation in memory and commit a minimal set of storage writes.
 - **Use precompiles when available**: Precompiles are highly optimized and cheaper than replicating logic in Solidity.
 
-<Callout type="info" emoji={<Icon icon="checklist" className="h-5 w-5 mt-1" />}>
+<Tip>
 
 **Parallelization checklist:**
 
@@ -34,7 +32,7 @@ Sei EVM executes non-conflicting transactions in parallel. You can significantly
 - Favor precompiles for supported features
 - Apply standard gas optimizations (`external`, packing, `unchecked`, memory-first)
 
-</Callout>
+</Tip>
 
 ## Storage Design Patterns
 

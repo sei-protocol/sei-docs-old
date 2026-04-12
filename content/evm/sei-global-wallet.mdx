@@ -4,15 +4,15 @@ description: 'Learn how to integrate and use Sei Global Wallet, a cross-applicat
 keywords: ['sei global wallet', 'embedded wallet', 'EIP-6963', 'wallet integration', 'web3 authentication']
 ---
 
-import { Callout, Tabs } from 'nextra/components';
+import { Tabs } from 'nextra/components'
 
 # Sei Global Wallet
 
-<Callout type="error">By logging in with Sei Global Wallet, you agree to our [Terms of Use](https://dashboard.sei.io/terms)</Callout>
+<Danger>By logging in with Sei Global Wallet, you agree to our [Terms of Use](https://dashboard.sei.io/terms)</Danger>
 
 Sei Global Wallet is a cross-application embedded crypto wallet powered by [Dynamic Global Wallets](https://www.dynamic.xyz/docs/react/global-wallets/overview). It gives users a persistent wallet experience across any integrated app within the Sei ecosystem, allowing them to authenticate and interact using familiar login methods like Google, Twitter, or Telegram—no browser extension or prior crypto knowledge required.
 
-<Callout type="info">Additional auth methods such as existing wallet apps (Metamask, ..) are possible through Dynamic, but are not currently enabled</Callout>
+<Info>Additional auth methods such as existing wallet apps (Metamask, ..) are possible through Dynamic, but are not currently enabled</Info>
 
 ## What is Sei Global Wallet?
 
@@ -69,7 +69,7 @@ Import the package to register the wallet:
 import '@sei-js/sei-global-wallet/eip6963';
 ```
 
-<Callout type="warning">**Important:** Simply importing the package registers the wallet for discovery, but you'll need to ensure your application's provider stack is properly configured to interact with it. Most wallet connection libraries that support EIP-6963 will automatically detect the wallet after import.</Callout>
+<Warning>**Important:** Simply importing the package registers the wallet for discovery, but you'll need to ensure your application's provider stack is properly configured to interact with it. Most wallet connection libraries that support EIP-6963 will automatically detect the wallet after import.</Warning>
 
 ---
 

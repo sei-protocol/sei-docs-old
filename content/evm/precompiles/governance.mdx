@@ -4,7 +4,6 @@ description: "Learn how to interact with Sei's governance precompile through eth
 keywords: ['governance precompile', 'ethers.js', 'proposal voting', 'blockchain governance', 'on-chain voting', 'sei evm', 'dao governance']
 ---
 
-import { Callout } from 'nextra/components';
 
 # Governance Precompile Usage
 
@@ -12,7 +11,7 @@ import { Callout } from 'nextra/components';
 
 The Sei governance precompile enables EVM applications to participate in Sei's on-chain governance process. This allows users and smart contracts to submit proposals, vote on them, deposit tokens, and query governance information directly through the EVM interface.
 
-<Callout type="info">**What is a precompile?** A precompile is a special smart contract deployed at a fixed address by the Sei protocol itself, that exposes custom native chain logic to EVM-based applications. It acts like a regular contract from the EVM's perspective, but executes privileged, low-level logic efficiently.</Callout>
+<Info>**What is a precompile?** A precompile is a special smart contract deployed at a fixed address by the Sei protocol itself, that exposes custom native chain logic to EVM-based applications. It acts like a regular contract from the EVM's perspective, but executes privileged, low-level logic efficiently.</Info>
 
 ## How Does the Governance Precompile Work?
 
@@ -39,9 +38,9 @@ Sei governance operates on a structured timeline with specific parameters:
 3. **Voting Period:** 3 days (1 day for expedited) of active voting once minimum deposit is met
 4. **Tallying:** Results calculated based on quorum and voting thresholds
 
-<Callout type="info"> To find out all about the governance process on Sei, go to the [governance explainer](/learn/general-governance).</Callout>
+<Info> To find out all about the governance process on Sei, go to the [governance explainer](/learn/general-governance).</Info>
 
-<Callout type="warning">
+<Warning>
 **Critical Mainnet Considerations:**
 
 - **High Stakes:** Mainnet governance involves real SEI tokens and binding decisions
@@ -51,7 +50,7 @@ Sei governance operates on a structured timeline with specific parameters:
 - **Time Limits:** Strict 2-day deposit period and 3-day voting period
 - **Real Impact:** Successful proposals can change network parameters
 
-</Callout>
+</Warning>
 
 ## Functions
 
@@ -142,7 +141,7 @@ import { GOVERNANCE_PRECOMPILE_ABI, GOVERNANCE_PRECOMPILE_ADDRESS } from '@sei-j
 import { ethers } from 'ethers';
 ```
 
-<Callout type="info">**Precompile Address:** The governance precompile is deployed at `0x0000000000000000000000000000000000001006`</Callout>
+<Info>**Precompile Address:** The governance precompile is deployed at `0x0000000000000000000000000000000000001006`</Info>
 
 #### Get SEI Tokens
 
@@ -152,7 +151,7 @@ Purchase SEI tokens from supported exchanges:
 - **Decentralized Exchanges:** Astroport, Dragonswap (on Sei)
 - **Bridge Options:** Various cross-chain bridges support SEI
 
-<Callout type="warning">**Minimum Requirements:** You need at least 3,500 SEI to submit a governance proposal, plus additional tokens for gas fees and potential additional deposits.</Callout>
+<Warning>**Minimum Requirements:** You need at least 3,500 SEI to submit a governance proposal, plus additional tokens for gas fees and potential additional deposits.</Warning>
 
 ### Contract Initialization
 
@@ -195,7 +194,7 @@ Your voting power is determined by:
 - **Delegation:** SEI delegated to validators counts toward voting power
 - **Liquid SEI:** Unstaked SEI does not provide voting power
 
-<Callout type="info">**Important:** Only staked SEI provides voting power. You must delegate your tokens to validators to participate in governance voting.</Callout>
+<Info>**Important:** Only staked SEI provides voting power. You must delegate your tokens to validators to participate in governance voting.</Info>
 
 ## Validation Functions
 
@@ -257,7 +256,7 @@ async function checkVotingPower(userAddress: string): Promise<bigint> {
 
 ### Submit a Proposal
 
-<Callout type="info">
+<Info>
 **Important Deposit Requirements:**
 
 - **Minimum deposit:** 3,500 SEI required for proposal to enter voting period
@@ -265,7 +264,7 @@ async function checkVotingPower(userAddress: string): Promise<bigint> {
 - **Deposit period:** 2 days to meet minimum or proposal fails and deposits are burned
 - **Multiple deposits:** Anyone can contribute to reach the minimum threshold
 
-</Callout>
+</Info>
 
 ```typescript copy
 async function submitGovernanceProposal(title: string, description: string, depositAmount: bigint, isExpedited: boolean = false): Promise<bigint> {
@@ -457,7 +456,7 @@ await voteOnProposal(proposalID, 4);
 
 ### Weighted Voting
 
-<Callout type="error">**Critical Requirement:** Weighted vote options MUST sum to exactly 1.0 or the transaction will fail. The Sei governance module enforces this strictly - even small rounding errors will cause rejection.</Callout>
+<Danger>**Critical Requirement:** Weighted vote options MUST sum to exactly 1.0 or the transaction will fail. The Sei governance module enforces this strictly - even small rounding errors will cause rejection.</Danger>
 
 ```typescript copy
 // Weighted voting with comprehensive validation
@@ -1106,7 +1105,7 @@ function validateWeightedVoteComprehensive(options: Array<{ option: number; weig
 
 </div>
 
-<Callout type="info">
+<Info>
 
 **Need Help?** If you encounter issues:
 
@@ -1114,4 +1113,4 @@ function validateWeightedVoteComprehensive(options: Array<{ option: number; weig
 - **GitHub:** [Sei Protocol Repository](https://github.com/sei-protocol/sei-chain)
 - **Explorer:** [View Proposals on Sei Explorer](https://sei.explorers.guru/proposals)
 
-</Callout>
+</Info>

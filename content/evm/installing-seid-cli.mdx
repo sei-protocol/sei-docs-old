@@ -4,7 +4,6 @@ description: 'Complete guide to installing and setting up the Sei CLI (seid) too
 keywords: ['seid installation', 'sei cli setup', 'seid wallet', 'evm wallet import', 'go installation']
 ---
 
-import { Callout } from 'nextra/components';
 import VersionTable from '../../src/components/VersionFetcher/VersionTable';
 
 # Installing seid CLI
@@ -44,7 +43,7 @@ seid version
 
 ## Troubleshooting Installation
 
-<Callout type="warning">If you encounter an error like `command not found: seid`, you may need to set your GOPATH environment variable.</Callout>
+<Warning>If you encounter an error like `command not found: seid`, you may need to set your GOPATH environment variable.</Warning>
 
 - Use `go env GOPATH` to find your GOPATH
 - Add the following lines to your `~/.bashrc` or `~/.zshrc`:
@@ -129,9 +128,9 @@ It is the only way to recover your account if you ever forget your password.
 
 ```
 
-<Callout type="info">Please replace `$NAME` with the name you would like to use for this key. This will generate a seed phrase and store the account in the CLI for use.</Callout>
+<Info>Please replace `$NAME` with the name you would like to use for this key. This will generate a seed phrase and store the account in the CLI for use.</Info>
 
-<Callout type="error">**Important**: Write this mnemonic down and store it in a safe place. Never share your seed phrase with anyone.</Callout>
+<Danger>**Important**: Write this mnemonic down and store it in a safe place. Never share your seed phrase with anyone.</Danger>
 
 Alternatively, if you would like to import an existing seed phrase, you can add the `--recover` flag:
 
@@ -213,7 +212,7 @@ Output:
 
 You'll be prompted to enter your existing 12 or 24-word mnemonic phrase.
 
-<Callout type="info">Use coin type 60 when you want to use the same address across EVM-compatible chains or import from MetaMask. Use the default coin type 118 for standard Cosmos operations.</Callout>
+<Info>Use coin type 60 when you want to use the same address across EVM-compatible chains or import from MetaMask. Use the default coin type 118 for standard Cosmos operations.</Info>
 
 ## Managing Wallets
 

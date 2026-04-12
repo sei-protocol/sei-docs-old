@@ -4,13 +4,13 @@ description: 'Step-by-step checklist for teams that already run on another EVM c
 keywords: ['EVM migration', 'cross-chain deployment', 'ethereum to sei', 'arbitrum to sei', 'base to sei', 'polygon to sei', 'avalanche to sei', 'smart contract deployment']
 ---
 
-import { Callout, Tabs } from 'nextra/components';
+import { Tabs } from 'nextra/components'
 
 # How to migrate to Sei from another EVM chain
 
 Sei offers full EVM bytecode compatibility plus near-instant finality and sub-second blocks. This guide distills what product teams need to do when they already run on Polygon, Base, Ethereum, Arbitrum, Avalanche or another EVM chain and want to bring your dApp stack to Sei.
 
-<Callout type="info">
+<Info>
 **Why Migrate to Sei?**
 
 - **400ms block times** – 30× faster than Ethereum, 2-5× faster than most L2s
@@ -19,7 +19,7 @@ Sei offers full EVM bytecode compatibility plus near-instant finality and sub-se
 - **Parallelized execution** – Higher throughput without code changes
 - **Full EVM compatibility** – Deploy your existing Solidity contracts unchanged
 
-</Callout>
+</Info>
 
 ## Chain Comparison Overview
 
@@ -306,7 +306,7 @@ Revisit the [Divergence from Ethereum](./differences-with-ethereum) doc and conf
 
 </div>
 
-<Callout type="warning">
+<Warning>
 
 **Features Requiring Attention:**
 
@@ -315,7 +315,7 @@ Revisit the [Divergence from Ethereum](./differences-with-ethereum) doc and conf
 - **PREVRANDAO entropy:** Returns block-time-derived value, not true randomness — use VRF oracles here
 - **SELFDESTRUCT:** Deprecated; refactor to "soft close" patterns
 
-</Callout>
+</Warning>
 
 ## Step 2: Prepare Your Development Environment
 
@@ -485,7 +485,7 @@ Sei supports multiple oracle solutions:
 
 </div>
 
-<Callout type="info">**TWAP Adjustments:** Because Sei blocks arrive ~30× faster than Ethereum, shorten your TWAP observation windows to maintain comparable time-weighted calculations.</Callout>
+<Info>**TWAP Adjustments:** Because Sei blocks arrive ~30× faster than Ethereum, shorten your TWAP observation windows to maintain comparable time-weighted calculations.</Info>
 
 ## Step 7: Launch Checklist
 
@@ -506,7 +506,7 @@ Sei supports multiple oracle solutions:
 - [ ] Update frontend configurations
 - [ ] Prepare user migration documentation
 
-<Callout type="warning">**Fee Redistribution Warning:** Fees on Sei are not burned. If your protocol redistributes "burn rebates" to users, redesign that logic so it does not expect a base-fee burn component.</Callout>
+<Warning>**Fee Redistribution Warning:** Fees on Sei are not burned. If your protocol redistributes "burn rebates" to users, redesign that logic so it does not expect a base-fee burn component.</Warning>
 
 ## Step 8: Operational Readiness
 

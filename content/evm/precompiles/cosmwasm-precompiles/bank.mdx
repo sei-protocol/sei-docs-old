@@ -4,7 +4,6 @@ description: "Learn how to interact with Sei's Bank precompile through ethers.js
 keywords: ['bank precompile', 'token transfers', 'native sei', 'ethers.js', 'balance queries', 'sei development', 'defi', 'token metadata']
 ---
 
-import { Callout } from 'nextra/components';
 import { Tabs } from 'nextra/components';
 
 # Bank Precompile
@@ -13,7 +12,7 @@ import { Tabs } from 'nextra/components';
 
 The Sei bank precompile allows EVM applications to interact directly with Sei's native banking system through standard smart contract calls. This enables querying balances, transferring tokens, and accessing token metadata for both native SEI tokens and Cosmos SDK-based assets, providing seamless integration between EVM and Cosmos ecosystems.
 
-<Callout type="info"> **What is a precompile?** A precompile is a special smart contract deployed at a fixed address by the Sei protocol itself, that exposes custom native chain logic to EVM-based applications. It acts like a regular contract from the EVM's perspective, but executes privileged, low-level logic efficiently. </Callout>
+<Info> **What is a precompile?** A precompile is a special smart contract deployed at a fixed address by the Sei protocol itself, that exposes custom native chain logic to EVM-based applications. It acts like a regular contract from the EVM's perspective, but executes privileged, low-level logic efficiently. </Info>
 
 ## How Does the Bank Precompile Work?
 
@@ -236,7 +235,7 @@ uint256 amount
 </Tabs.Tab>
 </Tabs>
 
-<Callout type="info"> **Precompile Address:** The bank precompile is deployed at `0x0000000000000000000000000000000000001001` </Callout>
+<Info> **Precompile Address:** The bank precompile is deployed at `0x0000000000000000000000000000000000001001` </Info>
 
 ### Contract Initialization
 
@@ -1182,7 +1181,7 @@ async function safeGetBalance(address: string, denom: string) {
 
 ## Important Notes
 
-<Callout type="info">
+<Info>
 
 **Remember:** Always verify token denominations and handle errors gracefully in production applications!
 
@@ -1190,7 +1189,7 @@ async function safeGetBalance(address: string, denom: string) {
 - **Custom Tokens:** Check decimals using `decimals()` function
 - **Display Formatting:** Always format amounts with proper decimal places for user display
 
-</Callout>
+</Info>
 
 ### Gas Optimization
 
@@ -1205,4 +1204,4 @@ async function safeGetBalance(address: string, denom: string) {
 - **User Experience:** Provide clear feedback on transaction status
 - **Decimal Handling:** Use proper decimal formatting for different token types
 
-<Callout type="info">View the Bank precompile source code and the contract ABI [here](https://github.com/sei-protocol/sei-chain/tree/main/precompiles/bank).</Callout>
+<Info>View the Bank precompile source code and the contract ABI [here](https://github.com/sei-protocol/sei-chain/tree/main/precompiles/bank).</Info>

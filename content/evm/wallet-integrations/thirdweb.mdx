@@ -4,7 +4,6 @@ description: Learn how to integrate thirdweb's Account Abstraction SDK with Sei 
 keywords: ['thirdweb', 'account abstraction', 'smart wallets', 'gasless transactions', 'social login', 'sei']
 ---
 
-import { Callout } from 'nextra/components';
 
 # Thirdweb Account Abstraction on SEI
 
@@ -28,7 +27,7 @@ Before starting, ensure you have:
 - A thirdweb account with API key from [thirdweb Dashboard](https://thirdweb.com/dashboard)
 - A deployed smart contract on SEI (we'll use a simple Storage contract)
 
-<Callout type="warning">**For Mainnet**: An active thirdweb Pay As You Go subscription ($5/month minimum) is required for gas sponsorship on mainnet.</Callout>
+<Warning>**For Mainnet**: An active thirdweb Pay As You Go subscription ($5/month minimum) is required for gas sponsorship on mainnet.</Warning>
 
 ## What is Account Abstraction?
 
@@ -379,7 +378,7 @@ npm run dev
 7. Retrieve the stored value - all transactions are gasless!
 8. Monitor the browser console for: - Transaction hashes - Error messages - Connection status - Smart contract interactions
 
-<Callout type="info">Gas fees are automatically sponsored when using Account Abstraction, so users don't need SEI tokens to interact with the contract.</Callout>
+<Info>Gas fees are automatically sponsored when using Account Abstraction, so users don't need SEI tokens to interact with the contract.</Info>
 
 ### Step 7: Done!
 
@@ -412,7 +411,7 @@ You've successfully integrated thirdweb's Account Abstraction SDK with Sei! User
 
 ### Network Connection Issues
 
-<Callout type="error">
+<Danger>
 
 If the RPC endpoint is not responding:
 
@@ -420,7 +419,7 @@ If the RPC endpoint is not responding:
 2. Check internet connectivity
 3. Try using the public RPC: `https://evm-rpc.sei-apis.com`
 
-</Callout>
+</Danger>
 
 ## Resources
 

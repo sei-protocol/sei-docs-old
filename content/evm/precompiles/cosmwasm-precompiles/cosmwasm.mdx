@@ -4,7 +4,6 @@ description: "Learn how to interact with Sei's CosmWasm precompile through ether
 keywords: ['cosmwasm precompile', 'ethers.js', 'contract instantiation', 'wasm execution', 'cross-chain contracts', 'sei evm', 'blockchain interoperability']
 ---
 
-import { Callout } from 'nextra/components';
 import { Tabs } from 'nextra/components';
 
 # CosmWasm Precompile
@@ -13,7 +12,7 @@ import { Tabs } from 'nextra/components';
 
 The Sei CosmWasm precompile allows EVM applications to interact directly with CosmWasm contracts through standard smart contract calls. This enables instantiation, execution, batch operations, and querying of CosmWasm contracts directly from your dApps without needing separate Cosmos SDK integration.
 
-<Callout type="info"> **What is a precompile?** A precompile is a special smart contract deployed at a fixed address by the Sei protocol itself, that exposes custom native chain logic to EVM-based applications. It acts like a regular contract from the EVM's perspective, but executes privileged, low-level logic efficiently. </Callout>
+<Info> **What is a precompile?** A precompile is a special smart contract deployed at a fixed address by the Sei protocol itself, that exposes custom native chain logic to EVM-based applications. It acts like a regular contract from the EVM's perspective, but executes privileged, low-level logic efficiently. </Info>
 
 ## How Does the CosmWasm Precompile Work?
 
@@ -128,7 +127,7 @@ import { WASM_PRECOMPILE_ABI, WASM_PRECOMPILE_ADDRESS } from '@sei-js/precompile
 import { ethers } from 'ethers';
 ```
 
-<Callout type="info"> **Precompile Address:** The CosmWasm precompile is deployed at `0x0000000000000000000000000000000000001002` </Callout>
+<Info> **Precompile Address:** The CosmWasm precompile is deployed at `0x0000000000000000000000000000000000001002` </Info>
 
 ### Contract Initialization
 
@@ -563,7 +562,7 @@ contract CosmWasmQuery {
 </Tabs.Tab>
 </Tabs>
 
-<Callout type="warning"> **Query Limitations:** CosmWasm queries are read-only operations and don't consume gas, but parsing JSON responses in Solidity is complex. Consider handling response parsing off-chain. </Callout>
+<Warning> **Query Limitations:** CosmWasm queries are read-only operations and don't consume gas, but parsing JSON responses in Solidity is complex. Consider handling response parsing off-chain. </Warning>
 
 ## Advanced Usage Examples
 
@@ -835,7 +834,7 @@ contract CosmWasmBridge {
 }
 ```
 
-<Callout type="info"> **Note:** This contract acts as a bridge between EVM and CosmWasm. Message encoding/decoding should be handled client-side for complex operations. </Callout>
+<Info> **Note:** This contract acts as a bridge between EVM and CosmWasm. Message encoding/decoding should be handled client-side for complex operations. </Info>
 
 **Client Integration Example**
 
@@ -934,7 +933,7 @@ const incorrectMsg = ethers.toUtf8Bytes('invalid json');
 
 ## Important Notes
 
-<Callout type="info"> Remember the key rule: All CosmWasm messages must be properly JSON-encoded as bytes, and contract schemas vary by implementation! </Callout>
+<Info> Remember the key rule: All CosmWasm messages must be properly JSON-encoded as bytes, and contract schemas vary by implementation! </Info>
 
 ### Message Format Requirements
 
@@ -965,4 +964,4 @@ const incorrectMsg = ethers.toUtf8Bytes('invalid json');
 - Use batch operations for multiple related calls to save gas
 - Query contracts before executing to verify state when possible
 
-<Callout type="info">View the CosmWasm precompile source code and the contract ABI [here](https://github.com/sei-protocol/sei-chain/tree/main/precompiles/wasmd).</Callout>
+<Info>View the CosmWasm precompile source code and the contract ABI [here](https://github.com/sei-protocol/sei-chain/tree/main/precompiles/wasmd).</Info>

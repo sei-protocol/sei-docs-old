@@ -4,7 +4,6 @@ description: 'Configure your Ledger hardware wallet to securely manage Sei asset
 keywords: ['ledger hardware wallet', 'sei hardware wallet', 'crypto security', 'ledger setup', 'blockchain security', 'hardware security']
 ---
 
-import { Callout } from 'nextra/components';
 
 # Using Ledger Hardware Wallets on Sei
 
@@ -51,7 +50,7 @@ Before proceeding, ensure you have:
    - Connect and unlock your Ledger device.
    - Search for "Sei" in the App Catalog and click **Install**.
 
-<Callout type="info">Linux users will need to add a `udev rule` to allow access to the device. You can find the script to add a rule in the Ledger repo [here](https://github.com/LedgerHQ/udev-rules).</Callout>
+<Info>Linux users will need to add a `udev rule` to allow access to the device. You can find the script to add a rule in the Ledger repo [here](https://github.com/LedgerHQ/udev-rules).</Info>
 
 ## Setup Instructions
 
@@ -91,7 +90,7 @@ Before proceeding, ensure you have:
    - Confirm the address on your Ledger device by pressing the appropriate
      buttons.
 
-<Callout type="warning">Always verify the receiver address on your Ledger device before sharing it. This prevents attacks like address spoofing.</Callout>
+<Warning>Always verify the receiver address on your Ledger device before sharing it. This prevents attacks like address spoofing.</Warning>
 
 3. **Share the Address**:
    - Copy the verified address and share it with the sender or paste it into an
@@ -122,7 +121,7 @@ Before proceeding, ensure you have:
    - Confirm and broadcast the transaction by pressing the appropriate buttons
      on your Ledger device.
 
-<Callout type="warning">Always double-check the transaction details on your Ledger device before confirming. This is your last line of defense against potential attacks or errors.</Callout>
+<Warning>Always double-check the transaction details on your Ledger device before confirming. This is your last line of defense against potential attacks or errors.</Warning>
 
 ## Support
 
@@ -140,4 +139,4 @@ For further assistance, you can reach out to the following support channels:
 - **Ledger Academy**: Learn more about cryptocurrency security on the official
   [Ledger Academy](https://www.ledger.com/academy).
 
-<Callout type="error">Never share your recovery phrase with anyone. Keep it in a safe, offline location. Your recovery phrase is the only way to restore access to your funds if your device is lost or damaged.</Callout>
+<Danger>Never share your recovery phrase with anyone. Keep it in a safe, offline location. Your recovery phrase is the only way to restore access to your funds if your device is lost or damaged.</Danger>

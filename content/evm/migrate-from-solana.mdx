@@ -4,13 +4,13 @@ description: 'A comprehensive guide for Solana developers transitioning to Sei E
 keywords: ['solana migration', 'rust to solidity', 'anchor to hardhat', 'EVM migration', 'parallel execution', 'sei']
 ---
 
-import { Callout, Tabs } from 'nextra/components';
+import { Tabs } from 'nextra/components'
 
 # How to Migrate from Solana to Sei EVM
 
 Sei offers a unique value proposition for Solana developers: the parallelized execution model you're familiar with, combined with full EVM compatibility and the extensive Ethereum tooling ecosystem. This guide helps Rust/Anchor developers translate their mental models and codebases to Solidity on Sei.
 
-<Callout type="info">
+<Info>
 **Why Solana Developers Choose Sei**
 
 - **Familiar parallelization** – Sei uses optimistic parallel execution similar to Solana's Sealevel
@@ -19,7 +19,7 @@ Sei offers a unique value proposition for Solana developers: the parallelized ex
 - **EVM ecosystem access** – Leverage Ethereum's mature tooling, audited contracts, and developer resources
 - **No dependency declarations** – Unlike Solana, Sei handles parallelization automatically
 
-</Callout>
+</Info>
 
 ## Understanding the Paradigm Shift
 
@@ -283,12 +283,12 @@ const gasPrice = await provider.getGasPrice(); // ~0.1 gwei on Sei
 const fee = gasLimit * gasPrice; // No rent to consider
 ```
 
-<Callout type="info">
+<Info>
 **No Rent on Sei!**
 
 Unlike Solana where accounts can be garbage collected if rent isn't paid, Sei EVM storage is permanent. This simplifies your application logic—no need to track rent-exempt minimums or worry about account closure.
 
-</Callout>
+</Info>
 
 ## Parallelization: Automatic vs Explicit
 
@@ -338,12 +338,12 @@ function swap(
 }
 ```
 
-<Callout type="warning">
+<Warning>
 **Optimizing for Parallelization**
 
 While Sei handles parallelization automatically, you can still optimize your contracts for better parallel performance. Avoid global counters updated on every transaction—use user-partitioned storage instead. See [Optimizing for Parallelization](./optimizing-for-parallelization) for detailed patterns.
 
-</Callout>
+</Warning>
 
 ## Step 1: Set Up Your Development Environment
 
@@ -822,9 +822,9 @@ uint256 amount = 1e18;    // Same thing
 - [Optimizing for Parallelization](./optimizing-for-parallelization) – Performance patterns
 - [Ecosystem Contracts](./ecosystem-contracts) – Canonical addresses
 
-<Callout type="info">
+<Info>
 **Need Help?**
 
 Join the [Sei Tech Chat](https://t.me/+KZdhZ1eE-G01NmZk) on Telegram for developer support. The community is active and helpful for migration questions.
 
-</Callout>
+</Info>

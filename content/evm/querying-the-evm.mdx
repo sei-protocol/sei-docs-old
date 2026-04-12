@@ -4,7 +4,6 @@ description: 'Accurate guide to querying EVM data and contracts using the seid C
 keywords: ['seid query', 'evm query', 'erc20 balance', 'payload generation', 'pointer contract']
 ---
 
-import { Callout } from 'nextra/components';
 import { Tabs } from 'nextra/components';
 
 # Querying the EVM
@@ -21,7 +20,7 @@ If your machine is **not running a Sei node**, you'll need to append the followi
 --node http://<sei-cosmos-rpc-url>
 ```
 
-<Callout type="info">Refer to the [RPC endpoints](/evm/networks) page for a list of available RPC endpoints.</Callout>
+<Info>Refer to the [RPC endpoints](/evm/networks) page for a list of available RPC endpoints.</Info>
 
 ## Network Configuration
 
@@ -97,7 +96,7 @@ seid q evm erc20 0xabc123... balanceOf 0xuser456...
 500000000000000000000
 ```
 
-<Callout type="info">
+<Info>
 **Supported methods:**
 
 - `name` - Get token name
@@ -107,7 +106,7 @@ seid q evm erc20 0xabc123... balanceOf 0xuser456...
 - `balanceOf [address]` - Get balance of specific address
 - `allowance [owner] [spender]` - Get allowance amount
 
-</Callout>
+</Info>
 
 ## Payload Generation
 
@@ -151,7 +150,7 @@ Generate hex-encoded call data for contract methods. This is useful for crafting
     23b872dd000000000000000000000000from...000000000000000000000000to...00000000000000000000000014d1120d7b160000
     ```
 
-    <Callout type="info">
+    <Info>
 
 **Supported methods:**
 
@@ -161,7 +160,7 @@ Generate hex-encoded call data for contract methods. This is useful for crafting
 
 Amounts should be specified in the token's smallest unit (e.g., wei for 18-decimal tokens).
 
-</Callout>
+</Info>
 
   </Tabs.Tab>
   
@@ -202,12 +201,12 @@ Amounts should be specified in the token's smallest unit (e.g., wei for 18-decim
     a22cb465000000000000000000000000operator...0000000000000000000000000000000000000000000000000000000000000001
     ```
 
-    <Callout type="info">
+    <Info>
       **Supported methods:**
       - `approve [spender] [tokenId]` - Approve specific token
       - `transferFrom [from] [to] [tokenId]` - Transfer token
       - `setApprovalForAll [operator] [true|false]` - Set approval for all tokens
-    </Callout>
+    </Info>
 
   </Tabs.Tab>
   
@@ -248,14 +247,14 @@ Amounts should be specified in the token's smallest unit (e.g., wei for 18-decim
     a22cb465000000000000000000000000operator...0000000000000000000000000000000000000000000000000000000000000001
     ```
 
-    <Callout type="info">
+    <Info>
       **Supported methods:**
       - `safeTransferFrom [from] [to] [tokenId] [amount] [data]` - Transfer single token
       - `safeBatchTransferFrom [from] [to] [tokenIds] [amounts] [data]` - Transfer multiple tokens
       - `setApprovalForAll [operator] [true|false]` - Set approval for all tokens
 
       For batch operations, use square brackets for arrays: `[123,456]` for token IDs and `[5,10]` for amounts.
-    </Callout>
+    </Info>
 
   </Tabs.Tab>
   
@@ -278,9 +277,9 @@ Amounts should be specified in the token's smallest unit (e.g., wei for 18-decim
     a1b2c3d4000000000000000000000000...
     ```
 
-    <Callout type="info">
+    <Info>
       The ABI file should be in JSON format containing the contract's ABI definition.
-    </Callout>
+    </Info>
 
   </Tabs.Tab>
 </Tabs>
@@ -313,7 +312,7 @@ seid q evm pointer NATIVE usei
 }
 ```
 
-<Callout type="info">**Supported types:** `NATIVE`, `CW20`, `CW721`, `CW1155`, `ERC20`, `ERC721`, `ERC1155` **Pointee:** For tokens, use the contract address; for `NATIVE`, use the denom (e.g., `usei`)</Callout>
+<Info>**Supported types:** `NATIVE`, `CW20`, `CW721`, `CW1155`, `ERC20`, `ERC721`, `ERC1155` **Pointee:** For tokens, use the contract address; for `NATIVE`, use the denom (e.g., `usei`)</Info>
 
 ### Get Pointee Address
 
@@ -362,7 +361,7 @@ seid q evm pointer-version ERC20
 }
 ```
 
-<Callout type="info">Pointer contracts allow cross-environment interoperability between CosmWasm and EVM.</Callout>
+<Info>Pointer contracts allow cross-environment interoperability between CosmWasm and EVM.</Info>
 
 ## Transaction Lookup
 
@@ -401,10 +400,10 @@ seid q evm tx 0x1234567890abcdef... --evm-rpc http://127.0.0.1:8545
 }
 ```
 
-<Callout type="info">
+<Info>
 Note: This command is unique - it uses `--evm-rpc` flag with an **EVM RPC endpoint** (port 8545), not `--node` with a Cosmos RPC endpoint like other commands. By default, it uses http://127.0.0.1:8545. Refer to the [RPC endpoints](/evm/networks) page for a list of available EVM RPC endpoints.
 
-</Callout>
+</Info>
 
 ## Common Use Cases
 
@@ -439,4 +438,4 @@ seid q evm pointer NATIVE usei
 seid q evm pointee ERC20 0xpointer...
 ```
 
-<Callout type="info">All payload generation commands output hex-encoded data that can be used directly in `seid tx evm call-contract` transactions.</Callout>
+<Info>All payload generation commands output hex-encoded data that can be used directly in `seid tx evm call-contract` transactions.</Info>

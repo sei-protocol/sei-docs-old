@@ -4,7 +4,6 @@ description: 'Use the P256 precompile to verify secp256r1/P-256 signatures direc
 keywords: ['p256 precompile', 'secp256r1', 'signature verification', 'passkey', 'webauthn', 'secure enclave']
 ---
 
-import { Callout } from 'nextra/components';
 
 # P256 Precompile
 
@@ -292,7 +291,7 @@ contract HardwareMultiSig {
 
 ## Security Considerations
 
-<Callout type="warning">**Important**: Always validate public keys and signature components before verification to prevent invalid curve point attacks.</Callout>
+<Warning>**Important**: Always validate public keys and signature components before verification to prevent invalid curve point attacks.</Warning>
 
 ### Public Key Validation
 
@@ -413,4 +412,4 @@ contract P256Test {
 - **Caching**: Cache public keys on-chain to reduce calldata for repeated verifications
 - **Hardware Integration**: Particularly efficient for applications using hardware-backed keys
 
-<Callout type="info">For more information about the P256 precompile implementation, visit the [Sei Chain repository](https://github.com/sei-protocol/sei-chain/tree/main/precompiles/p256).</Callout>
+<Info>For more information about the P256 precompile implementation, visit the [Sei Chain repository](https://github.com/sei-protocol/sei-chain/tree/main/precompiles/p256).</Info>

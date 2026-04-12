@@ -4,7 +4,6 @@ description: "Learn how to interact with Sei's JSON precompile through ethers.js
 keywords: ['json precompile', 'ethers.js', 'json parsing', 'smart contract data', 'sei evm', 'blockchain data handling', 'data extraction']
 ---
 
-import { Callout } from 'nextra/components';
 
 # JSON Precompile Usage
 
@@ -12,7 +11,7 @@ import { Callout } from 'nextra/components';
 
 The Sei JSON precompile allows EVM applications to efficiently parse and query JSON data directly within smart contracts. This enables complex data handling capabilities that are not natively available in Solidity, making it easier to work with structured data from external sources or APIs.
 
-<Callout type="info">**What is a precompile?** A precompile is a special smart contract deployed at a fixed address by the Sei protocol itself, that exposes custom native chain logic to EVM-based applications. It acts like a regular contract from the EVM's perspective, but executes privileged, low-level logic efficiently.</Callout>
+<Info>**What is a precompile?** A precompile is a special smart contract deployed at a fixed address by the Sei protocol itself, that exposes custom native chain logic to EVM-based applications. It acts like a regular contract from the EVM's perspective, but executes privileged, low-level logic efficiently.</Info>
 
 ## How Does the JSON Precompile Work?
 
@@ -102,7 +101,7 @@ import { JSON_PRECOMPILE_ABI, JSON_PRECOMPILE_ADDRESS } from '@sei-js/precompile
 import { ethers } from 'ethers';
 ```
 
-<Callout type="info">**Precompile Address:** The JSON precompile is deployed at `0x0000000000000000000000000000000000001003`</Callout>
+<Info>**Precompile Address:** The JSON precompile is deployed at `0x0000000000000000000000000000000000001003`</Info>
 
 ### Contract Initialization
 
@@ -262,7 +261,7 @@ console.log('Mixed values:', valuesArray); // Output: [42, "test", 100]
 
 ### Extract Nested Data
 
-<Callout type="warning">**Important:** The JSON precompile does not support dot notation for nested objects. Instead, extract the parent object and parse it manually.</Callout>
+<Warning>**Important:** The JSON precompile does not support dot notation for nested objects. Instead, extract the parent object and parse it manually.</Warning>
 
 ```typescript copy
 // For nested data, extract the parent object first
@@ -518,7 +517,7 @@ npm install ethers @sei-js/precompiles@^2.1.2 dotenv
 PRIVATE_KEY=your_private_key_here
 ```
 
-<Callout type="warning">**Security Note:** Never commit private keys to version control! The `.env` file should be added to your `.gitignore`.</Callout>
+<Warning>**Security Note:** Never commit private keys to version control! The `.env` file should be added to your `.gitignore`.</Warning>
 
 4. **Create the demo file:**
    Copy the complete integration example above into `json-precompile-mainnet.js`
@@ -699,7 +698,7 @@ async function handleMissingKeys(jsonPrecompile: ethers.Contract, data: any) {
 
 ## Key Considerations and Tricks
 
-<Callout type="info">
+<Info>
 
 - **Integers Only:** `extractAsUint256` only handles integers - no decimals, booleans, or negative numbers
 - **Decimal Handling:** Store decimal numbers as integers with known precision (e.g., 275 for 2.75 with 2 decimal places)
@@ -710,6 +709,6 @@ async function handleMissingKeys(jsonPrecompile: ethers.Contract, data: any) {
 - **Encoding:** Always use UTF-8 encoding with `ethers.toUtf8Bytes()`
 - **Error Handling:** Always implement fallback values for production applications
 
-</Callout>
+</Info>
 
-<Callout type="info">**Need Help?** If you encounter issues not covered here, check the [Sei Discord](https://discord.gg/sei) or [GitHub repository](https://github.com/sei-protocol/sei-chain) for community support.</Callout>
+<Info>**Need Help?** If you encounter issues not covered here, check the [Sei Discord](https://discord.gg/sei) or [GitHub repository](https://github.com/sei-protocol/sei-chain) for community support.</Info>

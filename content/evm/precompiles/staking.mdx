@@ -4,18 +4,17 @@ description: "Learn how to interact with Sei's Staking precompile through ethers
 keywords: ['staking precompile', 'ethers.js', 'delegation', 'validators', 'staking rewards', 'defi development', 'sei evm', 'blockchain staking']
 ---
 
-import { Callout } from 'nextra/components';
 import { Tabs } from 'nextra/components';
 
 # Staking Precompile
 
-<Callout type="info">Watch the video walkthrough for this topic in the [Video Tutorials](/evm/videos) section.</Callout>
+<Info>Watch the video walkthrough for this topic in the [Video Tutorials](/evm/videos) section.</Info>
 
 **Address:** `0x0000000000000000000000000000000000001005`
 
 The Sei staking precompile allows EVM applications to interact directly with Sei's native staking module through standard smart contract calls. This enables delegation, undelegation, redelegation, validator management, and staking queries directly from your dApps without needing separate Cosmos SDK integration.
 
-<Callout type="info"> **What is a precompile?** A precompile is a special smart contract deployed at a fixed address by the Sei protocol itself, that exposes custom native chain logic to EVM-based applications. It acts like a regular contract from the EVM's perspective, but executes privileged, low-level logic efficiently. </Callout>
+<Info> **What is a precompile?** A precompile is a special smart contract deployed at a fixed address by the Sei protocol itself, that exposes custom native chain logic to EVM-based applications. It acts like a regular contract from the EVM's perspective, but executes privileged, low-level logic efficiently. </Info>
 
 ## How Does the Staking Precompile Work?
 
@@ -434,7 +433,7 @@ function pool() external view returns (Pool memory pool);
 function params() external view returns (Params memory params);
 ```
 
-<Callout type="warning">
+<Warning>
 
 **Important Precision Note for `delegation()` Response:**
 
@@ -449,7 +448,7 @@ To convert to SEI for display:
 - Balance: `balance.amount / 1e6`
 - Shares: `delegation.shares / 1e18`
 
-</Callout>
+</Warning>
 
 ## Using the Precompile
 
@@ -485,7 +484,7 @@ import { STAKING_PRECOMPILE_ABI, STAKING_PRECOMPILE_ADDRESS } from '@sei-js/prec
 import { ethers } from 'ethers';
 ```
 
-<Callout type="info"> **Precompile Address:** The staking precompile is deployed at `0x0000000000000000000000000000000000001005` </Callout>
+<Info> **Precompile Address:** The staking precompile is deployed at `0x0000000000000000000000000000000000001005` </Info>
 
 ### Contract Initialization
 
@@ -521,7 +520,7 @@ The staking precompile operates with **different decimal precision for different
 
 </div>
 
-<Callout type="warning">
+<Warning>
 
 **Granularity for delegate():**
 
@@ -536,7 +535,7 @@ Examples:
 - Delegate 10 SEI → `10000000000000000000` wei (18 decimals)
 - Undelegate 10 SEI → `10000000` uSEI (6 decimals)
 
-</Callout>
+</Warning>
 
 ### How This Works in Practice
 
@@ -725,7 +724,7 @@ console.log('Undelegation started:', receipt);
 
 </Tabs>
 
-<Callout type="warning"> **IMPORTANT:** Undelegated tokens are subject to a **21-day unbonding period** during which they cannot be transferred and do not earn rewards. </Callout>
+<Warning> **IMPORTANT:** Undelegated tokens are subject to a **21-day unbonding period** during which they cannot be transferred and do not earn rewards. </Warning>
 
 ### Redelegate Tokens
 
@@ -767,7 +766,7 @@ console.log('Redelegation completed:', receipt);
 
 </Tabs>
 
-<Callout type="warning"> 
+<Warning> 
 **Redelegation restrictions:**
 
 - Maximum 7 redelegations per validator pair per 21-day period
@@ -776,7 +775,7 @@ console.log('Redelegation completed:', receipt);
 
 - Each redelegation has its own 21-day cooldown period
 
-</Callout>
+</Warning>
 
 ### Query a Delegation
 
@@ -827,7 +826,7 @@ try {
 
 ### Create a Validator
 
-<Callout type="warning"> Creating a validator requires significant SEI for self-delegation and proper validator infrastructure setup. Only proceed if you understand the responsibilities of running a validator node. </Callout>
+<Warning> Creating a validator requires significant SEI for self-delegation and proper validator infrastructure setup. Only proceed if you understand the responsibilities of running a validator node. </Warning>
 
 <Tabs items={['JavaScript','Solidity']}>
 <Tabs.Tab>
@@ -898,7 +897,7 @@ const receipt = await tx.wait();
 console.log('Validator updated:', receipt);
 ```
 
-<Callout type="info">**Edit Validator Constraints:** - Commission can only be changed once every 24 hours - `minSelfDelegation` can only be increased, never decreased - Pass empty string `""` for `commissionRate` to keep current rate - Pass `0` for `minSelfDelegation` to keep current value</Callout>
+<Info>**Edit Validator Constraints:** - Commission can only be changed once every 24 hours - `minSelfDelegation` can only be increased, never decreased - Pass empty string `""` for `commissionRate` to keep current rate - Pass `0` for `minSelfDelegation` to keep current value</Info>
 
 ### Query Validators
 
@@ -1300,7 +1299,7 @@ contract StakingManager {
 }
 ```
 
-<Callout type="info"> **Note:** This is a simplified example for demonstration purposes. The above example works such that when someone delegates through the above contract, the delegation will be recorded under the above contract address and not the user. So maintain correct mapping in the contract for tracking user delegations </Callout>
+<Info> **Note:** This is a simplified example for demonstration purposes. The above example works such that when someone delegates through the above contract, the delegation will be recorded under the above contract address and not the user. So maintain correct mapping in the contract for tracking user delegations </Info>
 
 **Client Integration Example**
 
@@ -1428,7 +1427,7 @@ const delegateTx = await staking.delegate(validatorAddress, {
 
 ## Important Notes
 
-<Callout type="info"> Remember the key rule: delegate() uses 18 decimals, undelegate()/redelegate() use 6 decimals, delegation() returns 6 decimals! </Callout>
+<Info> Remember the key rule: delegate() uses 18 decimals, undelegate()/redelegate() use 6 decimals, delegation() returns 6 decimals! </Info>
 
 ### Decimal Precision
 

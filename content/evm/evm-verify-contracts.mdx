@@ -4,7 +4,6 @@ description: 'Comprehensive guide on how to verify your EVM smart contracts on S
 keywords: ['contract verification', 'sourcify', 'hardhat', 'foundry', 'smart contracts', 'solidity', 'sei']
 ---
 
-import { Callout } from 'nextra/components';
 
 # Verify Contract
 
@@ -74,7 +73,7 @@ forge create src/Counter.sol:Counter \
   --chain-id 1328
 ```
 
-<Callout type="info">If you need to pass constructor arguments, append them after the contract path. For example: `forge create src/Token.sol:Token --constructor-args "MyToken" "MTK" 18`</Callout>
+<Info>If you need to pass constructor arguments, append them after the contract path. For example: `forge create src/Token.sol:Token --constructor-args "MyToken" "MTK" 18`</Info>
 
 ### Verify with Hardhat
 
@@ -123,7 +122,7 @@ export default defineConfig({
 });
 ```
 
-<Callout type="info">Sourcify verification is enabled by default in `hardhat-verify`. No `verify` config block is needed for Sourcify.</Callout>
+<Info>Sourcify verification is enabled by default in `hardhat-verify`. No `verify` config block is needed for Sourcify.</Info>
 
 #### 3. Deploy
 
@@ -188,7 +187,7 @@ Verification status will be displayed in the plugin interface, and your verified
 
 You can batch‑verify a contract that is already verified on another chain using the community tool [Etherscan Verification by 0xngmi](https://etherscan-verification.0xngmi.com/). This copies the verified source from a "source chain" and submits it to [Seiscan](https://seiscan.io), as long as the bytecode and compiler settings match.
 
-<Callout type="warning">Prerequsite: The contract is already verified on at least one supported chain (same compiler version, optimization runs, constructor args, and library addresses as on Sei).</Callout>
+<Warning>Prerequsite: The contract is already verified on at least one supported chain (same compiler version, optimization runs, constructor args, and library addresses as on Sei).</Warning>
 
 Steps:
 
@@ -198,4 +197,4 @@ Steps:
 4. Click "Verify Contracts" and wait for the result.
 5. Confirm the result on [Seiscan](https://seiscan.io) by visiting the contract page and checking the Contract tab.
 
-<Callout type="info">If verification fails with a bytecode mismatch, re‑check compiler version, optimization runs, constructor arguments, and linked library addresses; they must be identical to the deployment on Sei.</Callout>
+<Info>If verification fails with a bytecode mismatch, re‑check compiler version, optimization runs, constructor arguments, and linked library addresses; they must be identical to the deployment on Sei.</Info>

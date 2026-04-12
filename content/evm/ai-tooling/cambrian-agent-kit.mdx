@@ -4,7 +4,6 @@ description: 'Learn to build powerful, autonomous AI agents and agentic chatbots
 keywords: ['cambrian agent kit', 'sei blockchain', 'ai agents', 'defi protocols', 'takara', 'silo', 'citrex', 'symphony', 'autonomous agents']
 ---
 
-import { Callout } from 'nextra/components';
 
 # Cambrian Agent Kit
 
@@ -38,7 +37,7 @@ This tutorial guides you through:
   - Trade perps with Citrex.
 - **Customization**: Learn to adapt the kit for your own protocol or workflow.
 
-<Callout type="info">
+<Info>
 **Some Use Cases:**
 
 - **Autonomous DeFi Agents**: Agents that can automatically manage token positions, provide liquidity, or engage in lending activities
@@ -46,7 +45,7 @@ This tutorial guides you through:
 - **Financial Assistant Agents**: AI agents that can analyze market conditions and execute trades
 - **Portfolio Management Agents**: Automated management of crypto asset portfolios
 
-</Callout>
+</Info>
 
 ## Hands-on Tutorial
 
@@ -74,12 +73,12 @@ SEI_PRIVATE_KEY=your_wallet_private_key
 RPC_URL=https://evm-rpc.sei-apis.com
 ```
 
-<Callout type="warning">
+<Warning>
 **Important Security Notes:**
 
 - **Never share your private key**: Your private key controls your funds
 
-</Callout>
+</Warning>
 
 ### 3. Running Your First Agent
 
@@ -162,14 +161,14 @@ If you need anything else, just give me a shout! 📢
 You: bye
 ```
 
-<Callout type="info">
+<Info>
 **Understanding the Transaction:**
 
 - **SEI Address**: `0x0` represents native SEI token in the agent kit
 - **Transaction Hash**: Can be verified on [Seiscan](https://seiscan.io/)
 - **Gas Fees**: Automatically calculated and deducted from your balance
 
-</Callout>
+</Info>
 
 ### 4. Explore Core Features & Protocols
 
@@ -245,14 +244,14 @@ async function safeSwap() {
 }
 ```
 
-<Callout type="warning">
+<Warning>
 **Swap Safety Tips:**
 
 - **SEI Native Token**: Use "0x0" as the address for native SEI token while using the agent kit
 - **Slippage Protection**: Always set appropriate slippage tolerance
 - **Price Impact**: Monitor price impact before large swaps
 
-</Callout>
+</Warning>
 
 #### c) Liquid Staking with Silo Protocol
 
@@ -286,7 +285,7 @@ async function stakingWithSilo() {
 }
 ```
 
-<Callout type="info">
+<Info>
 **Silo Staking Details:**
 
 - **iSEI Token**: [Represents your staked SEI plus auto-compounded rewards](https://silostaking.gitbook.io/silo-staking/general-faq)
@@ -294,7 +293,7 @@ async function stakingWithSilo() {
 - **5% Fee**: [Annual management fee of 5% on rewards](https://silostaking.gitbook.io/silo-staking/general-faq)
 - **MEV Benefits**: [Validators share MEV profits with stakers](https://www.silostaking.io/)
 
-</Callout>
+</Info>
 
 #### d) Lending/Borrowing with Takara Protocol
 
@@ -372,13 +371,13 @@ async function citrexTrading() {
 }
 ```
 
-<Callout type="info">See `/tools/` for more advanced protocol integrations!</Callout>
+<Info>See `/tools/` for more advanced protocol integrations!</Info>
 
 ## Error Handling & Troubleshooting
 
 ### Common Error Types
 
-<Callout type="info">
+<Info>
 **Comprehensive Error Handling Examples:**
 
 ```typescript copy
@@ -418,7 +417,7 @@ async function robustAgentOperation() {
 }
 ```
 
-</Callout>
+</Info>
 
 ### Transaction Monitoring
 

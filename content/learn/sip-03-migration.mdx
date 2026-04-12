@@ -4,11 +4,10 @@ description: 'Practical steps and resources for users migrating during SIP-03, i
 keywords: ['SIP-03', 'migration', 'asset transfer', 'Astroport recovery', 'USDC on Sei', 'Keplr', 'Leap', 'Compass', 'EVM wallet']
 ---
 
-import { Callout } from 'nextra/components';
 
 # SIP-03 Migration
 
-<Callout type="warning">
+<Warning>
 
 **Holders of USDC.n must swap or migrate before end of March 2026.**
 
@@ -16,11 +15,11 @@ If you hold [USDC.n](https://seiscan.io/address/0x3894085Ef7Ff0f0aeDf52E2A270492
 
 For full details, steps, and timelines, see: [Holders of USDC.n Need to Swap or Migrate](https://blog.sei.io/announcements/holders-of-usdcn-need-to-swap-or-migrate/) and the instructions below.
 
-</Callout>
+</Warning>
 
 This page consolidates the most important, practical actions for the SIP-03 migration and links to the official resources.
 
-<Callout type="info">
+<Info>
 
 For the full proposal text, see:
 
@@ -28,7 +27,7 @@ For the full proposal text, see:
 
 - Governance proposal [Proposal #99](https://www.mintscan.io/sei/proposals/99)
 
-</Callout>
+</Info>
 
 ## What most users need to do
 
@@ -103,9 +102,9 @@ Your options:
 
 To check whether your addresses are linked, see [Query Linked Addresses](/learn/accounts#query-linked-addresses).
 
-<Callout type="warning">
+<Warning>
 **Do not confuse address linking with staking migration.** Even though `sei1...` and `0x...` addresses point to the same underlying account once associated, the chain can only recognize this link after explicit association. Without association, your staked SEI will not be accessible via EVM after the upgrade, and you will have no way to unbond or claim rewards.
-</Callout>
+</Warning>
 
 ### I hold USDC.n (USDC via Noble) — what should I do?
 

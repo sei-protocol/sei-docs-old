@@ -14,7 +14,6 @@ import imgPublishButton from '../../../public/assets/ecosystem/resources/the-gra
 import imgPublishScreen from '../../../public/assets/ecosystem/resources/the-graph/publish_screen.png';
 import imgQueryUrl from '../../../public/assets/ecosystem/resources/the-graph/query_url.png';
 
-import { Callout } from 'nextra/components';
 
 # The Graph
 
@@ -134,7 +133,7 @@ ensure that it is indexed and available for querying as soon as possible.
 
 <ImageWithCaption img={imgPublishScreen} alt="Publish screen" caption="Publish Screen" />
 
-<Callout type="warning">**Note:** The Graph's smart contracts are all on Arbitrum One, even though > your subgraph is indexing data from Ethereum, BSC or any other > [supported chain](https://thegraph.com/docs/en/developing/supported-networks/).</Callout>
+<Warning>**Note:** The Graph's smart contracts are all on Arbitrum One, even though > your subgraph is indexing data from Ethereum, BSC or any other > [supported chain](https://thegraph.com/docs/en/developing/supported-networks/).</Warning>
 
 ## 3. Query your Subgraph
 
@@ -195,9 +194,9 @@ Passing this into the query URL returns this result:
 //      ...
 ```
 
-<Callout type="info" emoji="💡">
+<Tip>
   Trivia: Looking at the top sales on [CryptoPunks website](https://cryptopunks.app/cryptopunks/topsales) it looks like the top sale is Punk #5822, not #9998. Why? Because they censor the flash-loan sale that happened.
-</Callout>
+</Tip>
 
 ### Sample code
 

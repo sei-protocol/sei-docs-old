@@ -4,7 +4,6 @@ description: 'Set up your Ledger hardware wallet for signing EVM transactions on
 keywords: ['ledger wallet', 'ethers.js', 'hardware wallet', 'blockchain security', 'sei transactions', 'evm']
 ---
 
-import { Callout } from 'nextra/components';
 
 # Ledger Setup (EVM)
 
@@ -68,7 +67,7 @@ const receipt = await tx.wait();
 console.log('Confirmed in block:', receipt.blockNumber);
 ```
 
-<Callout type="info">This signer works with any contract interaction — you can pass it to `ethers.Contract` constructors to sign [precompile](/evm/precompiles) calls, ERC-20 transfers, or any other EVM transaction.</Callout>
+<Info>This signer works with any contract interaction — you can pass it to `ethers.Contract` constructors to sign [precompile](/evm/precompiles) calls, ERC-20 transfers, or any other EVM transaction.</Info>
 
 ## Troubleshooting
 

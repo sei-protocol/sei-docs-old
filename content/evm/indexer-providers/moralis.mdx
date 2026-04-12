@@ -4,7 +4,6 @@ description: 'Complete guide to integrating Moralis with Sei blockchain for Web3
 keywords: ['moralis', 'web3 api', 'blockchain indexer', 'NFT API', 'wallet API', 'token API', 'sei']
 ---
 
-import { Callout } from 'nextra/components';
 
 # Moralis Integration
 
@@ -33,7 +32,7 @@ Before starting with this guide, ensure you have:
 
 ### Sei Network Configuration
 
-<Callout type="info">Following is the configuration details of Sei for Moralis integration:</Callout>
+<Info>Following is the configuration details of Sei for Moralis integration:</Info>
 
 **Mainnet:**
 
@@ -341,7 +340,7 @@ main();
 
 ## Working with Testnet
 
-<Callout type="warning">To switch to Sei testnet, simply change the chain ID in your API calls.</Callout>
+<Warning>To switch to Sei testnet, simply change the chain ID in your API calls.</Warning>
 
 ```typescript
 // Testnet configuration
@@ -358,4 +357,4 @@ const response = await Moralis.EvmApi.transaction.getWalletTransactions({
 });
 ```
 
-<Callout type="info"> For a complete API reference and additional guides visit the [Moralis Documentation](https://docs.moralis.com/) </Callout>
+<Info> For a complete API reference and additional guides visit the [Moralis Documentation](https://docs.moralis.com/) </Info>

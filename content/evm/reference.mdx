@@ -4,7 +4,6 @@ description: "Comprehensive reference documentation for Sei's EVM JSON-RPC API e
 keywords: ['json-rpc', 'api reference', 'evm endpoints', 'blockchain api', 'sei development']
 ---
 
-import { Callout } from 'nextra/components';
 
 # RPC Reference Guide
 
@@ -239,9 +238,9 @@ Gets value at given key of the account
 
 #### eth_getProof
 
-<Callout type="warning">
+<Warning>
 Sei uses IAVL trees instead of Merkle Patricia Tries (MPT). The proof returned by this endpoint is an IAVL proof, not an MPT proof. Ethereum tooling that expects MPT proofs may not parse the response correctly.
-</Callout>
+</Warning>
 
 Gets the IAVL proof of the given keys for an account.
 
@@ -498,7 +497,7 @@ _None_
 
 Endpoints for creating and managing event filters.
 
-<Callout type="info">
+<Info>
 
 Note that log filters are subject to the following limits by default:
 
@@ -506,7 +505,7 @@ Note that log filters are subject to the following limits by default:
 
 - **Close-ended block range:** up to 2,000 blocks to query over
 
-</Callout>
+</Info>
 
 <details>
 <summary>View complete list of Filter endpoints</summary>
@@ -728,11 +727,11 @@ Traces all transactions in a block specified by hash.
 
 Sei extends the standard Ethereum JSON-RPC API with custom endpoints that enhance functionality for developers. These extensions enable better handling of cross-VM interactions, synthetic transactions, improved error reporting, and other Sei-specific features.
 
-<Callout type="warning">
+<Warning>
 **Deprecation Notice:** All `sei_*` and `sei2_*` JSON-RPC methods are deprecated and scheduled for removal. Do not build new integrations on these endpoints. Use standard `eth_*` and `debug_*` methods instead.
 
 Access is controlled by the `enabled_legacy_sei_apis` setting under `[evm]` in `app.toml`. Only methods explicitly listed in this allowlist are available. Disabled methods return a standard JSON-RPC error (code `-32601`, data `"legacy_sei_deprecated"`). Allowed methods pass through unchanged, with an optional `Sei-Legacy-RPC-Deprecation` HTTP response header signaling deprecation.
-</Callout>
+</Warning>
 
 ### Legacy API Configuration
 

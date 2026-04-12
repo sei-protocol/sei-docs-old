@@ -6,7 +6,6 @@ keywords: ['sei node', 'node operations', 'validator', 'RPC node', 'sei blockcha
 
 import VersionTable from '../../src/components/VersionFetcher/VersionTable';
 import { Tabs, TabsList, TabsContent, TabsTrigger } from '../../src/components';
-import { Callout } from 'nextra/components';
 import Link from 'next/link';
 import { Icon } from '../../src/components/Icon';
 
@@ -233,7 +232,7 @@ docker pull ghcr.io/sei-protocol/sei:v6.3.1
                 </details>
               </div>
 
-<Callout type="info">
+<Info>
 If you encounter an error like `command not found: seid`, you may need to set your GOPATH environment variable.
 
 Add the following to your `~/.bashrc` or `~/.zshrc`:
@@ -247,11 +246,11 @@ Then reload your shell with `source ~/.bashrc` or `source ~/.zshrc`.
 
 For more information see [here](https://pkg.go.dev/cmd/go#hdr-GOPATH_environment_variable).
 
-</Callout>
+</Info>
               <div className="mb-4">
                 <h5 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 mb-3 mt-4">Initialize Chain Files</h5>
 
-<Callout type="info">Default init mode is **full** (RPC/P2P bind to all interfaces). For **validator** or **seed** nodes, use `--mode validator` or `--mode seed` so RPC and P2P bind to localhost only. See the [Validator Operations Guide](/node/validators) for the full validator init example.</Callout>
+<Info>Default init mode is **full** (RPC/P2P bind to all interfaces). For **validator** or **seed** nodes, use `--mode validator` or `--mode seed` so RPC and P2P bind to localhost only. See the [Validator Operations Guide](/node/validators) for the full validator init example.</Info>
 
 Peers can be found here -
 
@@ -283,7 +282,7 @@ sed -i 's/persistent-peers = .*/persistent-peers = "'$PEERS'"/' ~/.sei/config/co
 
               </div>
 
-<Callout type="info">
+<Info>
 
 In case of running an Archive Node, make sure to set your state-store settings to `ss-keep-recent = 0` with
 
@@ -291,7 +290,7 @@ In case of running an Archive Node, make sure to set your state-store settings t
 sed -i 's/^ss-keep-recent = [0-9]*/ss-keep-recent = 0/' ~/.sei/config/app.toml
 ```
 
-</Callout>
+</Info>
 
               <div className="mb-4">
                 <h5 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 mb-3 mt-4">Configure App Settings</h5>
@@ -372,9 +371,9 @@ enable = false
                         update the mempool settings in your <code className="bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-xs">config.toml</code> file.
                       </p>
 
-                      <Callout type="info">
+                      <Info>
                         Adjust these parameters if you encounter performance or resource issues on your specific hardware.
-                      </Callout>
+                      </Info>
 
 ```toml copy
 # Mempool configuration settings
@@ -434,7 +433,7 @@ pending-ttl-num-blocks = 5
               <div>
                 <div className="mb-6">
                   <h5 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 mb-3">Setting Up a systemd Service</h5>
-                  <Callout type="error" emoji="❗️"> If you see an error such as `panic: recovered: runtime error: integer divide by zero` it means you can’t start nodes straight from the genesis file. Instead, sync to the block tip via [state sync](/node/statesync) or using a [snapshot](/node/snapshot). </Callout>
+                  <Danger> If you see an error such as `panic: recovered: runtime error: integer divide by zero` it means you can’t start nodes straight from the genesis file. Instead, sync to the block tip via [state sync](/node/statesync) or using a [snapshot](/node/snapshot). </Danger>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-2 mt-4">
                     For production deployments, configure a systemd service to ensure your node restarts automatically:
                   </p>

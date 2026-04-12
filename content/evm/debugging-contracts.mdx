@@ -4,8 +4,6 @@ description: 'Advanced debugging techniques for EVM transactions on Sei. Learn t
 keywords: ['EVM debugging', 'transaction templates', 'foundry cast', 'evm analysis', 'transaction debugging']
 ---
 
-import { Callout } from 'nextra/components';
-import { Icon } from '../../src/components/Icon';
 
 # Debugging for EVM
 
@@ -39,7 +37,7 @@ factory/sei1ep3f207kt7julz9tjwxp2x8kluj0y9l6u0fume/gptw \
 --generate-only
 ```
 
-<Callout type="info">This command returns a transaction template that you can analyze before broadcasting. The template includes all transaction details without executing the actual transaction.</Callout>
+<Info>This command returns a transaction template that you can analyze before broadcasting. The template includes all transaction details without executing the actual transaction.</Info>
 
 ---
 
@@ -88,13 +86,13 @@ cast receipt 0x5010e6600e67f04a9bc3d3b670a7c2de380b180713d9a014a5dbd76b7e2190f1 
 cast 4byte-decode 0xc31d960f0000...
 ```
 
-<Callout type="info">All template generation commands create JSON files that you can inspect, modify, and use for debugging before executing the actual transactions.</Callout>
+<Info>All template generation commands create JSON files that you can inspect, modify, and use for debugging before executing the actual transactions.</Info>
 
 ---
 
 ## RPC Consistency
 
-<Callout type="warning">Always point `cast` commands to an EVM RPC endpoint (for example, `$EVM_RPC_URL`), not a Cosmos RPC URL.</Callout>
+<Warning>Always point `cast` commands to an EVM RPC endpoint (for example, `$EVM_RPC_URL`), not a Cosmos RPC URL.</Warning>
 
 ---
 
@@ -113,9 +111,9 @@ cast rpc debug_traceCall '{"from":"0xFROM","to":"0xTO","data":"0xDATA"}' \
   --rpc-url=$EVM_RPC_URL
 ```
 
-<Callout type="info">
+<Info>
   Many public RPC endpoints disable debug methods. If disabled, run a local fork and trace there. See Tracing docs at <a href="/evm/tracing">/evm/tracing</a>.
-</Callout>
+</Info>
 
 ---
 
@@ -149,7 +147,7 @@ cast receipt 0xTX_HASH --rpc-url=$EVM_RPC_URL --json | jq '.logs'
 cast keccak "Transfer(address,address,uint256)"
 ```
 
-<Callout type="info">Decode event topics/data using the contract ABI (from your repo or block explorer). Topic[0] equals the keccak of the event signature.</Callout>
+<Info>Decode event topics/data using the contract ABI (from your repo or block explorer). Topic[0] equals the keccak of the event signature.</Info>
 
 ---
 
@@ -190,7 +188,7 @@ seid tx sign tx.json --from $WALLET_NAME --chain-id $CHAIN_ID > signed.json
 seid tx broadcast signed.json
 ```
 
-<Callout type="warning">Never commit signed transactions or private keys. Use environment variables and `.gitignore` for sensitive data.</Callout>
+<Warning>Never commit signed transactions or private keys. Use environment variables and `.gitignore` for sensitive data.</Warning>
 
 ---
 
@@ -237,9 +235,9 @@ cast receipt 0x5010e6600e67f04a9bc3d3b670a7c2de380b180713d9a014a5dbd76b7e2190f1 
 cast 4byte-decode 0xa9059cbb000000...
 ```
 
-<Callout type="info">
+<Info>
   <strong>Transaction Analysis Checklist:</strong> Always verify transaction success before proceeding. Check gas usage to optimize future transactions. Use Foundry's cast tool for detailed transaction inspection.
-</Callout>
+</Info>
 
 ---
 
@@ -271,9 +269,9 @@ try {
 
 ## Security Guidelines
 
-<Callout type="warning" emoji={<Icon icon="shield-check" className="h-5 w-5 mt-1" />}>
+<Warning>
   <strong>Critical Security Requirements:</strong> Keep private keys secure and never include them in templates. Use an `.env` file or other environment variables when working with wallet keys or mnemonics. Never commit sensitive information to version control. Always verify transaction details before signing.
-</Callout>
+</Warning>
 
 **Environment Variable Setup:**
 

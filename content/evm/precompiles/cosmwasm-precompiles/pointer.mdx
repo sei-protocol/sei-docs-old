@@ -4,7 +4,6 @@ description: "Learn how to use Sei's Pointer precompile to create EVM-compatible
 keywords: ['pointer precompile', 'cosmos sdk', 'cosmwasm', 'cw20', 'cw721', 'native tokens', 'interoperability', 'sei development']
 ---
 
-import { Callout } from 'nextra/components';
 import { Tabs } from 'nextra/components';
 
 # Pointer Precompile
@@ -13,7 +12,7 @@ import { Tabs } from 'nextra/components';
 
 The Sei Pointer precompile enables EVM applications to create EVM-compatible interfaces (pointers) for native Cosmos SDK tokens and CosmWasm contracts. This allows developers to migrate Cosmos-native assets to EVM, bridging the gap between the two ecosystems.
 
-<Callout type="info">**What is a pointer?** The Pointer precompile enables creation of EVM-compatible pointer contracts that bridge CosmWasm tokens (CW20, CW721, CW1155) and native bank module tokens to the EVM ecosystem. This allows seamless interoperability and unified token management across both environments.</Callout>
+<Info>**What is a pointer?** The Pointer precompile enables creation of EVM-compatible pointer contracts that bridge CosmWasm tokens (CW20, CW721, CW1155) and native bank module tokens to the EVM ecosystem. This allows seamless interoperability and unified token management across both environments.</Info>
 
 ## How Does the Pointer Precompile Work?
 
@@ -164,7 +163,7 @@ interface IPointerPrecompile {
 </Tabs.Tab>
 </Tabs>
 
-<Callout type="info">**Precompile Address:** The Pointer precompile is deployed at `0x000000000000000000000000000000000000100B`</Callout>
+<Info>**Precompile Address:** The Pointer precompile is deployed at `0x000000000000000000000000000000000000100B`</Info>
 
 ### Contract Initialization
 
@@ -658,7 +657,7 @@ async function estimatePointerGas(type, asset) {
 
 ## Important Notes
 
-<Callout type="info">Remember: Pointer creation is a one-time operation per asset. Once created, the pointer address remains constant and can be used by any application.</Callout>
+<Info>Remember: Pointer creation is a one-time operation per asset. Once created, the pointer address remains constant and can be used by any application.</Info>
 
 ### Pointer Lifecycle
 
@@ -695,4 +694,4 @@ async function estimatePointerGas(type, asset) {
 - Must be deployed CosmWasm contracts implementing CW1155 standard
 - Address format: `sei1...` (bech32 encoded)
 
-<Callout type="info">View the Pointer precompile source code and the contract ABI [here](https://github.com/sei-protocol/sei-chain/tree/main/precompiles/pointer).</Callout>
+<Info>View the Pointer precompile source code and the contract ABI [here](https://github.com/sei-protocol/sei-chain/tree/main/precompiles/pointer).</Info>

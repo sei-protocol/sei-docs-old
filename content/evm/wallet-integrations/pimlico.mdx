@@ -4,7 +4,6 @@ description: "Learn how to integrate Pimlico's account abstraction services with
 keywords: ['pimlico', 'account abstraction', 'gasless transactions', 'smart accounts']
 ---
 
-import { Callout } from 'nextra/components';
 
 # Sponsoring Transactions With Pimlico
 
@@ -20,7 +19,7 @@ To integrate Pimlico into your Sei application, you'll need to install the follo
 pnpm install permissionless viem dotenv
 ```
 
-<Callout type="info">permissionless.js is a AA SDK that works with any account, paymaster, or bundler implementation - no vendor lock-in.</Callout>
+<Info>permissionless.js is a AA SDK that works with any account, paymaster, or bundler implementation - no vendor lock-in.</Info>
 
 ### Setting up Pimlico Dashboard
 
@@ -92,7 +91,7 @@ const account = await toSimpleSmartAccount({
 console.log(`Smart account address: ${account.address}`);
 ```
 
-<Callout type="info">For a full list of all supported smart account types in permissionless.js see [here](https://docs.pimlico.io/permissionless/how-to/accounts/comparison)</Callout>
+<Info>For a full list of all supported smart account types in permissionless.js see [here](https://docs.pimlico.io/permissionless/how-to/accounts/comparison)</Info>
 
 ## Setting up the Smart Account Client
 

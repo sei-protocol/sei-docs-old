@@ -4,7 +4,6 @@ description: Step-by-step guide to building cross-chain applications on SEI usin
 keywords: ['layerzero', 'cross-chain', 'omnichain', 'bridging', 'OFT', 'token bridge', 'interoperability', 'sei']
 ---
 
-import { Callout } from 'nextra/components';
 
 # LayerZero V2 on SEI
 
@@ -48,7 +47,7 @@ LayerZero is an **omnichain interoperability protocol** that enables secure, per
 
 ## SEI Network Information
 
-<Callout type="info">
+<Info>
 **SEI Mainnet Configuration**
 
 - Network Name: SEI EVM
@@ -58,7 +57,7 @@ LayerZero is an **omnichain interoperability protocol** that enables secure, per
 - Currency: SEI
 - LayerZero Endpoint ID: 30280
 
-</Callout>
+</Info>
 
 ### Contract Deployments
 
@@ -240,12 +239,12 @@ export default async function () {
 }
 ```
 
-<Callout type="info">
+<Info>
 It is strongly recommended to review [LayerZero's Channel Security Model](https://docs.layerzero.network/v2/concepts/protocol/message-security#layerzero's-channel-security-model) and understand the impact of each of these configuration settings.
 
 See [Next Steps](#next-steps) to review the available providers and security settings.
 
-</Callout>
+</Info>
 
 ## Step 3: Create Utility Tasks
 
@@ -366,20 +365,20 @@ const config: HardhatUserConfig = {
 export default config;
 ```
 
-<Callout type="warning">**Important**: You must create and import the mint task before deployment, otherwise Hardhat will throw an error when trying to resolve the task dependencies during compilation.</Callout>
+<Warning>**Important**: You must create and import the mint task before deployment, otherwise Hardhat will throw an error when trying to resolve the task dependencies during compilation.</Warning>
 
 ## Step 4: Smart Contract Development
 
 ### The token contract
 
-<Callout type="info">
+<Info>
 The OFT contract handles all cross-chain logic automatically. When tokens are sent:
 
 1. **Source Chain**: Burns tokens from sender's balance
 2. **LayerZero Protocol**: Verifies and relays the message
 3. **Destination Chain**: Mints equivalent tokens to recipient
 
-</Callout>
+</Info>
 
 ```solidity filename="contracts/MyOFT.sol"
 // SPDX-License-Identifier: UNLICENSED
@@ -403,12 +402,12 @@ contract MyOFT is OFT, Ownable {
 }
 ```
 
-<Callout type="warning">
+<Warning>
 The OFT contract uses the ERC20 token standard. You may want to add a `mint(...)` function in the `constructor(...)` or contract body if this is your first time deploying an OFT. If you have an existing ERC20 token, you will want to use an OFT Adapter contract.
 
 You can read the general [OFT Quickstart](https://docs.layerzero.network/v2/developers/evm/oft/quickstart) for a better understanding of how OFTs work and what contracts to use.
 
-</Callout>
+</Warning>
 
 ### Understanding OFT Functions
 
@@ -435,7 +434,7 @@ npx hardhat lz:deploy # choose sei
 
 You will be presented with a list of networks to deploy to.
 
-<Callout type="warning">Fund your deployer with native gas tokens beforehand.</Callout>
+<Warning>Fund your deployer with native gas tokens beforehand.</Warning>
 
 ## Step 6: Wire the Contracts
 
@@ -670,7 +669,7 @@ You've issued an omnichain token and bridged it from Sei Mainnet to Optimism. Cu
 
 ### Common Issues and Solutions
 
-<Callout type="error" emoji="🚨">
+<Danger>
 **Quote Send Reverts**
 
 If your `quoteSend` call reverts, it usually means that your LayerZero wiring hasn't been fully configured or there's no default pathway for the chains you're trying to bridge. Here's how to diagnose and fix it:
@@ -707,9 +706,9 @@ LayerZero default settings should be considered placeholders. Sometimes the Laye
 
 Once you've updated your config, retry your `quoteSend` flow. It should now return a fee estimate instead of reverting.
 
-</Callout>
+</Danger>
 
-<Callout type="info" emoji="💡">
+<Tip>
 **Insufficient Gas**
 
 If the transaction fails on the destination chain, try to increase the gas like this:
@@ -719,7 +718,7 @@ If the transaction fails on the destination chain, try to increase the gas like 
 let options = Options.newOptions().addExecutorLzReceiveOption(150000, 0).toBytes(); // Increase from 65000 to 150000
 ```
 
-</Callout>
+</Tip>
 
 ## Next Steps
 

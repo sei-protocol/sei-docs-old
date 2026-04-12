@@ -4,7 +4,7 @@ description: 'Guide to integrating the Symphony swap widget into your Sei applic
 keywords: ['swap widget', 'in-app swaps', 'token exchange', 'dex integration', 'symphony']
 ---
 
-import { Callout, Tabs } from 'nextra/components';
+import { Tabs } from 'nextra/components'
 
 # In-App Swaps Integration Guide
 
@@ -52,7 +52,7 @@ Customize the widget by appending query parameters:
 | `tokenIn`  | Input token contract address  | `tokenIn=0xe15fC38F6D8c56aF07bbCBe3BAf5708A2Bf42392`  |
 | `tokenOut` | Output token contract address | `tokenOut=0xE30feDd158A2e3b13e9badaeABaFc5516e95e8C7` |
 
-<Callout type="info">Tokens can be changed by the user after the widget loads.</Callout>
+<Info>Tokens can be changed by the user after the widget loads.</Info>
 
 #### Appearance
 
@@ -61,7 +61,7 @@ Customize the widget by appending query parameters:
 | `bgColor` | Background color          | Hex (`%23FFFFFF`), Named (`white`), RGB (`rgb(255,255,255)`), RGBA (`rgba(255,255,255,0.9)`) |
 | `theme`   | Color theme of the widget | `light` or `dark` (defaults to `dark` if not specified)                                      |
 
-<Callout type="warning">For hex colors, use `%23` instead of `#` in the URL (e.g., `%23FFFFFF` for white).</Callout>
+<Warning>For hex colors, use `%23` instead of `#` in the URL (e.g., `%23FFFFFF` for white).</Warning>
 
 #### Features
 
@@ -139,12 +139,12 @@ return (
 
 ### Security Considerations
 
-<Callout type="warning">
+<Warning>
 **Security Checklist**
 
 - ✅ Validate that iframe sources match official domains
 - ✅ Implement Content Security Policy (CSP) headers
-</Callout>
+</Warning>
 
 ### Performance Optimization
 

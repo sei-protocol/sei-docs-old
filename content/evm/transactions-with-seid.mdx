@@ -4,7 +4,6 @@ description: 'Complete guide to executing EVM transactions using the Sei CLI (se
 keywords: ['seid transactions', 'evm transactions', 'contract deployment', 'token transfer', 'smart contracts']
 ---
 
-import { Callout } from 'nextra/components';
 
 # Transactions with seid
 
@@ -28,7 +27,7 @@ If the machine you run these commands from are not a node of the network, you'd 
 
 Refer to the bottom of this [page](/) for the list of available RPC endpoints.
 
-<Callout type="info">Most commands support `--evm-rpc` flag to specify custom RPC endpoints. The default is `http://localhost:8545`.</Callout>
+<Info>Most commands support `--evm-rpc` flag to specify custom RPC endpoints. The default is `http://localhost:8545`.</Info>
 
 ## Common Transaction Flags
 
@@ -230,7 +229,7 @@ seid tx evm call-precompile staking delegate seivaloper1... --value=100000000000
 - `p256` - P256 cryptographic operations
 - `staking` - Validator delegation and staking
 
-<Callout type="info">For detailed information about each precompile's methods, parameters, and usage patterns, refer to the [EVM Precompiles documentation](/evm/precompiles/example-usage).</Callout>
+<Info>For detailed information about each precompile's methods, parameters, and usage patterns, refer to the [EVM Precompiles documentation](/evm/precompiles/example-usage).</Info>
 
 **Output :**
 
@@ -263,7 +262,7 @@ seid tx evm send 0x... 1000000000000000000 \
 
 ## Error Handling
 
-<Callout type="warning">
+<Warning>
 **Common Issues:**
 
 - Insufficient balance for transaction + gas fees
@@ -271,7 +270,7 @@ seid tx evm send 0x... 1000000000000000000 \
 - Gas limit too low for complex operations
 - Nonce conflicts in rapid successive transactions
 
-</Callout>
+</Warning>
 
 ## Best Practices
 

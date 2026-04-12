@@ -5,21 +5,20 @@ keywords: ['hardhat', 'smart contracts', 'sei development', 'evm deployment', 'o
 ---
 
 import { Tabs } from 'nextra/components';
-import { Callout } from 'nextra/components';
 
 # Sei EVM Smart Contract Development with Hardhat
 
 This tutorial will guide you through setting up Hardhat for Sei EVM development and using OpenZeppelin contracts to build secure, standardized smart contracts. We'll cover environment setup, contract creation, deployment, and show how to leverage OpenZeppelin's pre-built components.
 
-<Callout type="info">Watch the video walkthrough for this topic in the [Video Tutorials](/evm/videos) section.</Callout>
+<Info>Watch the video walkthrough for this topic in the [Video Tutorials](/evm/videos) section.</Info>
 
-<Callout emoji="🚀">
+<Tip>
 
 **Deploy to Testnet First**
 
 It is <strong>highly recommended</strong> that you deploy to <em>testnet (atlantic-2)</em> first and verify everything works as expected before committing to mainnet. Doing so helps you catch bugs early, avoid unnecessary gas costs, and keep your users safe.
 
-</Callout>
+</Tip>
 
 ## Table of Contents
 
@@ -138,7 +137,7 @@ Create a `.env` file in your project root to store your private key:
 PRIVATE_KEY=your_private_key_here
 ```
 
-<Callout type="warning">Add `.env` to your `.gitignore` file to prevent committing sensitive information such as your `PRIVATE_KEY` and potentially lose funds.</Callout>
+<Warning>Add `.env` to your `.gitignore` file to prevent committing sensitive information such as your `PRIVATE_KEY` and potentially lose funds.</Warning>
 
 ## Using OpenZeppelin Contracts
 

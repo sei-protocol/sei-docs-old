@@ -4,7 +4,6 @@ description: "A comparison of Sei EVM and Ethereum, highlighting Sei's advantage
 keywords: ['Sei EVM', 'Ethereum comparison', 'blockchain differences', 'EVM compatibility', 'blockchain performance']
 ---
 
-import { Callout } from 'nextra/components';
 
 # Divergence from Ethereum
 
@@ -35,13 +34,13 @@ Sei's EVM and Ethereum itself:
 - Sei's gas limit is 12.5 M as opposed to Ethereum's 60 M (increased from 45 M in the Fusaka upgrade via EIP-7935). Sei also has a byte size limit of 21MB.
 - Sei has instant finality. This means the various commitment levels typical for Ethereum (i.e., safe, latest, justified) do not apply on Sei.
 
-<Callout type="error" emoji="⚠️">
+<Danger>
 
 **Deprecation Notice**
 
 Cosmos SDK and CosmWasm functionality will be deprecated in favor of EVM-only. For more details, see [SIP-3](https://github.com/sei-protocol/sips/blob/main/sips/sip-3.md) and the [governance proposal](https://www.mintscan.io/sei/proposals/99).
 
-</Callout>
+</Danger>
 
 - **Sei is a dual-execution environment (EVM and Cosmos-SDK).** This means:
   - Non-EVM transactions can update EVM-accessible state.
@@ -170,7 +169,7 @@ Transaction Fee = Gas Used × Gas Price
 - **More stable fees:** Higher throughput reduces fee spikes during busy periods.
 - **Typically lower cost:** Many workloads that are costly on Ethereum become economical on Sei.
 
-<Callout type="info">
+<Info>
 
 **Useful Infos**
 
@@ -178,7 +177,7 @@ Transaction Fee = Gas Used × Gas Price
 - **Who receives fees?** Validators.
 - **Are Sei fees lower?** Yes, due to higher throughput and parallel execution.
 
-</Callout>
+</Info>
 
 ## SSTORE Gas Cost
 
@@ -188,7 +187,7 @@ This provides flexibility to tune storage costs based on EVM state size and netw
 
 Currently, the `SSTORE` gas cost is set to the non-standard value of **72,000 gas**.
 
-<Callout type="info">Since `SSTORE` is a governance-controlled parameter, this value may change in the future through a governance proposal.</Callout>
+<Info>Since `SSTORE` is a governance-controlled parameter, this value may change in the future through a governance proposal.</Info>
 
 ## ERC Token Standards Compatibility
 

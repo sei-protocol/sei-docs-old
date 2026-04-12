@@ -4,11 +4,10 @@ description: "Manage staking rewards and validator commissions through Sei's dis
 keywords: ['distribution precompile', 'staking rewards', 'validator commissions', 'sei rewards', 'evm staking', 'cosmos distribution']
 ---
 
-import { Callout } from 'nextra/components';
 
 # Distribution Precompile
 
-<Callout type="info">Watch the video walkthrough for this topic in the [Video Tutorials](/evm/videos) section.</Callout>
+<Info>Watch the video walkthrough for this topic in the [Video Tutorials](/evm/videos) section.</Info>
 
 **Address**: `0x0000000000000000000000000000000000001007`
 
@@ -142,7 +141,7 @@ distrContract.on('ValidatorCommissionWithdrawn', (validator, amount) => {
 });
 ```
 
-<Callout type="info">**Event Amounts**: All event amounts use 6 decimal precision (usei), matching the actual withdrawn token amounts. This differs from the `rewards()` query which returns 18 decimal precision.</Callout>
+<Info>**Event Amounts**: All event amounts use 6 decimal precision (usei), matching the actual withdrawn token amounts. This differs from the `rewards()` query which returns 18 decimal precision.</Info>
 
 ## Transaction Methods
 
@@ -216,7 +215,7 @@ bool success = DISTR_CONTRACT.withdrawMultipleDelegationRewards(validators);
 require(success, "Failed to withdraw multiple rewards");
 ```
 
-<Callout type="info">**Batch Efficiency**: Using `withdrawMultipleDelegationRewards` is significantly more gas-efficient than multiple individual calls, especially when withdrawing from 3+ validators.</Callout>
+<Info>**Batch Efficiency**: Using `withdrawMultipleDelegationRewards` is significantly more gas-efficient than multiple individual calls, especially when withdrawing from 3+ validators.</Info>
 
 ### withdrawValidatorCommission
 
@@ -238,7 +237,7 @@ bool success = DISTR_CONTRACT.withdrawValidatorCommission();
 require(success, "Failed to withdraw commission");
 ```
 
-<Callout type="warning">**Validator Only**: This method can only be called by the validator's operator address. The precompile automatically identifies the validator based on the caller's associated Sei address. If the caller is not a validator operator, the call will fail.</Callout>
+<Warning>**Validator Only**: This method can only be called by the validator's operator address. The precompile automatically identifies the validator based on the caller's associated Sei address. If the caller is not a validator operator, the call will fail.</Warning>
 
 ## Query Methods
 
@@ -270,7 +269,7 @@ struct Rewards {
 }
 ```
 
-<Callout type="warning">
+<Warning>
 **Critical: Decimal Precision for Rewards**
 
 The `rewards()` query returns amounts with **18 decimal precision** (`DecCoins` from Cosmos SDK).
@@ -289,7 +288,7 @@ const pendingRewardsSei = amount / 1e18; // rewards() query uses 18 decimals
 const withdrawnSei = withdrawnAmount / 1e6; // actual withdrawals use 6 decimals
 ```
 
-</Callout>
+</Warning>
 
 **Example:**
 
@@ -351,7 +350,7 @@ const pendingSei = pendingRewardsToSei(pendingRewards.total[0].amount);
 console.log(`Pending rewards: ${pendingSei} SEI`);
 ```
 
-<Callout type="info">**Note**: When reconciling pending rewards with actual withdrawals, be aware of the 12-decimal difference (10^12 factor) between query results and withdrawal amounts.</Callout>
+<Info>**Note**: When reconciling pending rewards with actual withdrawals, be aware of the 12-decimal difference (10^12 factor) between query results and withdrawal amounts.</Info>
 
 ## Practical Examples
 
@@ -475,4 +474,4 @@ function setupTreasuryWithdrawals(address treasury) external onlyOwner {
 }
 ```
 
-<Callout type="info">View the complete distribution precompile source code and ABI [here](https://github.com/sei-protocol/sei-chain/tree/main/precompiles/distribution).</Callout>
+<Info>View the complete distribution precompile source code and ABI [here](https://github.com/sei-protocol/sei-chain/tree/main/precompiles/distribution).</Info>

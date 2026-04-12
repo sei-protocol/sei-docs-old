@@ -4,7 +4,6 @@ description: 'Learn how to set up and maintain a validator node on Sei Network, 
 keywords: ['sei validator', 'validator node', 'blockchain validator', 'staking', 'sei network', 'consensus participation']
 ---
 
-import { Callout } from 'nextra/components';
 
 # Validator Operations Guide
 
@@ -220,7 +219,7 @@ seid tx gov vote 1 yes \
 
 ### Critical Warning: Double-Signing Prevention
 
-<Callout type="error">Double-signing is a severe violation that results in permanent validator tombstoning (irreversible jailing).</Callout>
+<Danger>Double-signing is a severe violation that results in permanent validator tombstoning (irreversible jailing).</Danger>
 
 Never run your validator keys on more than one machine simultaneously. If your primary validator goes offline:
 

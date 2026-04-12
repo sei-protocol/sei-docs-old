@@ -4,7 +4,6 @@ description: "Learn how to interact with Sei's Addr precompile through ethers.js
 keywords: ['addr precompile', 'address association', 'ethers.js', 'cross-chain', 'evm cosmos mapping', 'sei development', 'blockchain addresses']
 ---
 
-import { Callout } from 'nextra/components';
 import { Tabs } from 'nextra/components';
 
 # Address Precompile
@@ -13,7 +12,7 @@ import { Tabs } from 'nextra/components';
 
 The Sei Address precompile allows EVM applications to interact directly with Sei's address association system through standard smart contract calls. This enables querying and creating mappings between EVM addresses and their corresponding Cosmos addresses, enabling seamless cross-chain address management without needing separate Cosmos SDK integration.
 
-<Callout type="info"> **What is a precompile?** A precompile is a special smart contract deployed at a fixed address by the Sei protocol itself, that exposes custom native chain logic to EVM-based applications. It acts like a regular contract from the EVM's perspective, but executes privileged, low-level logic efficiently. </Callout>
+<Info> **What is a precompile?** A precompile is a special smart contract deployed at a fixed address by the Sei protocol itself, that exposes custom native chain logic to EVM-based applications. It acts like a regular contract from the EVM's perspective, but executes privileged, low-level logic efficiently. </Info>
 
 ## How Does the Address Precompile Work?
 
@@ -184,7 +183,7 @@ function getEvmAddr(string memory addr) external view returns (address response)
 </Tabs.Tab>
 </Tabs>
 
-<Callout type="info"> **Precompile Address:** The address precompile is deployed at `0x0000000000000000000000000000000000001004` </Callout>
+<Info> **Precompile Address:** The address precompile is deployed at `0x0000000000000000000000000000000000001004` </Info>
 
 ### Contract Initialization
 
@@ -739,7 +738,7 @@ const pubKeyTx = await addr.associatePubKey(pubKeyHex, {
 
 ## Important Notes
 
-<Callout type="info"> Remember: Address associations are permanent and cannot be changed once created! </Callout>
+<Info> Remember: Address associations are permanent and cannot be changed once created! </Info>
 
 ### Address Formats
 
@@ -765,4 +764,4 @@ const pubKeyTx = await addr.associatePubKey(pubKeyHex, {
 - **Query operations:** Standard view function gas usage
 - **Batch operations:** Scale gas limits based on array size
 
-<Callout type="info">View the Address precompile source code and the contract ABI [here](https://github.com/sei-protocol/sei-chain/tree/main/precompiles/addr).</Callout>
+<Info>View the Address precompile source code and the contract ABI [here](https://github.com/sei-protocol/sei-chain/tree/main/precompiles/addr).</Info>

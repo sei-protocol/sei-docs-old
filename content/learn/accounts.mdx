@@ -6,7 +6,6 @@ keywords: ['sei accounts', 'dual address system', 'address association', 'EVM ad
 
 import { ImageWithCaption } from '../../src/components';
 import addressTranslationImage from '../../public/assets/address-derivation.png';
-import { Callout } from 'nextra/components';
 
 # Accounts on Sei EVM and Cosmos-SDK
 
@@ -74,7 +73,7 @@ Certain actions are **not possible** before wallets are associated:
 
 </div>
 
-<Callout type="info">Using any of these methods will ensure the **public key** is known to the chain, enabling automatic association between the EVM-compatible and Bech32 addresses.</Callout>
+<Info>Using any of these methods will ensure the **public key** is known to the chain, enabling automatic association between the EVM-compatible and Bech32 addresses.</Info>
 
 Constants for the `addr` precompile can also be found in the repo
 [Sei-Chain/precompiles](https://github.com/sei-protocol/sei-chain/tree/44fd60cec6a5ef301df1472431d6db40b382e486/precompiles/addr):
@@ -90,7 +89,7 @@ Constants for the `addr` precompile can also be found in the repo
 
 ## Method 2: Direct Private Key Association
 
-<Callout type="error"> **Security Risk**: **High** – Requires the private key to be directly available. Exposing the private key can compromise the wallet.</Callout>
+<Danger> **Security Risk**: **High** – Requires the private key to be directly available. Exposing the private key can compromise the wallet.</Danger>
 
 This method directly uses the private key to interact with the network.
 
@@ -123,7 +122,7 @@ This method directly uses the private key to interact with the network.
 
 ## Method 3: Associate via Signed Message
 
-<Callout type="warning"> **Security Risk**: **Medium** – Requires signing a specific message using the private key.</Callout>
+<Warning> **Security Risk**: **Medium** – Requires signing a specific message using the private key.</Warning>
 
 This method involves signing a predefined message to prove ownership of the
 account.
@@ -157,7 +156,7 @@ account.
 
 ## Method 4: Associate via Public Key
 
-<Callout type="info"> **Security Risk**: **Low** – Involves using the public key, which is less sensitive than the private key.</Callout>
+<Info> **Security Risk**: **Low** – Involves using the public key, which is less sensitive than the private key.</Info>
 
 This method compresses the public key and sends it for association.
 
@@ -189,7 +188,7 @@ This method compresses the public key and sends it for association.
 
 ## Method 5: Gasless Association via Signed Message
 
-<Callout type="info"> **Security Risk**: **Low** – Requires signing a message but does not expose the private key. No gas is consumed if the account already has funds.</Callout>
+<Info> **Security Risk**: **Low** – Requires signing a message but does not expose the private key. No gas is consumed if the account already has funds.</Info>
 
 This method signs a message and uses the `sei_associate` RPC call to finalize
 the association.
@@ -291,7 +290,7 @@ the addresses:
 seid tx evm associate-address [optional priv key hex] --rpc=<url> --from=<sender> [flags]
 ```
 
-<Callout type="info">**Note**: The account must have at least 1 wei to perform this operation.</Callout>
+<Info>**Note**: The account must have at least 1 wei to perform this operation.</Info>
 
 ## Deriving Addresses from the Public Key
 

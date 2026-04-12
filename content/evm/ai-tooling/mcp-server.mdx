@@ -4,7 +4,6 @@ description: 'Enable AI assistants to interact with Sei networks through natural
 keywords: ['mcp', 'ai', 'model context protocol', 'claude', 'cursor', 'windsurf', 'blockchain ai']
 ---
 
-import { Callout } from 'nextra/components';
 import { Steps } from 'nextra/components';
 import { Tabs } from 'nextra/components';
 
@@ -12,7 +11,7 @@ import { Tabs } from 'nextra/components';
 
 The Sei Model Context Protocol (MCP) Server enables AI assistants to interact with Sei networks through natural language. Built on the [Model Context Protocol](https://modelcontextprotocol.io/) standard, it provides seamless blockchain integration for AI coding assistants.
 
-<Callout type="info">The Sei MCP Server is open source. Contribute at [github.com/sei-protocol/sei-js](https://github.com/sei-protocol/sei-js/tree/main/packages/mcp-server)</Callout>
+<Info>The Sei MCP Server is open source. Contribute at [github.com/sei-protocol/sei-js](https://github.com/sei-protocol/sei-js/tree/main/packages/mcp-server)</Info>
 
 ## What is MCP?
 
@@ -180,7 +179,7 @@ The Sei MCP Server activates automatically in your session.
 
 ## Private Key Setup
 
-<Callout type="warning">**Security Notice**: Generate a dedicated wallet for MCP operations. Never use your main wallet's private key.</Callout>
+<Warning>**Security Notice**: Generate a dedicated wallet for MCP operations. Never use your main wallet's private key.</Warning>
 
 Export your private key from your wallet:
 
@@ -359,7 +358,7 @@ const eventSource = new EventSource('http://localhost:3001/sse');
 
 ## Security Guidelines
 
-<Callout type="warning">
+<Warning>
 **Security Guidelines:**
 
 1. **Use a dedicated wallet** - Create a new wallet specifically for MCP
@@ -374,7 +373,7 @@ const eventSource = new EventSource('http://localhost:3001/sse');
 - Add contract whitelisting
 - Enable rate limiting
 
-</Callout>
+</Warning>
 
 ## Troubleshooting
 
