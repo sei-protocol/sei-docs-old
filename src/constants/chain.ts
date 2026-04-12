@@ -20,12 +20,12 @@ export const CHAIN_CONFIGS: ChainConfigs = {
 	'pacific-1': {
 		restUrl: 'https://rest.sei-apis.com/',
 		rpcUrl: 'https://rpc.sei-apis.com',
-		explorerUrl: 'https://seitrace.com'
+		explorerUrl: 'https://seiscan.io'
 	},
 	'atlantic-2': {
 		restUrl: 'https://rest-testnet.sei-apis.com',
 		rpcUrl: 'https://rpc-testnet.sei-apis.com/',
-		explorerUrl: 'https://testnet.seitrace.com'
+		explorerUrl: 'https://testnet.seiscan.io'
 	}
 };
 

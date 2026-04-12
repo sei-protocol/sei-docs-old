@@ -35,7 +35,6 @@ export const networks: NetworkEntry[] = [
 		rpcUrl: 'https://evm-rpc.sei-apis.com',
 		explorerLinks: [
 			{ name: 'Seiscan', url: 'https://seiscan.io' },
-			{ name: 'SeiTrace', url: 'https://seitrace.com' },
 			{ name: 'SeiStream', url: 'https://seistream.app' }
 		],
 		chainParams: SEI_MAINNET_CHAIN_PARAMS
@@ -48,7 +47,6 @@ export const networks: NetworkEntry[] = [
 		rpcUrl: 'https://evm-rpc-testnet.sei-apis.com',
 		explorerLinks: [
 			{ name: 'Seiscan', url: 'https://testnet.seiscan.io' },
-			{ name: 'SeiTrace', url: 'https://testnet.seitrace.com' },
 			{ name: 'SeiStream', url: 'https://testnet.seistream.app' }
 		],
 		chainParams: SEI_TESTNET_CHAIN_PARAMS
@@ -58,14 +56,14 @@ export const networks: NetworkEntry[] = [
 		name: 'Mainnet',
 		chainId: 'pacific-1',
 		rpcUrl: 'https://rpc.sei-apis.com',
-		explorerLinks: [{ name: 'SeiTrace', url: 'https://seitrace.com' }]
+		explorerLinks: [{ name: 'Mintscan', url: 'https://www.mintscan.io/sei' }]
 	},
 	{
 		type: 'Cosmos',
 		name: 'Testnet',
 		chainId: 'atlantic-2',
 		rpcUrl: 'https://rpc-testnet.sei-apis.com',
-		explorerLinks: [{ name: 'SeiTrace', url: 'https://testnet.seitrace.com' }]
+		explorerLinks: [{ name: 'Mintscan', url: 'https://www.mintscan.io/sei-testnet' }]
 	}
 ];
 

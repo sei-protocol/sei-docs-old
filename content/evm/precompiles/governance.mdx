@@ -429,7 +429,7 @@ async function voteOnProposal(proposalID: bigint, voteOption: number): Promise<v
     console.log(`Proposal ID: ${proposalID.toString()}`);
     console.log(`Vote: ${voteOptionNames[voteOption as keyof typeof voteOptionNames]}`);
     console.log(`Transaction hash: ${receipt.hash}`);
-    console.log(`View on explorer: https://seitrace.com/tx/${receipt.hash}`);
+    console.log(`View on explorer: https://seiscan.io/tx/${receipt.hash}`);
   } catch (error: any) {
     console.error('Failed to cast vote:', error);
 
@@ -526,7 +526,7 @@ async function castWeightedVote(proposalID: bigint, weightedOptions: Array<{ opt
 
     console.log('✅ Weighted vote cast successfully!');
     console.log(`Transaction hash: ${receipt.hash}`);
-    console.log(`View on explorer: https://seitrace.com/tx/${receipt.hash}`);
+    console.log(`View on explorer: https://seiscan.io/tx/${receipt.hash}`);
   } catch (error: any) {
     console.error('Failed to cast weighted vote:', error);
 
@@ -768,7 +768,7 @@ This is a test proposal. Vote according to your preference to test the system.`,
 
       if (!proposalID) {
         console.log('   ⚠️  Could not extract proposal ID. Check transaction manually.');
-        console.log(`   🔗 Transaction: https://seitrace.com/tx/${submitReceipt.hash}`);
+        console.log(`   🔗 Transaction: https://seiscan.io/tx/${submitReceipt.hash}`);
         return;
       }
 
@@ -794,7 +794,7 @@ This is a test proposal. Vote according to your preference to test the system.`,
       await voteTx.wait();
 
       console.log('   ✅ Vote cast successfully!');
-      console.log(`   🔗 Transaction: https://seitrace.com/tx/${voteTx.hash}`);
+      console.log(`   🔗 Transaction: https://seiscan.io/tx/${voteTx.hash}`);
 
       // 3. Demonstrate weighted voting
       console.log(`\n3️⃣  Casting weighted vote on proposal ${proposalID.toString()}...`);
@@ -827,7 +827,7 @@ This is a test proposal. Vote according to your preference to test the system.`,
       await weightedTx.wait();
 
       console.log('   ✅ Weighted vote cast successfully!');
-      console.log(`   🔗 Transaction: https://seitrace.com/tx/${weightedTx.hash}`);
+      console.log(`   🔗 Transaction: https://seiscan.io/tx/${weightedTx.hash}`);
 
       // 4. Add additional deposit
       console.log(`\n4️⃣  Adding deposit to proposal ${proposalID.toString()}...`);
@@ -847,7 +847,7 @@ This is a test proposal. Vote according to your preference to test the system.`,
       await depositTx.wait();
 
       console.log('   ✅ Additional deposit added successfully!');
-      console.log(`   🔗 Transaction: https://seitrace.com/tx/${depositTx.hash}`);
+      console.log(`   🔗 Transaction: https://seiscan.io/tx/${depositTx.hash}`);
 
       // Summary
       console.log('\n🎉 === Governance Demo Completed Successfully! ===');
@@ -940,7 +940,7 @@ node governance-mainnet-demo.js
    🚀 Submitting vote...
    📝 Transaction hash: 0x456...def
    ✅ Vote cast successfully!
-   🔗 Transaction: https://seitrace.com/tx/0x456...def
+   🔗 Transaction: https://seiscan.io/tx/0x456...def
 
 3️⃣  Casting weighted vote on proposal 42...
    📊 Vote distribution:
@@ -950,14 +950,14 @@ node governance-mainnet-demo.js
    🚀 Submitting weighted vote...
    📝 Transaction hash: 0x789...ghi
    ✅ Weighted vote cast successfully!
-   🔗 Transaction: https://seitrace.com/tx/0x789...ghi
+   🔗 Transaction: https://seiscan.io/tx/0x789...ghi
 
 4️⃣  Adding deposit to proposal 42...
    💵 Additional deposit: 500.0 SEI
    🚀 Submitting deposit...
    📝 Transaction hash: 0xabc...123
    ✅ Additional deposit added successfully!
-   🔗 Transaction: https://seitrace.com/tx/0xabc...123
+   🔗 Transaction: https://seiscan.io/tx/0xabc...123
 
 🎉 === Governance Demo Completed Successfully! ===
 📊 Proposal ID: 42
