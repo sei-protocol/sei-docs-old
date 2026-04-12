@@ -32,7 +32,7 @@
 		"@tailwindcss/postcss": "^4.2.1",
 		"ai": "^6.0.116",
 		"katex": "^0.16.33",
-		"next": "16.1.7",
+		"next": "16.2.3",
 		"nextra": "^4.6.1",
 		"nextra-theme-docs": "^4.6.1",
 		"react": "^19.2.4",
