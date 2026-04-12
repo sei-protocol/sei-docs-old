@@ -7,6 +7,7 @@ export * from './FaucetRequest';
 export { Footer } from './Footer/Footer';
 export { Logo, LogoMobile } from './Logo';
 export { NetworkTabs } from './NetworkTabs';
+export { RandomPeers } from './RandomPeers';
 export { RpcSelector } from './RpcSelector';
 export * from './Tabs';
 export * from './VersionFetcher';

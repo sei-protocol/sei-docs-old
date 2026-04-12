@@ -5,7 +5,7 @@ keywords: ['sei node', 'node operations', 'validator', 'RPC node', 'sei blockcha
 ---
 
 import VersionTable from '../../src/components/VersionFetcher/VersionTable';
-import { Tabs, TabsList, TabsContent, TabsTrigger } from '../../src/components';
+import { Tabs, TabsList, TabsContent, TabsTrigger, RandomPeers } from '../../src/components';
 import Link from 'next/link';
 import { Icon } from '../../src/components/Icon';
 
@@ -19,9 +19,9 @@ import { Icon } from '../../src/components/Icon';
       <div>
         <h1 className="text-4xl font-bold text-neutral-800 dark:text-neutral-100 mb-1" style={{ letterSpacing: '-0.02em' }}>Node Operations</h1>
         <p className="text-sei-gold-100 dark:text-sei-gold-50 font-medium text-base">Power the Sei Network Infrastructure</p>
-        <p className="mt-3 text-neutral-600 dark:text-neutral-300 text-base max-w-3xl">
+        <div className="mt-3 text-neutral-600 dark:text-neutral-300 text-base max-w-3xl">
           This section provides comprehensive guides for running, maintaining, and optimizing Sei network nodes. Whether you're setting up a validator, an RPC node, or a relayer, you'll find detailed instructions and best practices to ensure optimal performance and security.
-        </p>
+        </div>
         
         <div className="mt-5 flex flex-wrap gap-4">
           <div className="flex flex-col">
@@ -200,9 +200,9 @@ make install
 seid version
 ```
 
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                <div className="text-sm text-neutral-600 dark:text-neutral-400">
                   See <Link href="#binary-versions" className="text-sei-maroon-100 hover:text-sei-maroon-100 dark:hover:text-sei-maroon-25">Network Versions</Link> table above for current recommended version.
-                </p>
+                </div>
               </div>
 
               <div className="mb-5">
@@ -213,9 +213,9 @@ seid version
                     </div>
                   </summary>
                   <div className="p-5 pt-4 border-t border-neutral-200 dark:border-neutral-800">
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-3">
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-3">
                       Official Docker images are available at <a href="https://github.com/sei-protocol/sei-chain/pkgs/container/sei" target="_blank" rel="noopener noreferrer" className="text-sei-maroon-100 hover:text-sei-maroon-100 dark:hover:text-sei-maroon-25">GitHub Container Registry</a>.
-                    </p>
+                    </div>
 
 ```bash copy
 # Pull the latest version
@@ -225,9 +225,9 @@ docker pull ghcr.io/sei-protocol/sei:latest
 docker pull ghcr.io/sei-protocol/sei:v6.3.1
 ```
 
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-3">
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-3">
                       Available architectures: <code className="bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-xs">linux/amd64</code> and <code className="bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-xs">linux/arm64</code>.
-                    </p>
+                    </div>
                   </div>
                 </details>
               </div>
@@ -256,15 +256,11 @@ Peers can be found here -
 
 - mainnet (pacific-1):
 
-```
-PEERS="3be6b24cf86a5938cce7d48f44fb6598465a9924@p2p.state-sync-0.pacific-1.seinetwork.io:26656,b21279d7092fde2e41770832a1cacc7d0051e9dc@p2p.state-sync-1.pacific-1.seinetwork.io:26656,616c05e9ba24acc89c0de630b5e3adbedaebb478@p2p.state-sync-2.pacific-1.seinetwork.io:26656"
-```
+<RandomPeers format="bash" />
 
 - testnet (atlantic-2):
 
-```
-PEERS="b2664ccaa84a04b67683093fefb802b172ead6d1@sei-a2-rpc.p2p.brocha.in:30612,babc3f3f7804933265ec9c40ad94f4da8e9e0017@testnet-seed.rhinostake.com:11956"
-```
+<RandomPeers format="bash" network="testnet" />
 
 ```bash copy
 # Initialize node (default mode is full: RPC/P2P bind to all interfaces)
@@ -331,17 +327,17 @@ sed -i -e "s/^occ-enabled *=.*/occ-enabled = true/" $HOME/.sei/config/app.toml
                         <Icon icon="database" className="h-5 w-5 text-neutral-500" />
                         <h6 className="text-base font-medium text-neutral-800 dark:text-neutral-200">Archive Node Setup</h6>
                       </div>
-                      <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
+                      <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
                         An archive node maintains the complete historical record of the chain. This
                         requires disabling state sync and starting with a pre-existing database using a
                         "snapshot".
-                      </p>
+                      </div>
 
                       <div className="mb-5 bg-neutral-800/5 dark:bg-neutral-700/10 p-4 ">
                         <h6 className="text-sm font-medium text-neutral-800 dark:text-neutral-200 mb-2">1. Disable State Sync</h6>
-                        <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-2">
+                        <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-2">
                           In <code className="bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-xs">$HOME/.sei/config/config.toml</code>, modify the <code className="bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-xs">[statesync]</code> section:
-                        </p>
+                        </div>
 
 ```toml copy
 # State sync configuration
@@ -353,11 +349,11 @@ enable = false
 
                       <div className="mb-5 bg-neutral-800/5 dark:bg-neutral-700/10 p-4 ">
                         <h6 className="text-sm font-medium text-neutral-800 dark:text-neutral-200 mb-2">2. Configure Archive Node Peers</h6>
-                        <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                        <div className="text-sm text-neutral-600 dark:text-neutral-400">
                           To sync from the height your snapshot was created at, you need peers retaining
                           a large amount of historical blocks. The node will require specific peers during
                           initial sync, which can be changed at a later time.
-                        </p>
+                        </div>
                       </div>
                     </div>
 
@@ -366,10 +362,10 @@ enable = false
                         <Icon icon="settings" className="h-5 w-5 text-neutral-500" />
                         <h6 className="text-base font-medium text-neutral-800 dark:text-neutral-200">Mempool Configuration</h6>
                       </div>
-                      <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-3">
+                      <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-3">
                         For optimal transaction handling and resource management, it is recommended to
                         update the mempool settings in your <code className="bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-xs">config.toml</code> file.
-                      </p>
+                      </div>
 
                       <Info>
                         Adjust these parameters if you encounter performance or resource issues on your specific hardware.
@@ -434,9 +430,9 @@ pending-ttl-num-blocks = 5
                 <div className="mb-6">
                   <h5 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 mb-3">Setting Up a systemd Service</h5>
                   <Danger> If you see an error such as `panic: recovered: runtime error: integer divide by zero` it means you can’t start nodes straight from the genesis file. Instead, sync to the block tip via [state sync](/node/statesync) or using a [snapshot](/node/snapshot). </Danger>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-2 mt-4">
+                  <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-2 mt-4">
                     For production deployments, configure a systemd service to ensure your node restarts automatically:
-                  </p>
+                  </div>
 
 ```bash copy
 # Create the systemd service file

@@ -4,6 +4,8 @@ description: 'Detailed guide for troubleshooting node problems.'
 keywords: ['sei node', 'blockchain node', 'node configuration', 'bug', 'troubleshooting']
 ---
 
+import { RandomPeers } from '../../src/components';
+
 # Error Codes and Troubleshooting of Nodes
 
 Understanding common errors and their solutions helps maintain a healthy node
@@ -191,10 +193,7 @@ ERR peer handshake failed endpoint={} err=EOF module=p2p
 
 1. **Update peer configurations** with current node IDs:
 
-   ```toml copy
-   # Example updated persistent peers for Sei mainnet
-   persistent-peers = "3be6b24cf86a5938cce7d48f44fb6598465a9924@p2p.state-sync-0.pacific-1.seinetwork.io:26656,b21279d7092fde2e41770832a1cacc7d0051e9dc@p2p.state-sync-1.pacific-1.seinetwork.io:26656,616c05e9ba24acc89c0de630b5e3adbedaebb478@p2p.state-sync-2.pacific-1.seinetwork.io:26656"
-   ```
+   <RandomPeers format="toml" />
 
 2. **Verify network connectivity:**
 

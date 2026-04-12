@@ -14,10 +14,7 @@ import { Logo, LogoMobile } from '../components/Logo';
 const SearchDynamic = dynamic(() => import('../components/NextraSearch/NextraSearch'), { ssr: false, loading: () => <div /> });
 
 export default function DocsProviders({ children, pageMap }) {
-	const [isMobile, setIsMobile] = useState(() => {
-		if (typeof window === 'undefined') return true;
-		return window.matchMedia('(max-width: 767px)').matches;
-	});
+	const [isMobile, setIsMobile] = useState(true);
 
 	useEffect(() => {
 		const mql = window.matchMedia('(max-width: 767px)');

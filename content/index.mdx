@@ -22,9 +22,9 @@ import { Icon } from '../src/components/Icon';
       Sei <span className="text-sei-gold-50">Documentation</span>
     </h1>
   </div>
-  <p className="text-base text-neutral-500 dark:text-neutral-400 text-center max-w-xl mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>
+  <div className="text-base text-neutral-500 dark:text-neutral-400 text-center max-w-xl mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>
     The first parallelized EVM blockchain delivering unmatched scalability and speed.
-  </p>
+  </div>
 </div>
 
 {/* ── Quick Start ── */}
@@ -414,7 +414,7 @@ import { Icon } from '../src/components/Icon';
     <h2 className="text-lg font-bold tracking-tight" style={{ letterSpacing: '-0.02em' }}>Smart Contracts</h2>
   </div>
 
-  <a href="/evm/evm-general" className="group relative flex items-start justify-between p-4 sm:p-6 border border-neutral-200 dark:border-[#333] hover:border-neutral-400 dark:hover:border-[#666] transition-colors overflow-hidden" style={{ borderRadius: '2px' }}>
+  <div className="group relative flex items-start justify-between p-4 sm:p-6 border border-neutral-200 dark:border-[#333] hover:border-neutral-400 dark:hover:border-[#666] transition-colors overflow-hidden" style={{ borderRadius: '2px' }}>
     <div className="dark:hidden absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(135deg, transparent 55%, rgba(96, 0, 20, 0.04) 75%, rgba(96, 0, 20, 0.08) 100%)' }}></div>
     <div className="hidden dark:block absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(135deg, transparent 40%, rgba(96, 0, 20, 0.15) 70%, rgba(96, 0, 20, 0.3) 100%)' }}></div>
     <div className="relative flex items-start gap-3 sm:gap-5 min-w-0">
@@ -422,7 +422,7 @@ import { Icon } from '../src/components/Icon';
         <Icon icon="code" className="h-5 w-5 text-white" />
       </div>
       <div className="min-w-0">
-        <h3 className="text-base sm:text-lg font-bold text-neutral-800 dark:text-neutral-100 mb-2" style={{ letterSpacing: '-0.02em' }}>Deploy & Debug on Sei</h3>
+        <a href="/evm/evm-general" className="text-base sm:text-lg font-bold text-neutral-800 dark:text-neutral-100 mb-2 block hover:text-sei-maroon-100 dark:hover:text-sei-maroon-25 transition-colors" style={{ letterSpacing: '-0.02em' }}>Deploy & Debug on Sei</a>
         <p className="text-neutral-500 dark:text-neutral-400 mb-4 text-xs sm:text-sm">Write, deploy, and debug Solidity smart contracts with your favorite toolchain. Sei is fully EVM-compatible with 400 ms blocks and parallelized execution.</p>
         <div className="flex flex-wrap gap-2 sm:gap-3">
           <a href="/evm/evm-hardhat" className="px-2 sm:px-3 py-1.5 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-[#333] hover:border-neutral-400 dark:hover:border-[#666] transition-colors flex items-center bg-white/60 dark:bg-black/40 backdrop-blur-sm" style={{ borderRadius: '2px', fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', textTransform: 'uppercase' }}>
@@ -448,10 +448,10 @@ import { Icon } from '../src/components/Icon';
         </div>
       </div>
     </div>
-    <div className="relative flex-shrink-0 hidden sm:flex items-center justify-center w-8 h-8 border border-neutral-200 dark:border-[#333] group-hover:border-neutral-400 dark:group-hover:border-[#666] transition-colors" style={{ borderRadius: '2px' }}>
+    <a href="/evm/evm-general" className="relative flex-shrink-0 hidden sm:flex items-center justify-center w-8 h-8 border border-neutral-200 dark:border-[#333] group-hover:border-neutral-400 dark:group-hover:border-[#666] transition-colors" style={{ borderRadius: '2px' }}>
       <Icon icon="chevron-right" className="h-4 w-4 text-neutral-400" />
-    </div>
-  </a>
+    </a>
+  </div>
 </div>
 
 {/* ── Infrastructure & Tools ── */}
@@ -465,12 +465,12 @@ import { Icon } from '../src/components/Icon';
   </div>
 
   <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-neutral-200 dark:bg-[#333] border border-neutral-200 dark:border-[#333]" style={{ borderRadius: '2px' }}>
-    <a href="/node" className="group relative flex items-center justify-between p-5 bg-white dark:bg-black hover:bg-neutral-50 dark:hover:bg-[#131313] transition-colors overflow-hidden">
+    <div className="group relative flex items-center justify-between p-5 bg-white dark:bg-black hover:bg-neutral-50 dark:hover:bg-[#131313] transition-colors overflow-hidden">
       <div className="hidden dark:block absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: 'linear-gradient(135deg, transparent 60%, rgba(96, 0, 20, 0.08) 100%)' }}></div>
       <div className="relative flex items-start gap-4">
         <Icon icon="lock" className="h-5 w-5 text-sei-maroon-100 dark:text-sei-maroon-25 flex-shrink-0 mt-0.5" />
         <div className="flex-1">
-          <h3 className="text-sm font-bold text-neutral-800 dark:text-neutral-100">Run a Node</h3>
+          <a href="/node" className="text-sm font-bold text-neutral-800 dark:text-neutral-100 hover:text-sei-maroon-100 dark:hover:text-sei-maroon-25 transition-colors">Run a Node</a>
           <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5 mb-2">Participate in the Sei network.</p>
           <div className="flex flex-col gap-1">
             <a href="/node/node-operators" className="flex items-center text-xs text-neutral-500 hover:text-sei-maroon-100 dark:hover:text-sei-maroon-25 transition-colors" style={{ fontFamily: "'JetBrains Mono', monospace", textTransform: 'uppercase', fontSize: '10px' }}>
@@ -484,8 +484,10 @@ import { Icon } from '../src/components/Icon';
           </div>
         </div>
       </div>
-      <Icon icon="chevron-right" className="relative h-3.5 w-3.5 text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-    </a>
+      <a href="/node" className="relative h-3.5 w-3.5 text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity">
+        <Icon icon="chevron-right" className="h-3.5 w-3.5" />
+      </a>
+    </div>
 
     <a href="/evm/precompiles/example-usage" className="group relative flex items-center justify-between p-5 bg-white dark:bg-black hover:bg-neutral-50 dark:hover:bg-[#131313] transition-colors overflow-hidden">
       <div className="hidden dark:block absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: 'linear-gradient(135deg, transparent 60%, rgba(96, 0, 20, 0.08) 100%)' }}></div>
