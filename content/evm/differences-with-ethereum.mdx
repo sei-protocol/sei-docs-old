@@ -11,83 +11,24 @@ import { Callout } from 'nextra/components';
 While Sei features full EVM compatibility, there are some distinctions between
 Sei's EVM and Ethereum itself:
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Feature</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Sei EVM</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Ethereum</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Blocktime</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap">400 ms</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">12 s</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Gas per Second</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap">~ 100 MegaGas/s</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">~ 5 MegaGas/s</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Finality</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">Instant</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Various commitment levels (safe, latest, justified, finalized)</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Parallelized Execution</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap">Yes</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">No</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">EVM Tooling Compatibility</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap">100%</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">100%</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">EVM Version</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap">Pectra (w/o blobs)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Fusaka</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Gas Limit</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap">12.5 M (block cap)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">60 M (block); ~16.7 M per-tx (EIP-7825)</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Per-Tx Gas Cap</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap">12.5 M (block limit)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">~16.7 M (EIP-7825)</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Byte Size Limit</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap">21 MB</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">No byte-denominated limits</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Execution Environment</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">EVM and Cosmos-SDK</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">EVM</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Address Space</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">Dual ECDSA-derived addresses; Cosmos Bech32 (sei…) + EVM-compatible address (0x…)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">ECDSA-derived address (0x…)</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">State Storage</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap">AVL-tree (global root)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Merkle Patricia Trie (MPT)</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">SSTORE Gas Cost</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">72k (on-chain param, governance-adjustable)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">20k (fixed)</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="comparison-table sei-highlight-col-2">
+
+| Feature | Sei EVM | Ethereum |
+| --- | --- | --- |
+| Blocktime | 400 ms | 12 s |
+| Gas per Second | ~ 100 MegaGas/s | ~ 5 MegaGas/s |
+| Finality | Instant | Various commitment levels (safe, latest, justified, finalized) |
+| Parallelized Execution | Yes | No |
+| EVM Tooling Compatibility | 100% | 100% |
+| EVM Version | Pectra (w/o blobs) | Fusaka |
+| Gas Limit | 12.5 M (block cap) | 60 M (block); ~16.7 M per-tx (EIP-7825) |
+| Per-Tx Gas Cap | 12.5 M (block limit) | ~16.7 M (EIP-7825) |
+| Byte Size Limit | 21 MB | No byte-denominated limits |
+| Execution Environment | EVM and Cosmos-SDK | EVM |
+| Address Space | Dual ECDSA-derived addresses; Cosmos Bech32 (sei…) + EVM-compatible address (0x…) | ECDSA-derived address (0x…) |
+| State Storage | AVL-tree (global root) | Merkle Patricia Trie (MPT) |
+| SSTORE Gas Cost | 72k (on-chain param, governance-adjustable) | 20k (fixed) |
+
 </div>
 
 - Sei uses the Pectra (Prague + Electra) version of EVM, excluding blob transactions. Ethereum has since upgraded to Fusaka (December 2025), which introduced PeerDAS for enhanced data availability.
@@ -127,67 +68,19 @@ Sei EVM was deployed at the following block heights and versions:
 
 ## Opcode Differences
 
-<div className="overflow-x-auto max-w-full mt-4">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Opcode</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Sei EVM</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Ethereum</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Notes</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">PREVRANDAO</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">Returns a value derived from the current block time</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Returns the RANDAO mix (EIP‑4399)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Not a randomness source; use an oracle/VRF. `DIFFICULTY` aliases to this.</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">COINBASE</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">Always the global fee collector address</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Block proposer (miner) address</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Do not assume it is the validator address.</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">BASEFEE</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">Returns current base fee; no burn</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Returns current base fee; a portion is burned (EIP‑1559)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Legacy tx must specify ≥ `10 gwei` base fee on Sei.</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">BLOCKHASH</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">Hash of the Tendermint header; different encoding</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Keccak of the Ethereum block header</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Usable for recent blocks only; values are not interchangeable across chains.</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">GASLIMIT</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap">= 12,500,000 per block</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">= 60,000,000 per block</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Represents block gas limit in both chains.</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">TIMESTAMP</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">Tendermint block time</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Proposer-chosen block time</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Same semantics; do not use as randomness.</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">DIFFICULTY</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">Alias of PREVRANDAO</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Alias of PREVRANDAO (EIP‑4399)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Returns the same value as PREVRANDAO.</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Blob‑related opcodes</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">Not supported (Pectra without blobs)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Supported post‑Cancun (EIP‑4844)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Blob transactions are not enabled on Sei.</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="comparison-table sei-highlight-col-2">
+
+| Opcode | Sei EVM | Ethereum | Notes |
+| --- | --- | --- | --- |
+| PREVRANDAO | Returns a value derived from the current block time | Returns the RANDAO mix (EIP‑4399) | Not a randomness source; use an oracle/VRF. `DIFFICULTY` aliases to this. |
+| COINBASE | Always the global fee collector address | Block proposer (miner) address | Do not assume it is the validator address. |
+| BASEFEE | Returns current base fee; no burn | Returns current base fee; a portion is burned (EIP‑1559) | Legacy tx must specify ≥ `10 gwei` base fee on Sei. |
+| BLOCKHASH | Hash of the Tendermint header; different encoding | Keccak of the Ethereum block header | Usable for recent blocks only; values are not interchangeable across chains. |
+| GASLIMIT | = 12,500,000 per block | = 60,000,000 per block | Represents block gas limit in both chains. |
+| TIMESTAMP | Tendermint block time | Proposer-chosen block time | Same semantics; do not use as randomness. |
+| DIFFICULTY | Alias of PREVRANDAO | Alias of PREVRANDAO (EIP‑4399) | Returns the same value as PREVRANDAO. |
+| Blob‑related opcodes | Not supported (Pectra without blobs) | Supported post‑Cancun (EIP‑4844) | Blob transactions are not enabled on Sei. |
+
 </div>
 
 ### PREVRANDAO

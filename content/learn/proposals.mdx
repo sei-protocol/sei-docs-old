@@ -206,38 +206,15 @@ seid tx gov submit-proposal software-upgrade emergency-patch \
 
 ### Query & Monitor
 
-<div className="overflow-x-auto mb-8">
-  <table className="min-w-full border border-neutral-200 dark:border-neutral-800 ">
-    <thead className="bg-neutral-50 dark:bg-neutral-900">
-      <tr>
-        <th className="text-left py-3 px-4 font-semibold text-neutral-800 dark:text-neutral-200 border-b border-neutral-200 dark:border-neutral-800">Command</th>
-        <th className="text-left py-3 px-4 font-semibold text-neutral-800 dark:text-neutral-200 border-b border-neutral-200 dark:border-neutral-800">Purpose</th>
-        <th className="text-left py-3 px-4 font-semibold text-neutral-800 dark:text-neutral-200 border-b border-neutral-200 dark:border-neutral-800">Example</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-        <td className="py-3 px-4 font-mono text-sm text-neutral-700 dark:text-neutral-300">seid q gov proposals</td>
-        <td className="py-3 px-4 text-neutral-600 dark:text-neutral-400">List all proposals</td>
-        <td className="py-3 px-4 font-mono text-xs text-neutral-500 dark:text-neutral-500">--status voting_period</td>
-      </tr>
-      <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-        <td className="py-3 px-4 font-mono text-sm text-neutral-700 dark:text-neutral-300">seid q gov proposal [id]</td>
-        <td className="py-3 px-4 text-neutral-600 dark:text-neutral-400">Get specific proposal</td>
-        <td className="py-3 px-4 font-mono text-xs text-neutral-500 dark:text-neutral-500">seid q gov proposal 42</td>
-      </tr>
-      <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-        <td className="py-3 px-4 font-mono text-sm text-neutral-700 dark:text-neutral-300">seid q gov votes [id]</td>
-        <td className="py-3 px-4 text-neutral-600 dark:text-neutral-400">Check voting results</td>
-        <td className="py-3 px-4 font-mono text-xs text-neutral-500 dark:text-neutral-500">seid q gov votes 42</td>
-      </tr>
-      <tr>
-        <td className="py-3 px-4 font-mono text-sm text-neutral-700 dark:text-neutral-300">seid q gov tally [id]</td>
-        <td className="py-3 px-4 text-neutral-600 dark:text-neutral-400">View vote tally</td>
-        <td className="py-3 px-4 font-mono text-xs text-neutral-500 dark:text-neutral-500">seid q gov tally 42</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Command | Purpose | Example |
+| --- | --- | --- |
+| `seid q gov proposals` | List all proposals | `--status voting_period` |
+| `seid q gov proposal [id]` | Get specific proposal | `seid q gov proposal 42` |
+| `seid q gov votes [id]` | Check voting results | `seid q gov votes 42` |
+| `seid q gov tally [id]` | View vote tally | `seid q gov tally 42` |
+
 </div>
 
 ### Voting

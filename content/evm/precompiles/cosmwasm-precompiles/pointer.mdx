@@ -197,43 +197,15 @@ contract PointerManager {
 
 Each pointer type requires specific parameters:
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Pointer Type</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Parameter</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Example</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Result</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">**Native**</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Token denomination</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 font-mono">uatom</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">ERC20 compatible contract</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">**CW20**</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Contract address</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 font-mono">sei1abc...</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">ERC20 compatible contract</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">**CW721**</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Contract address</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 font-mono">sei1def...</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">ERC721 compatible contract</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">**CW1155**</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Contract address</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 font-mono">sei1ghi...</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">ERC1155 compatible contract</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Pointer Type | Parameter | Example | Result |
+| --- | --- | --- | --- |
+| **Native** | Token denomination | `uatom` | ERC20 compatible contract |
+| **CW20** | Contract address | `sei1abc...` | ERC20 compatible contract |
+| **CW721** | Contract address | `sei1def...` | ERC721 compatible contract |
+| **CW1155** | Contract address | `sei1ghi...` | ERC1155 compatible contract |
+
 </div>
 
 ### Pointer Types Comparison
@@ -670,67 +642,18 @@ async function estimatePointerGas(type, asset) {
 
 ### Error Code Reference
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Error</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Cause</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Solution</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>pointer already exists</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Pointer for this asset was already created</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Query existing pointer address instead</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>invalid token denom</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Invalid or non-existent native token denomination</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Verify token denomination exists on chain</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>contract does not exist</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">CosmWasm contract not found at address</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Verify contract address and ensure it's deployed</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>not a CW20 contract</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Contract exists but doesn't implement CW20 standard</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Use correct contract address for CW20 token</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>not a CW721 contract</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Contract exists but doesn't implement CW721 standard</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Use correct contract address for CW721 NFT</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>not a CW1155 contract</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Contract exists but doesn't implement CW1155 standard</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Use correct contract address for the CW1155 contract</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>insufficient gas</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Gas limit too low for pointer creation</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Increase gas limit, especially for CW721</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Error | Cause | Solution |
+| --- | --- | --- |
+| `pointer already exists` | Pointer for this asset was already created | Query existing pointer address instead |
+| `invalid token denom` | Invalid or non-existent native token denomination | Verify token denomination exists on chain |
+| `contract does not exist` | CosmWasm contract not found at address | Verify contract address and ensure it's deployed |
+| `not a CW20 contract` | Contract exists but doesn't implement CW20 standard | Use correct contract address for CW20 token |
+| `not a CW721 contract` | Contract exists but doesn't implement CW721 standard | Use correct contract address for CW721 NFT |
+| `not a CW1155 contract` | Contract exists but doesn't implement CW1155 standard | Use correct contract address for the CW1155 contract |
+| `insufficient gas` | Gas limit too low for pointer creation | Increase gas limit, especially for CW721 |
+
 </div>
 
 ## Important Notes

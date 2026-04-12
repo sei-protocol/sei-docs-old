@@ -36,49 +36,16 @@ import { Icon } from '../../src/components/Icon';
         <h2 className="text-lg font-bold tracking-tight text-neutral-800 dark:text-neutral-100" style={{ letterSpacing: '-0.02em' }}>Why Choose Sei EVM?</h2>
       </div>
 
-      <div className="overflow-auto">
-        <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-          <thead>
-            <tr>
-              <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Feature</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Sei EVM</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Ethereum</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Other Layer 1s</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-            <tr>
-              <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Blocktime</td>
-              <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap font-medium">400 ms</td>
-              <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">12 - 14 seconds</td>
-              <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">1 - 3 seconds</td>
-            </tr>
-              <tr>
-              <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Transaction Throughput</td>
-              <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap font-medium">100 MGas/s</td>
-              <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">3 MGas/s</td>
-              <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">&lt; 50 MGas/s</td>
-            </tr>
-            <tr>
-              <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Parallelized Execution</td>
-              <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap font-medium">Yes</td>
-              <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">No</td>
-              <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Limited/No</td>
-            </tr>
-            <tr>
-              <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">EVM Tooling Compatibility</td>
-              <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap font-medium">100%</td>
-              <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">100%</td>
-              <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Varies</td>
-            </tr>
-            <tr>
-              <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">EVM Version</td>
-              <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap font-medium">Pectra (w/o blobs)</td>
-              <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Fusaka</td>
-              <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Varies</td>
-            </tr>
-          </tbody>
-        </table>
+      <div className="comparison-table sei-highlight-col-2">
+
+      | Feature | Sei EVM | Ethereum | Other Layer 1s |
+      | --- | --- | --- | --- |
+      | Blocktime | 400 ms | 12 - 14 seconds | 1 - 3 seconds |
+      | Transaction Throughput | 100 MGas/s | 3 MGas/s | < 50 MGas/s |
+      | Parallelized Execution | Yes | No | Limited/No |
+      | EVM Tooling Compatibility | 100% | 100% | Varies |
+      | EVM Version | Pectra (w/o blobs) | Fusaka | Varies |
+
       </div>
       <div className="mt-2 flex justify-end">
         <a href="/evm/differences-with-ethereum" className="text-sm flex items-center text-neutral-700 hover:text-sei-maroon-100 dark:text-neutral-300 dark:hover:text-sei-maroon-25 transition-colors">

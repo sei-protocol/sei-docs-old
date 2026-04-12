@@ -27,37 +27,16 @@ The Sei MCP Server leverages this protocol to bring blockchain functionality dir
 
 ## Capabilities
 
-<div className="overflow-auto">
-  <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Category</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Features</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Account Management</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Wallet addresses • Balance queries • Contract verification</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Token Operations</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">SEI transfers • ERC20/721/1155 support • Token approvals</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Blockchain Data</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Block information • Transaction details • Network status</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Smart Contracts</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">State queries • Function execution • Event logs</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Networks</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Mainnet • Testnet</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Category | Features |
+| --- | --- |
+| Account Management | Wallet addresses • Balance queries • Contract verification |
+| Token Operations | SEI transfers • ERC20/721/1155 support • Token approvals |
+| Blockchain Data | Block information • Transaction details • Network status |
+| Smart Contracts | State queries • Function execution • Event logs |
+| Networks | Mainnet • Testnet |
+
 </div>
 
 ## Setup Guide
@@ -231,151 +210,55 @@ The Sei MCP Server enables your AI assistant to:
 
 ### Core Operations
 
-<div className="overflow-auto">
-  <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Tool</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Purpose</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Example</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-mono">`get_address_from_private_key`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Retrieve wallet address</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">"What's my wallet address?"</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-mono">`get_balance`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Check SEI balance</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">"Check balance of 0x123..."</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-mono">`transfer_sei`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Send SEI tokens</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">"Send 1 SEI to 0x456..."</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-mono">`is_contract`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Verify contract address</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">"Is 0x789... a contract?"</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Tool | Purpose | Example |
+| --- | --- | --- |
+| `get_address_from_private_key` | Retrieve wallet address | "What's my wallet address?" |
+| `get_balance` | Check SEI balance | "Check balance of 0x123..." |
+| `transfer_sei` | Send SEI tokens | "Send 1 SEI to 0x456..." |
+| `is_contract` | Verify contract address | "Is 0x789... a contract?" |
+
 </div>
 
 ### Token Management
 
-<div className="overflow-auto">
-  <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Tool</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Purpose</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Example</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-mono">`get_token_info`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Token metadata</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">"Get USDC token info"</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-mono">`get_token_balance`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Token balance</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">"Check my USDC balance"</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-mono">`transfer_token`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Token transfer</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">"Send 100 USDC to 0x123..."</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-mono">`approve_token_spending`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Token approval</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">"Approve DEX for USDC"</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Tool | Purpose | Example |
+| --- | --- | --- |
+| `get_token_info` | Token metadata | "Get USDC token info" |
+| `get_token_balance` | Token balance | "Check my USDC balance" |
+| `transfer_token` | Token transfer | "Send 100 USDC to 0x123..." |
+| `approve_token_spending` | Token approval | "Approve DEX for USDC" |
+
 </div>
 
 ### NFT Operations
 
-<div className="overflow-auto">
-  <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Tool</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Purpose</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Example</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-mono">`get_nft_info`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">NFT metadata</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">"Show NFT #123 details"</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-mono">`check_nft_ownership`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Ownership verification</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">"Who owns NFT #456?"</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-mono">`transfer_nft`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">NFT transfer</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">"Send NFT #789 to 0xABC..."</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-mono">`get_nft_balance`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Collection balance</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">"How many NFTs do I own?"</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Tool | Purpose | Example |
+| --- | --- | --- |
+| `get_nft_info` | NFT metadata | "Show NFT #123 details" |
+| `check_nft_ownership` | Ownership verification | "Who owns NFT #456?" |
+| `transfer_nft` | NFT transfer | "Send NFT #789 to 0xABC..." |
+| `get_nft_balance` | Collection balance | "How many NFTs do I own?" |
+
 </div>
 
 ### Blockchain Data
 
-<div className="overflow-auto">
-  <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Tool</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Purpose</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Example</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-mono">`get_chain_info`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Network information</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">"Show Sei mainnet info"</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-mono">`get_block_by_number`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Block details by number</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">"Get block 12345"</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-mono">`get_latest_block`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Latest block details</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">"Get latest block"</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-mono">`get_transaction`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Transaction data</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">"Show tx 0xTXID..."</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-mono">`read_contract`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Contract state</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">"Read DEX reserves"</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Tool | Purpose | Example |
+| --- | --- | --- |
+| `get_chain_info` | Network information | "Show Sei mainnet info" |
+| `get_block_by_number` | Block details by number | "Get block 12345" |
+| `get_latest_block` | Latest block details | "Get latest block" |
+| `get_transaction` | Transaction data | "Show tx 0xTXID..." |
+| `read_contract` | Contract state | "Read DEX reserves" |
+
 </div>
 
 ## AI Prompts

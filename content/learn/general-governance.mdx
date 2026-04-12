@@ -21,7 +21,7 @@ import { Icon } from '../../src/components/Icon';
 
 ## How Governance Works
 
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-8">
     
     <div className="p-5 border border-neutral-200 dark:border-neutral-800 ">
       <div className="flex items-center gap-3 mb-3">
@@ -63,7 +63,7 @@ import { Icon } from '../../src/components/Icon';
 
 ### Governance Logic
 
-  <div className=" p-6 bg-neutral-50/50 dark:bg-neutral-900/20 border border-neutral-200 dark:border-neutral-800/40 shadow-sm mb-8">
+  <div className=" p-6 bg-neutral-50/50 dark:bg-neutral-900/20 border border-neutral-200 dark:border-neutral-800/40 shadow-sm">
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       
       <div className="flex flex-col gap-3">
@@ -96,7 +96,7 @@ import { Icon } from '../../src/components/Icon';
 
 ## Network Parameters
 
-  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+  <div className="grid grid-cols-1 lg:grid-cols-2">
 
     <div className="flex flex-col gap-6">
       <div className="flex flex-col md:flex-row items-start gap-4">
@@ -109,69 +109,22 @@ import { Icon } from '../../src/components/Icon';
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full border border-neutral-200 dark:border-neutral-800 ">
-          <thead className="bg-neutral-50 dark:bg-neutral-900">
-            <tr>
-              <th className="text-left py-3 px-4 font-semibold text-neutral-800 dark:text-neutral-200 border-b border-neutral-200 dark:border-neutral-800">Parameter</th>
-              <th className="text-left py-3 px-4 font-semibold text-neutral-800 dark:text-neutral-200 border-b border-neutral-200 dark:border-neutral-800">Value</th>
-              <th className="text-left py-3 px-4 font-semibold text-neutral-800 dark:text-neutral-200 border-b border-neutral-200 dark:border-neutral-800">Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-              <td className="py-3 px-4 font-medium text-neutral-700 dark:text-neutral-300">Minimum Deposit</td>
-              <td className="py-3 px-4 font-mono text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-50/50 dark:bg-neutral-900/30">3500 SEI</td>
-              <td className="py-3 px-4 text-neutral-600 dark:text-neutral-400">Required to enter voting period</td>
-            </tr>
-            <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-              <td className="py-3 px-4 font-medium text-neutral-700 dark:text-neutral-300">Expedited Minimum Deposit</td>
-              <td className="py-3 px-4 font-mono text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-50/50 dark:bg-neutral-900/30">7000 SEI</td>
-              <td className="py-3 px-4 text-neutral-600 dark:text-neutral-400">Required to enter expedited voting period</td>
-            </tr>
-            <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-              <td className="py-3 px-4 font-medium text-neutral-700 dark:text-neutral-300">Deposit Period</td>
-              <td className="py-3 px-4 font-mono text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-50/50 dark:bg-neutral-900/30">2 days</td>
-              <td className="py-3 px-4 text-neutral-600 dark:text-neutral-400">Time to collect minimum deposit</td>
-            </tr>
-            <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-              <td className="py-3 px-4 font-medium text-neutral-700 dark:text-neutral-300">Voting Period</td>
-              <td className="py-3 px-4 font-mono text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-50/50 dark:bg-neutral-900/30">3 days</td>
-              <td className="py-3 px-4 text-neutral-600 dark:text-neutral-400">Duration for voting</td>
-            </tr>
-             <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-              <td className="py-3 px-4 font-medium text-neutral-700 dark:text-neutral-300">Expedited Voting Period</td>
-              <td className="py-3 px-4 font-mono text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-50/50 dark:bg-neutral-900/30">24 hours</td>
-              <td className="py-3 px-4 text-neutral-600 dark:text-neutral-400">Duration for expedited voting</td>
-            </tr>
-            <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-              <td className="py-3 px-4 font-medium text-neutral-700 dark:text-neutral-300">Quorum</td>
-              <td className="py-3 px-4 font-mono text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-50/50 dark:bg-neutral-900/30">33.4%</td>
-              <td className="py-3 px-4 text-neutral-600 dark:text-neutral-400">Minimum participation required</td>
-            </tr>
-             <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-              <td className="py-3 px-4 font-medium text-neutral-700 dark:text-neutral-300">Expedited Quorum</td>
-              <td className="py-3 px-4 font-mono text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-50/50 dark:bg-neutral-900/30">66.7%</td>
-              <td className="py-3 px-4 text-neutral-600 dark:text-neutral-400">Fast-track proposals</td>
-            </tr>
-            <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-              <td className="py-3 px-4 font-medium text-neutral-700 dark:text-neutral-300">Approval Threshold</td>
-              <td className="py-3 px-4 font-mono text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-50/50 dark:bg-neutral-900/30">50%</td>
-              <td className="py-3 px-4 text-neutral-600 dark:text-neutral-400">Standard proposals</td>
-            </tr>
-            <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-              <td className="py-3 px-4 font-medium text-neutral-700 dark:text-neutral-300">Expedited Threshold</td>
-              <td className="py-3 px-4 font-mono text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-50/50 dark:bg-neutral-900/30">66.7%</td>
-              <td className="py-3 px-4 text-neutral-600 dark:text-neutral-400">Fast-track proposals</td>
-            </tr>
-            <tr>
-              <td className="py-3 px-4 font-medium text-neutral-700 dark:text-neutral-300">Veto Threshold</td>
-              <td className="py-3 px-4 font-mono text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-50/50 dark:bg-neutral-900/30">33.4%</td>
-              <td className="py-3 px-4 text-neutral-600 dark:text-neutral-400">Maximum veto votes allowed</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<div className="data-table">
+
+| Parameter | Value | Description |
+| --- | --- | --- |
+| Minimum Deposit | 3500 SEI | Required to enter voting period |
+| Expedited Minimum Deposit | 7000 SEI | Required to enter expedited voting period |
+| Deposit Period | 2 days | Time to collect minimum deposit |
+| Voting Period | 3 days | Duration for voting |
+| Expedited Voting Period | 24 hours | Duration for expedited voting |
+| Quorum | 33.4% | Minimum participation required |
+| Expedited Quorum | 66.7% | Fast-track proposals |
+| Approval Threshold | 50% | Standard proposals |
+| Expedited Threshold | 66.7% | Fast-track proposals |
+| Veto Threshold | 33.4% | Maximum veto votes allowed |
+
+</div>
     </div>
 
     <div className="flex flex-col gap-6">
@@ -185,39 +138,16 @@ import { Icon } from '../../src/components/Icon';
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full border border-neutral-200 dark:border-neutral-800 ">
-          <thead className="bg-neutral-50 dark:bg-neutral-900">
-            <tr>
-              <th className="text-left py-3 px-4 font-semibold text-neutral-800 dark:text-neutral-200 border-b border-neutral-200 dark:border-neutral-800">Parameter</th>
-              <th className="text-left py-3 px-4 font-semibold text-neutral-800 dark:text-neutral-200 border-b border-neutral-200 dark:border-neutral-800">Value</th>
-              <th className="text-left py-3 px-4 font-semibold text-neutral-800 dark:text-neutral-200 border-b border-neutral-200 dark:border-neutral-800">Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-              <td className="py-3 px-4 font-medium text-neutral-700 dark:text-neutral-300">Minimum Deposit</td>
-              <td className="py-3 px-4 font-mono text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-50/50 dark:bg-neutral-900/30">10 SEI</td>
-              <td className="py-3 px-4 text-neutral-600 dark:text-neutral-400">Reduced for testing</td>
-            </tr>
-                        <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-              <td className="py-3 px-4 font-medium text-neutral-700 dark:text-neutral-300">Expedited Minimum Deposit</td>
-              <td className="py-3 px-4 font-mono text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-50/50 dark:bg-neutral-900/30">20 SEI</td>
-              <td className="py-3 px-4 text-neutral-600 dark:text-neutral-400">Reduced for testing</td>
-            </tr>
-            <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-              <td className="py-3 px-4 font-medium text-neutral-700 dark:text-neutral-300">Voting Period</td>
-              <td className="py-3 px-4 font-mono text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-50/50 dark:bg-neutral-900/30">12 hours</td>
-              <td className="py-3 px-4 text-neutral-600 dark:text-neutral-400">Fast testing cycles</td>
-            </tr>
-            <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-              <td className="py-3 px-4 font-medium text-neutral-700 dark:text-neutral-300">Expedited Voting Period</td>
-              <td className="py-3 px-4 font-mono text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-50/50 dark:bg-neutral-900/30">6 hours</td>
-              <td className="py-3 px-4 text-neutral-600 dark:text-neutral-400">Fast testing cycles</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<div className="data-table">
+
+| Parameter | Value | Description |
+| --- | --- | --- |
+| Minimum Deposit | 10 SEI | Reduced for testing |
+| Expedited Minimum Deposit | 20 SEI | Reduced for testing |
+| Voting Period | 12 hours | Fast testing cycles |
+| Expedited Voting Period | 6 hours | Fast testing cycles |
+
+</div>
     </div>
 
   </div>
@@ -301,54 +231,15 @@ import { Icon } from '../../src/components/Icon';
 
 ## Proposal Outcomes
 
-<div className="overflow-x-auto mb-8">
-  <table className="min-w-full border border-neutral-200 dark:border-neutral-800 ">
-    <thead className="bg-neutral-50 dark:bg-neutral-900">
-      <tr>
-        <th className="text-left py-3 px-4 font-semibold text-neutral-800 dark:text-neutral-200 border-b border-neutral-200 dark:border-neutral-800">Outcome</th>
-        <th className="text-left py-3 px-4 font-semibold text-neutral-800 dark:text-neutral-200 border-b border-neutral-200 dark:border-neutral-800">Conditions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-        <td className="py-3 px-4 font-medium text-green-600 dark:text-green-600">Passed</td>
-        <td className="py-3 px-4 text-sm text-neutral-600 dark:text-neutral-300">
-          <ul className="space-y-1">
-            <li>• Quorum met (≥33.4% participation)</li>
-            <li>• Approval threshold met (≥50% or ≥66.7% for expedited)</li>
-            <li>• Veto threshold not exceeded (less than 33.4% NoWithVeto)</li>
-          </ul>
-        </td>
-      </tr>
-      <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-        <td className="py-3 px-4 font-medium text-sei-maroon-100 dark:text-sei-maroon-100">Rejected</td>
-        <td className="py-3 px-4 text-sm text-neutral-600 dark:text-neutral-300">
-          <ul className="space-y-1">
-            <li>• Quorum met but approval threshold not met</li>
-            <li>• Majority voted "No"</li>
-          </ul>
-        </td>
-      </tr>
-      <tr className="border-b border-neutral-100 dark:border-neutral-800/50">
-        <td className="py-3 px-4 font-medium text-sei-maroon-100 dark:text-sei-maroon-100">Failed (No Quorum)</td>
-        <td className="py-3 px-4 text-sm text-neutral-600 dark:text-neutral-300">
-          <ul className="space-y-1">
-            <li>• Less than 33.4% of bonded tokens participated</li>
-            <li>• Proposal automatically fails</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td className="py-3 px-4 font-medium text-purple-600 dark:text-purple-600">Vetoed</td>
-        <td className="py-3 px-4 text-sm text-neutral-600 dark:text-neutral-300">
-          <ul className="space-y-1">
-            <li>• More than 33.4% of votes were "NoWithVeto"</li>
-            <li>• Indicates strong community opposition</li>
-          </ul>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Outcome | Conditions |
+| --- | --- |
+| Passed | Quorum met (≥33.4% participation) · Approval threshold met (≥50% or ≥66.7% for expedited) · Veto threshold not exceeded (less than 33.4% NoWithVeto) |
+| Rejected | Quorum met but approval threshold not met · Majority voted "No" |
+| Failed (No Quorum) | Less than 33.4% of bonded tokens participated · Proposal automatically fails |
+| Vetoed | More than 33.4% of votes were "NoWithVeto" · Indicates strong community opposition |
+
 </div>
 
 ## Best Practices

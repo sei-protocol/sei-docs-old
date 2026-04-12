@@ -13,94 +13,41 @@ import { Icon } from '../../src/components/Icon';
 
 Sei supports EVM transactions, allowing compatibility with Ethereum-based tools and contracts. Transactions are signed messages originating from an externally owned account (EOA) that trigger state changes on the blockchain.
 
-<div className="mb-8">
-  <h2 className="text-2xl font-bold mt-6 mb-4">Transaction Lifecycle</h2>
+## Transaction Lifecycle
 
-  <div className="overflow-auto">
-    <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-      <thead>
-        <tr>
-          <th className="px-4 py-3 text-left text-sm font-medium text-neutral-500 dark:text-neutral-400">Stage</th>
-          <th className="px-4 py-3 text-left text-sm font-medium text-neutral-500 dark:text-neutral-400">Description</th>
-        </tr>
-      </thead>
-      <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-        <tr>
-          <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">1. Creation</td>
-          <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">A transaction is created by an EOA, specifying the recipient, value, gas parameters, and other fields.</td>
-        </tr>
-        <tr>
-          <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">2. Signing</td>
-          <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">The transaction is signed with the sender's private key to create a valid signature.</td>
-        </tr>
-        <tr>
-          <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">3. Submission</td>
-          <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">The signed transaction is submitted to the network through an RPC endpoint.</td>
-        </tr>
-        <tr>
-          <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">4. Mempool</td>
-          <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">The transaction enters the mempool (transaction pool) where it awaits inclusion in a block.</td>
-        </tr>
-        <tr>
-          <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">5. Execution</td>
-          <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">When selected by a validator, the transaction is executed in the EVM, causing state changes.</td>
-        </tr>
-        <tr>
-          <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">6. Validation</td>
-          <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">The transaction and its state changes are validated by the consensus mechanism.</td>
-        </tr>
-        <tr>
-          <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">7. Confirmation</td>
-          <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Once validated, the transaction is included in a block and confirmed on-chain.</td>
-        </tr>
-        <tr>
-          <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">8. Finality</td>
-          <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">On Sei, transactions achieve immediate finality once included in a block.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
-  <Callout type="info">
-    Unlike other EVM chains where you need to wait for multiple confirmations, Sei's consensus mechanism provides immediate transaction finality. Once a transaction is included in a block, it cannot be reversed.
-  </Callout>
+<div className="data-table">
+
+| Stage | Description |
+| --- | --- |
+| 1. Creation | A transaction is created by an EOA, specifying the recipient, value, gas parameters, and other fields. |
+| 2. Signing | The transaction is signed with the sender's private key to create a valid signature. |
+| 3. Submission | The signed transaction is submitted to the network through an RPC endpoint. |
+| 4. Mempool | The transaction enters the mempool (transaction pool) where it awaits inclusion in a block. |
+| 5. Execution | When selected by a validator, the transaction is executed in the EVM, causing state changes. |
+| 6. Validation | The transaction and its state changes are validated by the consensus mechanism. |
+| 7. Confirmation | Once validated, the transaction is included in a block and confirmed on-chain. |
+| 8. Finality | On Sei, transactions achieve immediate finality once included in a block. |
+
 </div>
+
+<Callout type="info">
+  Unlike other EVM chains where you need to wait for multiple confirmations, Sei's consensus mechanism provides immediate transaction finality. Once a transaction is included in a block, it cannot be reversed.
+</Callout>
 
 ## Gas Mechanics
 
 Gas is a unit of computational work in the EVM that helps prevent spam and allocate resources efficiently:
 
-<div className="overflow-auto">
-  <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-500 dark:text-neutral-400">Term</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-500 dark:text-neutral-400">Description</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Gas Limit</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">The maximum amount of gas the transaction may consume, set by the sender.</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Base Fee</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">The minimum gas price required to be included in a block. On Sei, the base fee is not burned — all fees go to validators.</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Priority Fee</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">An additional fee (tip) paid to validators for faster inclusion.</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Gas Price</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">In legacy transactions, the price per unit of gas the sender is willing to pay.</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Effective Gas Price</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">The actual price paid per unit of gas (base fee + priority fee in EIP-1559).</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Term | Description |
+| --- | --- |
+| Gas Limit | The maximum amount of gas the transaction may consume, set by the sender. |
+| Base Fee | The minimum gas price required to be included in a block. On Sei, the base fee is not burned — all fees go to validators. |
+| Priority Fee | An additional fee (tip) paid to validators for faster inclusion. |
+| Gas Price | In legacy transactions, the price per unit of gas the sender is willing to pay. |
+| Effective Gas Price | The actual price paid per unit of gas (base fee + priority fee in EIP-1559). |
+
 </div>
 
 <Callout type="warning">
@@ -119,74 +66,26 @@ EVM transactions in Sei follow the Ethereum transaction format with standard pro
 
 <Tabs items={['Transaction Properties', 'Transaction Types', 'Example Request', 'Example Response']}>
   <Tabs.Tab>
-    <div className="overflow-auto">
-      <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-        <thead>
-          <tr>
-            <th className="px-4 py-3 text-left text-sm font-medium text-neutral-500 dark:text-neutral-400">Property</th>
-            <th className="px-4 py-3 text-left text-sm font-medium text-neutral-500 dark:text-neutral-400">Description</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-          <tr>
-            <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">from</td>
-            <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">The address of the sender who will sign the transaction. This must be an externally-owned account (EOA) as contract accounts cannot send transactions.</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">to</td>
-            <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">The receiving address. If this is an EOA, the transaction transfers value. If a contract address, the transaction executes the contract code. If empty or null, the transaction creates a new contract.</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">signature</td>
-            <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">The cryptographic signature generated when the sender's private key signs the transaction. This confirms the sender has authorized the transaction and includes the v, r, and s components.</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">nonce</td>
-            <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">A sequentially incrementing counter that indicates the transaction number from the account. This prevents replay attacks and ensures transaction ordering.</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">data</td>
-            <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">The input data (also called 'input' or 'calldata') for contract execution. For simple transfers, this is usually empty. For contract interactions, this contains the function selector and encoded arguments.</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">value</td>
-            <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Amount of SEI to transfer from sender to recipient (denominated in WEI, where 1 SEI equals 1e+18 WEI).</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">gasLimit</td>
-            <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">The maximum amount of gas units that can be consumed by the transaction. Often referred to simply as 'gas' in transaction objects.</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">maxPriorityFeePerGas</td>
-            <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">The maximum price of the consumed gas to be included as a tip to the validator (denominated in WEI). Used in EIP-1559 transactions.</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">maxFeePerGas</td>
-            <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">The maximum fee per unit of gas willing to be paid for the transaction (inclusive of baseFeePerGas and maxPriorityFeePerGas). Used in EIP-1559 transactions.</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">gasPrice</td>
-            <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">The price per unit of gas the sender is willing to pay (denominated in WEI). Used in legacy transactions.</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">chainId</td>
-            <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">The chain identifier number. Prevents transaction reuse across different chains.</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">accessList</td>
-            <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">A list of addresses and storage keys that the transaction plans to access. Used in EIP-2930 and EIP-1559 transactions to reduce gas costs for accessing specified addresses and storage slots.</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">type</td>
-            <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">The transaction type: 0 for legacy (pre-EIP-2718), 1 for EIP-2930 access list transactions, and 2 for EIP-1559 fee market transactions.</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">hash</td>
-            <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">The transaction hash, a unique identifier for the transaction generated after signing.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+<div className="data-table">
+
+| Property | Description |
+| --- | --- |
+| from | The address of the sender who will sign the transaction. This must be an externally-owned account (EOA) as contract accounts cannot send transactions. |
+| to | The receiving address. If this is an EOA, the transaction transfers value. If a contract address, the transaction executes the contract code. If empty or null, the transaction creates a new contract. |
+| signature | The cryptographic signature generated when the sender's private key signs the transaction. This confirms the sender has authorized the transaction and includes the v, r, and s components. |
+| nonce | A sequentially incrementing counter that indicates the transaction number from the account. This prevents replay attacks and ensures transaction ordering. |
+| data | The input data (also called 'input' or 'calldata') for contract execution. For simple transfers, this is usually empty. For contract interactions, this contains the function selector and encoded arguments. |
+| value | Amount of SEI to transfer from sender to recipient (denominated in WEI, where 1 SEI equals 1e+18 WEI). |
+| gasLimit | The maximum amount of gas units that can be consumed by the transaction. Often referred to simply as 'gas' in transaction objects. |
+| maxPriorityFeePerGas | The maximum price of the consumed gas to be included as a tip to the validator (denominated in WEI). Used in EIP-1559 transactions. |
+| maxFeePerGas | The maximum fee per unit of gas willing to be paid for the transaction (inclusive of baseFeePerGas and maxPriorityFeePerGas). Used in EIP-1559 transactions. |
+| gasPrice | The price per unit of gas the sender is willing to pay (denominated in WEI). Used in legacy transactions. |
+| chainId | The chain identifier number. Prevents transaction reuse across different chains. |
+| accessList | A list of addresses and storage keys that the transaction plans to access. Used in EIP-2930 and EIP-1559 transactions to reduce gas costs for accessing specified addresses and storage slots. |
+| type | The transaction type: 0 for legacy (pre-EIP-2718), 1 for EIP-2930 access list transactions, and 2 for EIP-1559 fee market transactions. |
+| hash | The transaction hash, a unique identifier for the transaction generated after signing. |
+
+</div>
   </Tabs.Tab>
   <Tabs.Tab>
     <div className="flex flex-col gap-6">
@@ -422,38 +321,15 @@ sendTransaction().catch(console.error);
 
 </Callout>
 
-<div className="overflow-auto mt-6 mb-8">
-  <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-500 dark:text-neutral-400">Common Issue</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-500 dark:text-neutral-400">Cause</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-500 dark:text-neutral-400">Solution</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Transaction Underpriced</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Gas price or priority fee too low</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Increase `maxFeePerGas` and `maxPriorityFeePerGas`</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Nonce Too Low</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Using a nonce that's already been used</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Query current nonce with `getTransactionCount`</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Out of Gas</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Gas limit too low for the operation</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Use `eth_estimateGas` to set appropriate limit</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Contract Execution Failed</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Contract function reverted</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Test with `eth_call` before sending transaction</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Common Issue | Cause | Solution |
+| --- | --- | --- |
+| Transaction Underpriced | Gas price or priority fee too low | Increase `maxFeePerGas` and `maxPriorityFeePerGas` |
+| Nonce Too Low | Using a nonce that's already been used | Query current nonce with `getTransactionCount` |
+| Out of Gas | Gas limit too low for the operation | Use `eth_estimateGas` to set appropriate limit |
+| Contract Execution Failed | Contract function reverted | Test with `eth_call` before sending transaction |
+
 </div>
 
 ## Additional Resources

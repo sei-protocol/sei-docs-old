@@ -509,69 +509,16 @@ One of the most important concepts to understand when working with the Sei staki
 
 The staking precompile operates with **different decimal precision for different operations** due to bridging EVM and Cosmos standards:
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Function</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Input/Output</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Decimal Precision</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Example</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">
-          <strong>delegate()</strong>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">msg.value (input)</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap">18 decimals (wei)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          <code>ethers.parseUnits('1', 18)</code>
-        </td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">
-          <strong>undelegate()</strong>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">amount (input)</td>
-        <td className="px-4 py-3 text-sm text-blue-600 dark:text-blue-400 whitespace-nowrap">6 decimals (uSEI)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          <code>1000000</code> (represents 1 SEI)
-        </td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">
-          <strong>redelegate()</strong>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">amount (input)</td>
-        <td className="px-4 py-3 text-sm text-blue-600 dark:text-blue-400 whitespace-nowrap">6 decimals (uSEI)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          <code>500000</code> (represents 0.5 SEI)
-        </td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">
-          <strong>createValidator()</strong>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">msg.value (input)</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap">18 decimals (wei)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          <code>ethers.parseUnits('1000', 18)</code>
-        </td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">
-          <strong>delegation()</strong>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">return values (output)</td>
-        <td className="px-4 py-3 text-sm text-blue-600 dark:text-blue-400 whitespace-nowrap">Mixed (balance 6, shares 18)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          <code>balance.amount=1000000</code>, <code>shares=1000000000000000000</code>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Function | Input/Output | Decimal Precision | Example |
+| --- | --- | --- | --- |
+| **delegate()** | msg.value (input) | 18 decimals (wei) | `ethers.parseUnits('1', 18)` |
+| **undelegate()** | amount (input) | 6 decimals (uSEI) | `1000000` (represents 1 SEI) |
+| **redelegate()** | amount (input) | 6 decimals (uSEI) | `500000` (represents 0.5 SEI) |
+| **createValidator()** | msg.value (input) | 18 decimals (wei) | `ethers.parseUnits('1000', 18)` |
+| **delegation()** | return values (output) | Mixed (balance 6, shares 18) | `balance.amount=1000000`, `shares=1000000000000000000` |
+
 </div>
 
 <Callout type="warning">
@@ -1452,67 +1399,18 @@ const delegateTx = await staking.delegate(validatorAddress, {
 
 ### Error Code Reference
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Error</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Cause</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Solution</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>insufficient funds</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Not enough SEI for operation</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Check balance and reduce amount</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>validator does not exist</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Invalid validator address</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Verify validator address format</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>invalid delegation amount</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Amount formatting issue</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Use correct decimal precision</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>commission rate too high</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Commission above max rate</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Lower commission rate</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>commission change too frequent</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Changing commission within 24h</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Wait 24 hours between changes</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>self delegation too low</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Below minimum self-delegation</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Increase self-delegation amount</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>too many redelegations</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Exceeded 7 redelegation limit</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Wait for earliest redelegation to expire</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Error | Cause | Solution |
+| --- | --- | --- |
+| `insufficient funds` | Not enough SEI for operation | Check balance and reduce amount |
+| `validator does not exist` | Invalid validator address | Verify validator address format |
+| `invalid delegation amount` | Amount formatting issue | Use correct decimal precision |
+| `commission rate too high` | Commission above max rate | Lower commission rate |
+| `commission change too frequent` | Changing commission within 24h | Wait 24 hours between changes |
+| `self delegation too low` | Below minimum self-delegation | Increase self-delegation amount |
+| `too many redelegations` | Exceeded 7 redelegation limit | Wait for earliest redelegation to expire |
+
 </div>
 
 ## FAQ: Precision and Normalization

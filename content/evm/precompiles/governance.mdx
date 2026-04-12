@@ -176,88 +176,15 @@ const governance = new ethers.Contract(GOVERNANCE_PRECOMPILE_ADDRESS, GOVERNANCE
 
 The governance system uses the following vote options:
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">
-          Option
-        </th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">
-          Value
-        </th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">
-          Description
-        </th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">
-          Impact
-        </th>
-      </tr>
-    </thead>
+<div className="data-table">
 
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-green-500 dark:text-green-400 whitespace-nowrap font-medium">
-          Yes
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          1
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Vote in favor of the proposal
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Proposal passes if threshold met
-        </td>
-      </tr>
+| Option | Value | Description | Impact |
+| --- | --- | --- | --- |
+| Yes | 1 | Vote in favor of the proposal | Proposal passes if threshold met |
+| Abstain | 2 | Abstain from voting | Counts toward quorum only |
+| No | 3 | Vote against the proposal | Opposes proposal |
+| NoWithVeto | 4 | Vote against with veto | Opposes Proposal & burns deposit if > 33.4% |
 
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap font-medium">
-          Abstain
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          2
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Abstain from voting
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Counts toward quorum only
-        </td>
-      </tr>
-
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          No
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          3
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Vote against the proposal
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Opposes proposal
-        </td>
-      </tr>
-
-      <tr>
-        <td className="px-4 py-3 text-sm text-purple-500 dark:text-purple-400 whitespace-nowrap font-medium">
-          NoWithVeto
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          4
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Vote against with veto
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Opposes Proposal & burns deposit if > 33.4%
-        </td>
-      </tr>
-    </tbody>
-
-  </table>
 </div>
 
 ### Voting Power
@@ -1164,123 +1091,19 @@ function validateWeightedVoteComprehensive(options: Array<{ option: number; weig
 
 ### Error Code Reference
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">
-          Error
-        </th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">
-          Cause
-        </th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">
-          Solution
-        </th>
-      </tr>
-    </thead>
+<div className="data-table">
 
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
+| Error | Cause | Solution |
+| --- | --- | --- |
+| `proposal does not exist` | Invalid proposal ID or proposal expired | Verify proposal ID and ensure voting period is still active |
+| `inactive proposal` | Voting or deposit period has ended | Check proposal status and timeline |
+| `insufficient deposit` | Deposit below 3,500 SEI | Increase deposit to the minimum required amount |
+| `invalid vote option` | Vote option not 1-4 | Use a valid option (1-Yes, 2-Abstain, 3-No, 4-NoWithVeto) |
+| `already voted` | Address has already voted on this proposal | Each address can vote only once per proposal |
+| `weights must sum to 1` | Weighted votes don’t sum to 1.0 | **CRITICAL —** adjust weights so they total exactly 1.0 |
+| `insufficient voting power` | No staked SEI | Delegate SEI to validators to gain voting power |
+| `deposit period ended` | Deposits no longer accepted | Deposit period closes 2 days after submission |
 
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>proposal does not exist</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Invalid proposal ID or proposal expired
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Verify proposal ID and ensure voting period is still active
-        </td>
-      </tr>
-
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>inactive proposal</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Voting or deposit period has ended
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Check proposal status and timeline
-        </td>
-      </tr>
-
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>insufficient deposit</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Deposit below&nbsp;3,500&nbsp;SEI
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Increase deposit to the minimum required amount
-        </td>
-      </tr>
-
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>invalid vote option</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Vote option not&nbsp;1-4
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Use a valid option (1-Yes, 2-Abstain, 3-No, 4-NoWithVeto)
-        </td>
-      </tr>
-
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>already voted</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Address has already voted on this proposal
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Each address can vote only once per proposal
-        </td>
-      </tr>
-
-      <tr className="bg-sei-grey-25 dark:bg-sei-maroon-100/20">
-        <td className="px-4 py-3 text-sm text-sei-maroon-100 dark:text-sei-maroon-25 whitespace-nowrap font-bold">
-          <code>weights must sum to&nbsp;1</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-700 dark:text-neutral-300 font-semibold">
-          Weighted votes don’t sum to&nbsp;1.0
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-700 dark:text-neutral-300 font-semibold">
-          <strong>CRITICAL —</strong> adjust weights so they total exactly&nbsp;1.0
-        </td>
-      </tr>
-
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>insufficient voting power</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          No staked SEI
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Delegate SEI to validators to gain voting power
-        </td>
-      </tr>
-
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>deposit period ended</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Deposits no longer accepted
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Deposit period closes 2&nbsp;days after submission
-        </td>
-      </tr>
-
-    </tbody>
-
-  </table>
 </div>
 
 <Callout type="info">

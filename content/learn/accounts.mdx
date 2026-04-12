@@ -62,45 +62,16 @@ Certain actions are **not possible** before wallets are associated:
 
 ## Methods of Association
 
-<div className="mb-8">
-  <div className="overflow-auto">
-    <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-      <thead>
-        <tr>
-          <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Method</th>
-          <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Security Risk</th>
-          <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">User Action Required</th>
-        </tr>
-      </thead>
-      <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-        <tr>
-          <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">1. Broadcast a Transaction</td>
-          <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap font-medium">Low</td>
-          <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Association happens automatically</td>
-        </tr>
-        <tr>
-          <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">2. Direct Private Key</td>
-          <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">High</td>
-          <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Provide private key directly</td>
-        </tr>
-        <tr>
-          <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">3. Signed Message</td>
-          <td className="px-4 py-3 text-sm text-yellow-600 dark:text-yellow-400 whitespace-nowrap font-medium">Medium</td>
-          <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Sign a predefined message to prove ownership</td>
-        </tr>
-        <tr>
-          <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">4. Public Key</td>
-          <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap font-medium">Low</td>
-          <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Provide a compressed public key for association</td>
-        </tr>
-        <tr>
-          <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">5. Gasless Signed Message</td>
-          <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap font-medium">Low</td>
-          <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Sign a message without requiring gas (if funded)</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<div className="data-table">
+
+| Method | Security Risk | User Action Required |
+| --- | --- | --- |
+| 1. Broadcast a Transaction | Low | Association happens automatically |
+| 2. Direct Private Key | High | Provide private key directly |
+| 3. Signed Message | Medium | Sign a predefined message to prove ownership |
+| 4. Public Key | Low | Provide a compressed public key for association |
+| 5. Gasless Signed Message | Low | Sign a message without requiring gas (if funded) |
+
 </div>
 
 <Callout type="info">Using any of these methods will ensure the **public key** is known to the chain, enabling automatic association between the EVM-compatible and Bech32 addresses.</Callout>

@@ -563,97 +563,17 @@ class RateLimitedClient {
 
 ## Troubleshooting
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">
-          Error
-        </th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">
-          Cause
-        </th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">
-          Solution
-        </th>
-      </tr>
-    </thead>
+<div className="data-table">
 
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>Invalid API key</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Wrong or expired key
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Check API key in dashboard
-        </td>
-      </tr>
+| Error | Cause | Solution |
+| --- | --- | --- |
+| `Invalid API key` | Wrong or expired key | Check API key in dashboard |
+| `Rate limit exceeded` | Too many requests | Implement exponential backoff |
+| `Chain not supported` | Using unsupported chain | Check supported chains list |
+| `Invalid address format` | Malformed wallet address | Validate address format |
+| `Request timeout` | Network issues | Increase timeout, add retries |
+| `Insufficient data` | New address/contract | Wait for indexing to complete |
 
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>Rate limit exceeded</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Too many requests
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Implement exponential backoff
-        </td>
-      </tr>
-
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>Chain not supported</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Using unsupported chain
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Check supported chains list
-        </td>
-      </tr>
-
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>Invalid address format</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Malformed wallet address
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Validate address format
-        </td>
-      </tr>
-
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>Request timeout</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Network issues
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Increase timeout, add retries
-        </td>
-      </tr>
-
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>Insufficient data</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          New address/contract
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Wait for indexing to complete
-        </td>
-      </tr>
-    </tbody>
-
-  </table>
 </div>
 
 ## Resources

@@ -325,43 +325,15 @@ SeiDB integration offers several technical advantages crucial for parallelizatio
 
 The Parallelization Engine delivers significant performance improvements:
 
-<div className="overflow-auto mb-8">
-  <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-500 dark:text-neutral-400">Transaction Type</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-500 dark:text-neutral-400">Sequential TPS</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-500 dark:text-neutral-400">Parallel TPS</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-500 dark:text-neutral-400">Improvement</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Simple Transfers</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">3,000</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">15,000+</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">5x</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">ERC-20 Transfers</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">2,200</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">9,500+</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">4.3x</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">DEX Swaps</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">800</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">2,800+</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">3.5x</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Complex Contracts</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">500</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">1,500+</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">3x</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Transaction Type | Sequential TPS | Parallel TPS | Improvement |
+| --- | --- | --- | --- |
+| Simple Transfers | 3,000 | 15,000+ | 5x |
+| ERC-20 Transfers | 2,200 | 9,500+ | 4.3x |
+| DEX Swaps | 800 | 2,800+ | 3.5x |
+| Complex Contracts | 500 | 1,500+ | 3x |
+
 </div>
 
 These improvements scale with CPU core count, allowing Sei to take full advantage of modern server hardware.

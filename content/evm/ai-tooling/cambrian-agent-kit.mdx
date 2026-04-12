@@ -456,43 +456,16 @@ async function monitorTransaction(txHash: string) {
 
 ### Troubleshooting Guide
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Issue</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Cause</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Solution</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">"Insufficient funds"</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Low SEI balance</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap">Add more SEI to your wallet</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">"Transaction failed"</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Gas estimation error</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap">Reduce transaction amount</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">"Network error"</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">RPC connection issue</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap">Check RPC URL in .env</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">"Slippage too high"</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Price moved during swap</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap">Increase slippage tolerance</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">"Invalid private key"</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Incorrect key format</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap">Verify private key format</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Issue | Cause | Solution |
+| --- | --- | --- |
+| "Insufficient funds" | Low SEI balance | Add more SEI to your wallet |
+| "Transaction failed" | Gas estimation error | Reduce transaction amount |
+| "Network error" | RPC connection issue | Check RPC URL in .env |
+| "Slippage too high" | Price moved during swap | Increase slippage tolerance |
+| "Invalid private key" | Incorrect key format | Verify private key format |
+
 </div>
 
 **Debug Commands:**

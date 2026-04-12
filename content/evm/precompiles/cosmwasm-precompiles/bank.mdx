@@ -1168,53 +1168,16 @@ async function safeGetBalance(address: string, denom: string) {
 
 ### Error Code Reference
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Error</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Cause</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Solution</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>insufficient funds</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Not enough balance for transfer</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Check balance before transfer</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>invalid address</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Malformed address format</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Use proper EVM (0x...) or Sei (sei1...) format</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>unknown denomination</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Token denom doesn't exist</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Verify token denomination format</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>amount overflow</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Amount exceeds uint256 limits</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Use appropriate amount ranges</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>metadata not found</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Token metadata not available</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Handle missing metadata gracefully</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Error | Cause | Solution |
+| --- | --- | --- |
+| `insufficient funds` | Not enough balance for transfer | Check balance before transfer |
+| `invalid address` | Malformed address format | Use proper EVM (0x...) or Sei (sei1...) format |
+| `unknown denomination` | Token denom doesn't exist | Verify token denomination format |
+| `amount overflow` | Amount exceeds uint256 limits | Use appropriate amount ranges |
+| `metadata not found` | Token metadata not available | Handle missing metadata gracefully |
+
 </div>
 
 ## Important Notes

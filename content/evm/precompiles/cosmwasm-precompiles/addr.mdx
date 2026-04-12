@@ -217,33 +217,14 @@ contract CrossChainAddressManager {
 
 Address association between EVM and Cosmos addresses occurs automatically in most cases:
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Method</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Trigger</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Requirements</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">**Automatic**</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">First transaction broadcast</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Wallet signs any transaction</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">**Manual (Signature)**</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">associate() function</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Custom message signature</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">**Manual (PubKey)**</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">associatePubKey() function</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Compressed public key</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Method | Trigger | Requirements |
+| --- | --- | --- |
+| **Automatic** | First transaction broadcast | Wallet signs any transaction |
+| **Manual (Signature)** | associate() function | Custom message signature |
+| **Manual (PubKey)** | associatePubKey() function | Compressed public key |
+
 </div>
 
 ### How Association Works
@@ -744,53 +725,16 @@ const pubKeyTx = await addr.associatePubKey(pubKeyHex, {
 
 ### Error Code Reference
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Error</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Cause</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Solution</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>invalid signature</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Malformed v, r, s components</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Verify signature parsing and format</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>already associated</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Address already has association</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Check existing association instead</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>not found</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">No association exists</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Create association first</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>invalid public key</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Malformed public key format</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Use compressed format without 0x prefix</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>invalid address format</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Wrong address format</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Use proper EVM (0x...) or Sei (sei1...) format</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Error | Cause | Solution |
+| --- | --- | --- |
+| `invalid signature` | Malformed v, r, s components | Verify signature parsing and format |
+| `already associated` | Address already has association | Check existing association instead |
+| `not found` | No association exists | Create association first |
+| `invalid public key` | Malformed public key format | Use compressed format without 0x prefix |
+| `invalid address format` | Wrong address format | Use proper EVM (0x...) or Sei (sei1...) format |
+
 </div>
 
 ## Important Notes

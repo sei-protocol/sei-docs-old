@@ -315,59 +315,15 @@ for (uint i = 0; i < userRewards.rewards.length; i++) {
 
 The distribution precompile has **different decimal precision for queries vs actual withdrawals** due to how rewards are tracked in the Cosmos SDK:
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Function</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Type</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Decimal Precision</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Conversion to SEI</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">
-          <strong>rewards()</strong>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Query (pending rewards)</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 whitespace-nowrap">18 decimals (DecCoins)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          <code>amount / 1e18</code>
-        </td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">
-          <strong>withdrawDelegationRewards()</strong>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Withdrawn amount (event)</td>
-        <td className="px-4 py-3 text-sm text-blue-600 dark:text-blue-400 whitespace-nowrap">6 decimals (usei)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          <code>amount / 1e6</code>
-        </td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">
-          <strong>withdrawMultipleDelegationRewards()</strong>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Withdrawn amount (event)</td>
-        <td className="px-4 py-3 text-sm text-blue-600 dark:text-blue-400 whitespace-nowrap">6 decimals (usei)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          <code>amount / 1e6</code>
-        </td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">
-          <strong>withdrawValidatorCommission()</strong>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Withdrawn amount (event)</td>
-        <td className="px-4 py-3 text-sm text-blue-600 dark:text-blue-400 whitespace-nowrap">6 decimals (usei)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          <code>amount / 1e6</code>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Function | Type | Decimal Precision | Conversion to SEI |
+| --- | --- | --- | --- |
+| **rewards()** | Query (pending rewards) | 18 decimals (DecCoins) | `amount / 1e18` |
+| **withdrawDelegationRewards()** | Withdrawn amount (event) | 6 decimals (usei) | `amount / 1e6` |
+| **withdrawMultipleDelegationRewards()** | Withdrawn amount (event) | 6 decimals (usei) | `amount / 1e6` |
+| **withdrawValidatorCommission()** | Withdrawn amount (event) | 6 decimals (usei) | `amount / 1e6` |
+
 </div>
 
 ### Why Different Precisions?

@@ -152,53 +152,15 @@ One of the most important concepts to understand when working with the Sei CosmW
 
 The CosmWasm precompile requires **JSON-encoded messages** that conform to each contract's specific schema:
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Function</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Input/Output</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Format Type</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Example</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">`instantiate()`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">msg parameter (input)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">JSON bytes</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          <code>ethers.toUtf8Bytes(jsonString)</code>
-        </td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">`execute()`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">msg parameter (input)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">JSON bytes</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          <code>ethers.toUtf8Bytes(jsonString)</code>
-        </td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">`query()`</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">req parameter (input)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">JSON bytes</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          <code>ethers.toUtf8Bytes(jsonString)</code>
-        </td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">
-          <strong>All functions</strong>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">response (output)</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">JSON bytes</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          <code>JSON.parse(ethers.toUtf8String(response))</code>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Function | Input/Output | Format Type | Example |
+| --- | --- | --- | --- |
+| `instantiate()` | msg parameter (input) | JSON bytes | `ethers.toUtf8Bytes(jsonString)` |
+| `execute()` | msg parameter (input) | JSON bytes | `ethers.toUtf8Bytes(jsonString)` |
+| `query()` | req parameter (input) | JSON bytes | `ethers.toUtf8Bytes(jsonString)` |
+| **All functions** | response (output) | JSON bytes | `JSON.parse(ethers.toUtf8String(response))` |
+
 </div>
 
 ### How Message Encoding Works
@@ -956,67 +918,18 @@ const incorrectMsg = ethers.toUtf8Bytes('invalid json');
 
 ### Error Code Reference
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Error</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Cause</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Solution</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>invalid json</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Malformed JSON message</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Validate JSON before encoding</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>contract not found</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Invalid contract address</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Verify contract address format</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>insufficient funds</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Not enough tokens for operation</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Check balance and reduce amount</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>execution failed</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Contract execution error</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Check contract state and parameters</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>code id not found</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Invalid code ID for instantiation</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Use valid stored code ID</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>unauthorized</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Insufficient permissions</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Check admin/owner permissions</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>query parsing failed</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Invalid query message format</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Match contract's query schema</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Error | Cause | Solution |
+| --- | --- | --- |
+| `invalid json` | Malformed JSON message | Validate JSON before encoding |
+| `contract not found` | Invalid contract address | Verify contract address format |
+| `insufficient funds` | Not enough tokens for operation | Check balance and reduce amount |
+| `execution failed` | Contract execution error | Check contract state and parameters |
+| `code id not found` | Invalid code ID for instantiation | Use valid stored code ID |
+| `unauthorized` | Insufficient permissions | Check admin/owner permissions |
+| `query parsing failed` | Invalid query message format | Match contract's query schema |
+
 </div>
 
 ## Important Notes

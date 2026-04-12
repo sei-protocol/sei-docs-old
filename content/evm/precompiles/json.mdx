@@ -128,61 +128,14 @@ The JSON precompile has specific limitations for different data types:
 
 ### Supported Data Types
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">
-          Function
-        </th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">
-          Supports
-        </th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">
-          Limitations
-        </th>
-      </tr>
-    </thead>
+<div className="data-table">
 
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">
-          extractAsBytes
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">
-          Strings, Objects, Arrays
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Returns raw bytes - needs conversion
-        </td>
-      </tr>
+| Function | Supports | Limitations |
+| --- | --- | --- |
+| extractAsBytes | Strings, Objects, Arrays | Returns raw bytes - needs conversion |
+| extractAsUint256 | Integers only | No decimals, booleans, or negative numbers |
+| extractAsBytesList | Arrays of strings/objects | Each element returned as bytes |
 
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">
-          extractAsUint256
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">
-          Integers only
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          No decimals, booleans, or negative numbers
-        </td>
-      </tr>
-
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">
-          extractAsBytesList
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-nowrap">
-          Arrays of strings/objects
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Each element returned as bytes
-        </td>
-      </tr>
-    </tbody>
-
-  </table>
 </div>
 
 ### Data Type Conversion Strategies
@@ -732,85 +685,16 @@ async function handleMissingKeys(jsonPrecompile: ethers.Contract, data: any) {
 
 ### Error Code Reference
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">
-          Error
-        </th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">
-          Cause
-        </th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">
-          Solution
-        </th>
-      </tr>
-    </thead>
+<div className="data-table">
 
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>key not found</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Specified key doesn't exist in JSON
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Verify key path and JSON structure
-        </td>
-      </tr>
+| Error | Cause | Solution |
+| --- | --- | --- |
+| `key not found` | Specified key doesn't exist in JSON | Verify key path and JSON structure |
+| `invalid JSON format` | Malformed JSON input | Use `JSON.stringify()` to ensure valid format |
+| `execution reverted` | Gas limit too low | Increase gas limit based on data complexity |
+| `invalid integer` | Non-numeric value for `extractAsUint256` | Ensure the value is a valid integer |
+| `out of gas` | Insufficient gas for large JSON | Use `calculateGasLimit()` for dynamic estimation |
 
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>invalid JSON format</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Malformed JSON input
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Use <code>JSON.stringify()</code> to ensure valid format
-        </td>
-      </tr>
-
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>execution reverted</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Gas limit too low
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Increase gas limit based on data complexity
-        </td>
-      </tr>
-
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>invalid integer</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Non-numeric value for <code>extractAsUint256</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Ensure the value is a valid integer
-        </td>
-      </tr>
-
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>out of gas</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Insufficient gas for large JSON
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">
-          Use <code>calculateGasLimit()</code> for dynamic estimation
-        </td>
-      </tr>
-    </tbody>
-
-  </table>
 </div>
 
 ## Key Considerations and Tricks

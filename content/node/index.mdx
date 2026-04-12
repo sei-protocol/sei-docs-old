@@ -70,32 +70,16 @@ import { Icon } from '../../src/components/Icon';
         <h2 className="text-lg font-bold tracking-tight text-neutral-800 dark:text-neutral-100" style={{ letterSpacing: '-0.02em' }}>Hardware Requirements</h2>
       </div>
 
-      <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-800 border border-neutral-200 dark:border-neutral-800  overflow-hidden">
-        <thead className="bg-neutral-50 dark:bg-neutral-900/50">
-          <tr>
-            <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Component</th>
-            <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Required</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800 bg-neutral-50 dark:bg-neutral-900/40">
-          <tr>
-            <td className="px-4 py-3 text-sm font-medium text-neutral-900 dark:text-neutral-100">CPU</td>
-            <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">16 cores (Intel Xeon/Core i7/i9 or AMD Epyc/Ryzen)</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-3 text-sm font-medium text-neutral-900 dark:text-neutral-100">RAM</td>
-            <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">256 GB DDR5 or better</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-3 text-sm font-medium text-neutral-900 dark:text-neutral-100">Storage</td>
-            <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">2 TB NVMe SSD (high IOPS required)</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-3 text-sm font-medium text-neutral-900 dark:text-neutral-100">Network</td>
-            <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">2 Gbps with low latency</td>
-          </tr>
-        </tbody>
-      </table>
+<div className="data-table">
+
+| Component | Required |
+| --- | --- |
+| CPU | 16 cores (Intel Xeon/Core i7/i9 or AMD Epyc/Ryzen) |
+| RAM | 256 GB DDR5 or better |
+| Storage | 2 TB NVMe SSD (high IOPS required) |
+| Network | 2 Gbps with low latency |
+
+</div>
     </div>
 
     <div className="flex items-center gap-3 mb-6">

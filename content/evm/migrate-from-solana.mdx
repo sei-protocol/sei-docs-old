@@ -27,73 +27,22 @@ Before diving into code, it's essential to understand the fundamental architectu
 
 ### Execution Model Comparison
 
-<div className="overflow-x-auto max-w-full mt-4">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Aspect</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Solana</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-green-600 dark:text-green-400">Sei EVM</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Language</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Rust (with Anchor framework)</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">Solidity</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Account Model</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Programs + Accounts (separated code and data)</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">Contracts (code and storage unified)</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">State Storage</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Flat account data with owner programs</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">Contract storage slots (key-value)</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Parallelization</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Explicit (declare accounts upfront)</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 font-semibold">Optimistic (automatic conflict detection)</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Block Time</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">~400ms</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">400ms</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Finality</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">~2.5-4.5 seconds (32 confirmations)</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400 font-semibold">Instant (single block)</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Fee Model</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Compute units + priority fees + rent</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">Gas × Gas Price (no rent)</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Cross-Contract Calls</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">CPI (Cross-Program Invocation)</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">Internal/External function calls</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Deterministic Addresses</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">PDAs (Program Derived Addresses)</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">CREATE2 / ImmutableCreate2Factory</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Token Standard</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">SPL Token</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">ERC-20 / ERC-721 / ERC-1155</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">Dev Tooling</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Anchor, Solana CLI, solana-web3.js</td>
-        <td className="px-4 py-3 text-sm text-green-600 dark:text-green-400">Hardhat, Foundry, ethers.js, viem</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="comparison-table sei-highlight-col-3">
+
+| Aspect | Solana | Sei EVM |
+| --- | --- | --- |
+| Language | Rust (with Anchor framework) | Solidity |
+| Account Model | Programs + Accounts (separated code and data) | Contracts (code and storage unified) |
+| State Storage | Flat account data with owner programs | Contract storage slots (key-value) |
+| Parallelization | Explicit (declare accounts upfront) | Optimistic (automatic conflict detection) |
+| Block Time | ~400ms | 400ms |
+| Finality | ~2.5-4.5 seconds (32 confirmations) | Instant (single block) |
+| Fee Model | Compute units + priority fees + rent | Gas × Gas Price (no rent) |
+| Cross-Contract Calls | CPI (Cross-Program Invocation) | Internal/External function calls |
+| Deterministic Addresses | PDAs (Program Derived Addresses) | CREATE2 / ImmutableCreate2Factory |
+| Token Standard | SPL Token | ERC-20 / ERC-721 / ERC-1155 |
+| Dev Tooling | Anchor, Solana CLI, solana-web3.js | Hardhat, Foundry, ethers.js, viem |
+
 </div>
 
 ## Core Concept Mapping

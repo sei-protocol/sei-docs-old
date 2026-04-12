@@ -176,37 +176,14 @@ contract PointerRegistry {
 
 Each query function returns three values:
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Return Value</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Type</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Description</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Example</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">**addr**</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">address</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">EVM pointer contract address</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 font-mono">0x123...abc</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">**version**</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">uint16</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Pointer version for compatibility</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 font-mono">1</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100 whitespace-nowrap font-medium">**exists**</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">bool</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Whether the pointer exists</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 font-mono">true</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Return Value | Type | Description | Example |
+| --- | --- | --- | --- |
+| **addr** | address | EVM pointer contract address | `0x123...abc` |
+| **version** | uint16 | Pointer version for compatibility | `1` |
+| **exists** | bool | Whether the pointer exists | `true` |
+
 </div>
 
 ## Step-by-Step Guide: Using the PointerView Precompile
@@ -992,53 +969,16 @@ function validateAssetFormat(assetType, asset) {
 
 ### Error Code Reference
 
-<div className="overflow-x-auto max-w-full">
-  <table className="w-full divide-y divide-neutral-200 dark:divide-neutral-800">
-    <thead>
-      <tr>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Error</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Cause</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-neutral-900 dark:text-neutral-100">Solution</th>
-      </tr>
-    </thead>
-    <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>network error</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">RPC endpoint unavailable</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Check network connection and RPC endpoint</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>invalid parameter</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Malformed asset identifier</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Validate asset format before querying</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>call reverted</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Precompile call failed</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Check precompile address and ABI</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>timeout</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Query took too long</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Implement retry logic with backoff</td>
-      </tr>
-      <tr>
-        <td className="px-4 py-3 text-sm text-neutral-800 dark:text-neutral-200 whitespace-nowrap font-medium">
-          <code>rate limit exceeded</code>
-        </td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Too many requests to RPC</td>
-        <td className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">Add delays between queries</td>
-      </tr>
-    </tbody>
-  </table>
+<div className="data-table">
+
+| Error | Cause | Solution |
+| --- | --- | --- |
+| `network error` | RPC endpoint unavailable | Check network connection and RPC endpoint |
+| `invalid parameter` | Malformed asset identifier | Validate asset format before querying |
+| `call reverted` | Precompile call failed | Check precompile address and ABI |
+| `timeout` | Query took too long | Implement retry logic with backoff |
+| `rate limit exceeded` | Too many requests to RPC | Add delays between queries |
+
 </div>
 
 ## Important Notes
