@@ -78,7 +78,7 @@ export function RandomPeers({ format = 'bash', network = 'mainnet' }: { format?:
 
 	useEffect(() => {
 		const pool = PEERS[network];
-		setPeers(pickRandom(pool, Math.min(4, pool.length)));
+		setPeers(pickRandom(pool, Math.min(5, pool.length)));
 	}, [network]);
 
 	const peerString = peers.join(',');
