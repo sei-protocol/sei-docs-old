@@ -288,7 +288,7 @@ SeiDB includes analysis tools that provide insights into contract storage behavi
 ```javascript
 // Storage analysis integration
 async function analyzeContractStorage(contractAddress) {
-  const provider = new ethers.providers.JsonRpcProvider('https://sei-evm-rpc.com');
+  const provider = new ethers.providers.JsonRpcProvider('https://evm-rpc.sei-apis.com');
 
   const stats = await provider.send('sei_getStorageStats', [contractAddress, { blockCount: 1000 }]);
 

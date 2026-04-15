@@ -84,7 +84,7 @@ function getCW1155Pointer(
 
 Before getting started, ensure you have:
 
-- **Node.js** (v16 or higher)
+- **Node.js** (v18 or higher)
 - **npm** or **yarn** package manager
 - **EVM-compatible wallet** (no tokens required for queries)
 - **Knowledge of target assets** - native token denoms or CosmWasm contract addresses
@@ -114,7 +114,7 @@ const POINTERVIEW_PRECOMPILE_ADDRESS = '0x00000000000000000000000000000000000010
 const POINTERVIEW_PRECOMPILE_ABI = [
 "function getNativePointer(string) view returns (address, uint16, bool)",
 "function getCW20Pointer(string) view returns (address, uint16, bool)",
-"function getCW721Pointer(string) view returns (address, uint16, bool)"
+"function getCW721Pointer(string) view returns (address, uint16, bool)",
 "function getCW1155Pointer(string) view returns (address, uint16, bool)"
 ];
 
