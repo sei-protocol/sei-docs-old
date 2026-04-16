@@ -1,213 +1,205 @@
-# Sei Network
+# AGENTS.md — sei-docs
 
-## Description
-
-Defines agent behaviors and execution flows for interacting with the Sei blockchain.
-
-Agents use SKILL.md to perform actions and must follow the rules defined here
-to ensure safe, deterministic, and efficient execution.
+Instructions for AI coding agents working in the [sei-docs](https://github.com/sei-protocol/sei-docs) repository.
 
 ---
 
-## Agents
+## What this repo is
 
-### wallet_agent
-
-purpose:
-
-- Manage balances
-- Transfer tokens
-- Resolve addresses
-
-capabilities:
-
-- get_account_balance
-- send_tokens
-- get_evm_address
-- get_sei_address
-
-flow:
-
-1. Validate address format
-2. Fetch balances if required
-3. Execute action (if write → confirm first)
-
-constraints:
-
-- Never send tokens without explicit confirmation
-- Always validate sufficient balance
+`sei-docs` is the source for **https://docs.sei.io** — the primary developer documentation for the Sei blockchain. It is a [Next.js](https://nextjs.org) + [Nextra](https://nextra.site) site using MDX for content.
 
 ---
 
-### contract_agent
+## Build and run
 
-purpose:
+**Package manager: `bun` only.** Do not use `npm` or `yarn`.
 
-- Interact with smart contracts (EVM + CosmWasm)
+```bash
+bun install          # install dependencies
+bun dev              # local dev server (turbopack, hot reload)
+bun run build        # production build — ALWAYS run before pushing
+bun run lint         # Biome lint check
+bun run format       # Biome format (auto-fix)
+bun run check        # Biome lint + format combined (auto-fix)
+bun test             # run tests
+```
 
-capabilities:
-
-- get_contract_state
-- execute_contract
-- deploy_contract
-- simulate_contract_execution
-
-flow:
-
-1. Validate contract address
-2. Simulate execution (if write)
-3. Present expected outcome
-4. Execute on confirmation
-
-constraints:
-
-- Always simulate before execution
-- Reject malformed contract inputs
+> **Always run `bun run build` before committing.** It validates MDX syntax, broken imports, and build-time errors that `bun dev` won't catch.
 
 ---
 
-### staking_agent
+## Project structure
 
-purpose:
+```
+content/              # All documentation pages (MDX/MD)
+  _meta.js            # Root navigation order + labels
+  index.mdx           # Docs home page
+  learn/              # General Sei concepts (architecture, staking, governance)
+  evm/                # Primary developer section (EVM, precompiles, tooling)
+  cosmos-sdk/         # Legacy Cosmos SDK docs (deprecated per SIP-3)
+  node/               # Node operations and validator docs
+  skill.md            # AI agent skill definitions for Sei RPC operations
+  agents.md           # Agent behaviour and execution flow definitions
 
-- Manage staking operations
+src/
+  components/         # React components used in MDX pages
+  constants/          # Shared constants (chain IDs, RPC URLs, addresses)
+  providers/          # React context providers
+  utils/              # Utility functions
 
-capabilities:
+public/
+  assets/             # Images and static files referenced in docs
 
-- stake_tokens
-- unstake_tokens
-- get_account_balance
+scripts/
+  build-search-index.js   # Builds Pagefind search index (runs in postbuild)
+  scrape-docs-html.js     # Scrapes rendered HTML for external use
+  check-links.mjs         # Link checker
+  audit-content-seo.mjs   # SEO audit
 
-flow:
-
-1. Validate validator address
-2. Check available balance
-3. Confirm staking/unstaking action
-4. Execute transaction
-
-constraints:
-
-- Prevent staking full balance (leave gas buffer)
-- Confirm lock-up implications
-
----
-
-### query_agent
-
-purpose:
-
-- Read-only blockchain queries
-
-capabilities:
-
-- get_chain_status
-- get_block
-- get_transaction
-- get_gas_price
-
-flow:
-
-1. Validate inputs
-2. Query RPC
-3. Normalize response
-
-constraints:
-
-- Retry up to 3 times
-- Never escalate to write operations
+STYLE_GUIDE.mdx       # Prose and formatting conventions — read before writing
+biome.json            # Linter/formatter config (Biome, not ESLint/Prettier)
+next.config.mjs       # Next.js config
+```
 
 ---
 
-### portfolio_agent
+## Adding or editing content
 
-purpose:
+### Edit an existing page
 
-- Aggregate and interpret user holdings
+Each page maps 1:1 to a `.mdx` file in `content/`. Find the file and edit it. MDX supports standard Markdown plus JSX components.
 
-capabilities:
+```bash
+# Example: edit the EVM differences page
+content/evm/differences-with-ethereum.mdx
+```
 
-- get_account_balance
-- get_portfolio_summary
+### Add a new page
 
-flow:
+1. Create `content/<section>/your-page.mdx`
+2. Add an entry to `content/<section>/_meta.js` — this controls navbar order and label:
 
-1. Fetch balances
-2. Aggregate tokens
-3. Return structured summary
+```js
+// content/evm/_meta.js
+export default {
+  // ...existing entries...
+  'your-page': 'Your Page Title',
+};
+```
 
-constraints:
+3. Add frontmatter to the MDX file:
 
-- No write operations
-- Ensure consistent formatting
+```mdx
+---
+title: 'Your Page Title'
+description: 'One-sentence description for SEO.'
+keywords: ['keyword1', 'keyword2']
+---
+
+# Your Page Title
+```
+
+### Add a new section (directory)
+
+1. Create `content/<section>/` with an `index.mdx` and `_meta.js`
+2. Add the section to `content/_meta.js`
 
 ---
 
-## Execution Rules
+## Content conventions (from STYLE_GUIDE.mdx)
 
-### Skill selection
-
-- Choose the minimal set of skills required
-- Prefer READ over WRITE where possible
-- Prefer DERIVED skills for multi-step operations
-
----
-
-### Write execution
-
-Before any write:
-
-1. Simulate (if available)
-2. Present:
-   - action
-   - assets affected
-   - estimated fees
-3. Require explicit confirmation
+- **Beginner-friendly**: spell out acronyms on first use; avoid Web3 jargon where possible
+- **Simple**: fewer words, more meaning; no qualifying language ("quite", "completely")
+- **Self-explanatory**: include code snippets and diagrams for complex concepts
+- **Heading levels**: never skip — H2 → H3 → H4; max depth H4
+- **Code**: inline code for values/identifiers; fenced blocks for multi-line; always specify language
+- **Images**: store in `public/assets/`; use relative paths in MDX
+- **Callouts**: use `<Info>`, `<Warning>`, `<Tip>`, `<Danger>` components (not bare blockquotes for notices)
+- **Cosmos SDK section**: always include a deprecation notice — new content should go in EVM section
 
 ---
 
-### Error handling
+## Linting and formatting
 
-- Fail fast on invalid inputs
-- Retry only READ operations
-- Surface clear, structured errors
+Biome handles both linting and formatting. **Not ESLint or Prettier.**
 
----
+```bash
+bun run check        # lint + format, auto-fix
+bun run lint         # lint only
+bun run format       # format only
+```
 
-### Network handling
-
-- Require explicit network selection
-- Default to testnet if unspecified
-- Do not mix networks within a single flow
-
----
-
-### Security
-
-- Never expose private keys
-- Use signer abstractions where possible
-- Do not log sensitive data
+Biome config (`biome.json`):
+- Indent: **tabs**, width 2
+- Line width: 164
+- Single quotes in JS/JSX
+- No trailing commas
+- MDX/MD files are **excluded** from Biome — prose formatting is manual
 
 ---
 
-## Coordination
+## Sei technical accuracy — facts to verify before editing
 
-If multiple agents are required:
+When editing technical content, apply these facts. If a claim conflicts with the below, update the content:
 
-- query_agent → gather state
-- wallet/contract/staking_agent → execute actions
-- portfolio_agent → summarise results
+| Fact | Value |
+|---|---|
+| Block time | 400 ms |
+| EVM version | Pectra (without blobs) |
+| Block gas limit | 12.5 M |
+| Min gas price (network) | 10 gwei (docs stated); live ~50–55 gwei |
+| SSTORE gas cost | 72,000 gas (governance-adjustable on-chain param) |
+| Mainnet chain ID | EVM `1329` / Cosmos `pacific-1` |
+| Testnet chain ID | EVM `1328` / Cosmos `atlantic-2` |
+| EVM RPC (mainnet) | `https://evm-rpc.sei-apis.com` |
+| EVM RPC (testnet) | `https://evm-rpc-testnet.sei-apis.com` |
+| USDC (mainnet) | `0xe15fC38F6D8c56aF07bbCBe3BAf5708A2Bf42392` |
+| USDC (testnet) | `0x4fCF1784B31630811181f670Aea7A7bEF803eaED` |
+| COINBASE opcode | Always returns global fee collector, not block proposer |
+| PREVRANDAO opcode | Returns hash of block timestamp — NOT random |
+| CosmWasm status | Deprecated per SIP-3 / governance proposal 99 |
 
-Agents must:
-
-- Pass normalized data between steps
-- Avoid redundant RPC calls
+Cross-check address values against `src/constants/` before publishing.
 
 ---
 
-## Non-goals
+## Key components for MDX pages
 
-Agents should NOT:
+```mdx
+<Info>Informational callout</Info>
+<Warning>Warning callout</Warning>
+<Tip>Tip callout</Tip>
+<Danger>Danger callout</Danger>
 
-- Make financial decisions without user input
-- Execute trades or transfers autonomously
-- Infer intent for write operations
+<NetworkTabs>
+  {/* content per network */}
+</NetworkTabs>
+
+<ChainInformation />   {/* renders live chain params */}
+<FaucetRequest />      {/* testnet faucet widget */}
+```
+
+Import from `@/components/<ComponentName>` — check `src/components/` for available components.
+
+---
+
+## What NOT to do
+
+- **Do not use `npm` or `yarn`** — bun only
+- **Do not skip `bun run build`** before pushing — MDX syntax errors only appear at build time
+- **Do not use ESLint or Prettier** — Biome is the sole linter/formatter
+- **Do not add new content to `cosmos-sdk/`** — that section is deprecated; new content goes in `evm/`
+- **Do not skip `_meta.js` updates** when adding pages — new files won't appear in the navbar
+- **Do not commit hardcoded addresses without verifying** against `src/constants/` or `usdc-on-sei.md`
+- **Do not use bare `>` blockquotes for notices** — use `<Info>`, `<Warning>`, etc.
+- **Do not write `<img>` tags** — use MDX image syntax or the Next.js `<Image>` component
+
+---
+
+## Useful references
+
+- Nextra docs: https://nextra.site/docs
+- Sei developer docs: https://docs.sei.io
+- Sei dev skill (offline AI reference): https://github.com/sei-protocol/sei-dev-skill
+- Style guide: `STYLE_GUIDE.mdx` in repo root
+- Biome: https://biomejs.dev
