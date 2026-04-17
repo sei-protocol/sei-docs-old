@@ -42,7 +42,7 @@ An agentic wallet sits between your AI agent and the blockchain:
 | **Key isolation** | Self-custodial on Sei (bring-your-own key via Viem). CDP's TEE-managed signer does not support Sei. | TEE + Shamir secret sharing |
 | **Sei support** | Via `ViemWalletProvider` (TS) or `EthAccountWalletProvider` (Python) | Via CAIP-2 `eip155:1329` |
 | **Policy engine** | Spending limits, address/contract allowlists, network restrictions | All of the above + time-based controls, key quorums |
-| **Built-in actions** | 40+ action providers (ERC20, NFTs, Pyth, x402, social, DeFi) | Wallet operations only (create, sign, send) |
+| **Built-in actions** | 40+ action providers (wallet, ERC-20, ERC-721, Pyth on Sei; many others Base/Ethereum-only) | Wallet operations only (create, sign, send) |
 | **AI frameworks** | LangChain, Vercel AI SDK, OpenAI Agents SDK, MCP | LangChain (`langchain-privy`) |
 | **Server SDKs** | TypeScript, Python | TypeScript, Python, Java, Rust, Go + REST API |
 | **Open source** | Yes (MIT) | Partial (`langchain-privy` is OSS) |
@@ -63,7 +63,7 @@ An agentic wallet sits between your AI agent and the blockchain:
 AgentKit is organized around three concepts:
 
 - **Wallet Providers** — Abstraction over different wallet implementations. For Sei, use `ViemWalletProvider` (TypeScript) or `EthAccountWalletProvider` (Python).
-- **Action Providers** — Units of onchain functionality (ERC20 transfers, Pyth price feeds, x402 payments, etc.). Most action providers work on any EVM chain including Sei.
+- **Action Providers** — Units of onchain functionality (ERC-20 transfers, ERC-721 ops, Pyth price feeds, etc.). Generic EVM providers work on Sei; providers with hard-coded chain allowlists (e.g. `x402ActionProvider`, `wethActionProvider`, CDP-managed ones) do not — see the support matrix below.
 - **Framework Extensions** — Adapters that turn AgentKit actions into tools for your AI framework of choice.
 
 ### Prerequisites
@@ -212,10 +212,10 @@ Not every AgentKit action provider works on Sei — some are chain-specific. Her
 | `walletActionProvider` | Yes | Balance, transfers, native SEI operations |
 | `erc20ActionProvider` | Yes | Any ERC-20 token (USDC, WSEI, etc.) |
 | `erc721ActionProvider` | Yes | NFT minting, transfers |
-| `pythActionProvider` | Yes | Pyth price feeds (Sei is Pyth-supported) |
-| `x402ActionProvider` | Yes | Machine-to-machine payments via x402 protocol |
-| `wethActionProvider` | Yes | Wrap/unwrap native SEI |
-| `cdpApiActionProvider` | Partial | Some endpoints Base-only |
+| `pythActionProvider` | Yes | Pyth price feeds via Hermes (off-chain, chain-agnostic) |
+| `wethActionProvider` | No | Hard-coded WETH addresses; no WSEI entry. Use `erc20ActionProvider` against Sei's WSEI contract instead. |
+| `x402ActionProvider` | No | Provider's `SUPPORTED_NETWORKS` allowlist is limited to `base-mainnet`, `base-sepolia`, `solana-mainnet`, and `solana-devnet`. The x402 protocol itself is chain-agnostic — write a custom action provider or call the facilitator directly if you need x402 on Sei. |
+| `cdpApiActionProvider` | No | Requires a Coinbase `networkId`; Sei isn't in AgentKit's chain map. |
 | `morphoActionProvider` | No | Morpho contracts not deployed on Sei |
 | `moonwellActionProvider` | No | Moonwell contracts not deployed on Sei |
 
@@ -227,10 +227,10 @@ For Sei-native DeFi actions (swaps on Symphony/DragonSwap, staking via Silo, len
 
 ### Known Quirks on Sei
 
-Verified by running AgentKit `0.10.4` against Sei testnet (`chain 1328`):
+Verified by running AgentKit `0.10.4` against Sei testnet (`chain 1328`). These quirks sit in AgentKit's network and action-provider layer and apply to **both** `ViemWalletProvider` and `PrivyWalletProvider`:
 
-- **Balances are labeled "ETH" in action output.** `walletActionProvider` hard-codes the native-currency symbol, so `get_wallet_details` returns strings like `Native Balance: 513128.95 ETH` even on Sei. Signing and arithmetic are unaffected — it's a display-only quirk. If the LLM will quote balances to users, add a post-processing step or a system-prompt instruction to rewrite `ETH` → `SEI` when `chain_id == 1329 || 1328`.
-- **`networkId` is `undefined`.** Coinbase's internal `CHAIN_ID_TO_NETWORK_ID` map only includes Base, Ethereum, Polygon, Arbitrum, and Optimism. Sei's chain IDs aren't in it, so `walletProvider.getNetwork()` returns `{ protocolFamily: 'evm', chainId: '1328', networkId: undefined }`. This is harmless for signing/sending, but **any action provider that branches on `networkId`** (notably `cdpApiActionProvider`) will refuse to run on Sei.
+- **Balances are labeled "ETH" in action output.** `walletActionProvider` hard-codes the native-currency symbol, so `get_wallet_details` returns strings like `Native Balance: 512993.50 ETH` and `native_transfer` responses say `Transferred 0.05 ETH to 0x...` even on Sei. Signing and arithmetic are unaffected — it's a display-only quirk. If the LLM will quote balances or transfer confirmations to users, add a post-processing step or a system-prompt instruction to rewrite `ETH` → `SEI` when `chain_id == 1329 || 1328`.
+- **`networkId` is `undefined`.** Coinbase's internal `CHAIN_ID_TO_NETWORK_ID` map only includes Ethereum, Polygon, Base, Arbitrum, and Optimism (mainnet + testnet). Sei's chain IDs aren't in it, so `walletProvider.getNetwork()` returns `{ protocolFamily: 'evm', chainId: '1328', networkId: undefined }`. This is harmless for signing/sending, but **any action provider that branches on `networkId`** will refuse to run on Sei. In practice, `AgentKit.from({...})` prints a warning like `The following action providers are not supported on the current network and will be unavailable: weth, x402` and silently drops them — if you expect an action and it's missing from `agentKit.getActions()`, check this warning first.
 
 ### CDP-Managed Wallets and Sei
 
@@ -448,43 +448,63 @@ As of `langchain-privy@0.1.0`, the library's `Chain` enum does not include Sei �
 
 ### Privy Policy Engine
 
-Privy's policy engine follows a default-deny model. You define policies with rules and conditions that are evaluated server-side before any transaction is signed.
+Privy's policy engine evaluates policies server-side before signing. Each rule pairs an `ALLOW`/`DENY` action with an RPC `method` and a list of `conditions` on transaction fields. Attach one or more policies to a wallet via `updateWallet`.
+
+<Warning>
+**Privy's engine is default-deny.** A request is allowed only when at least one `ALLOW` rule matches and no `DENY` rule matches. A policy built from `DENY`-only rules blocks every transaction — including ones you expect to pass. Always start from an explicit `ALLOW` rule that describes the happy path, then layer `DENY` rules on top.
+</Warning>
 
 ```typescript copy
-// Example: Create a policy that limits spending and restricts to specific contracts
-const policy = await privy.policies().create({
+// "Cap sends at 10 SEI and block a specific address."
+// Rule 1 (ALLOW) defines the happy path; without it, every request is denied.
+// Rule 2 (DENY) carves a specific hole in that allow.
+const policy = await privy.walletApi.createPolicy({
   name: 'sei-agent-policy',
+  version: '1.0',
+  chainType: 'ethereum',
   rules: [
     {
-      // Limit to 10 SEI per transaction
-      type: 'transfer_limit',
-      max_amount: '10000000000000000000', // 10 SEI in wei
-      currency: 'native',
-    },
-    {
-      // Only allow interaction with specific contracts
-      type: 'contract_allowlist',
-      addresses: [
-        '0x3894085ef7ff0f0aedf52e2a2704928d1ec074f1', // Native USDC (USDC.n) on Sei
+      name: 'Allow sends up to 10 SEI',
+      action: 'ALLOW',
+      method: 'eth_sendTransaction',
+      conditions: [
+        {
+          fieldSource: 'ethereum_transaction',
+          field: 'value',
+          operator: 'lte',
+          value: '10000000000000000000', // 10 SEI in wei
+        },
       ],
     },
     {
-      // Restrict to Sei mainnet only
-      type: 'chain_restriction',
-      chain_ids: [1329],
+      name: 'Deny sends to blocklisted address',
+      action: 'DENY',
+      method: 'eth_sendTransaction',
+      conditions: [
+        {
+          fieldSource: 'ethereum_transaction',
+          field: 'to',
+          operator: 'in',
+          value: ['0xdEAD000000000000000042069420694206942069'],
+        },
+      ],
     },
   ],
 });
 
 // Attach policy to wallet
-await privy.wallets().update(wallet.id, {
-  policy_ids: [policy.id],
+await privy.walletApi.updateWallet({
+  id: wallet.id,
+  policyIds: [policy.id],
 });
 ```
 
-Privy also supports features not available in Coinbase's policy system:
+<Info>
+Conditions support the `eq`, `gt`, `gte`, `lt`, `lte`, and `in` operators against `ethereum_transaction` fields (`to`, `value`) or `ethereum_calldata` fields. Operand order is `tx_field <operator> rule_value` — e.g. `operator: 'lte'` with `value: '10000000000000000000'` means "transaction value ≤ 10 SEI". `method` must be `eth_sendTransaction` or `eth_signTransaction`. Chain restriction is not a policy condition — enforce `caip2: 'eip155:1329'` at the call site to keep an agent on Sei.
+</Info>
 
-- **Time-based access controls** — restrict agent operations to specific windows
+Privy also offers features beyond the policy engine:
+
 - **Key quorums** — require multiple authorization keys to approve high-value transactions
 - **Webhook notifications** — get notified of all wallet activity (works chain-agnostically)
 
@@ -494,15 +514,26 @@ Privy also supports features not available in Coinbase's policy system:
 
 AgentKit includes a built-in `PrivyWalletProvider`, so you can use Privy's wallet infrastructure and policy engine as the backend while using AgentKit's 40+ action providers for onchain operations.
 
+Because of the `authorizationKeyIds` quirk noted above, the simplest working pattern is to create the wallet once via the Privy SDK (or the dashboard) and then hand the resulting `walletId` to AgentKit:
+
 ```typescript copy
 import { AgentKit, PrivyWalletProvider, walletActionProvider, erc20ActionProvider } from '@coinbase/agentkit';
+import { PrivyClient } from '@privy-io/server-auth';
 
+// Step 1 — create (or look up) a server wallet via the Privy SDK.
+// Omit authorizationKeyIds here; attach policies with updateWallet if needed.
+const privy = new PrivyClient(process.env.PRIVY_APP_ID!, process.env.PRIVY_APP_SECRET!, {
+  walletApi: { authorizationPrivateKey: process.env.PRIVY_AUTH_KEY },
+});
+const wallet = await privy.walletApi.createWallet({ chainType: 'ethereum' });
+
+// Step 2 — wrap the existing wallet in AgentKit's PrivyWalletProvider.
 const walletProvider = await PrivyWalletProvider.configureWithWallet({
   appId: process.env.PRIVY_APP_ID!,
   appSecret: process.env.PRIVY_APP_SECRET!,
   chainId: '1329', // Sei mainnet
+  walletId: wallet.id,
   authorizationPrivateKey: process.env.PRIVY_AUTH_KEY,
-  authorizationKeyId: process.env.PRIVY_AUTH_KEY_ID,
 });
 
 const agentKit = await AgentKit.from({
@@ -515,6 +546,10 @@ const agentKit = await AgentKit.from({
 ```
 
 This gives you the best of both worlds: Privy's fine-grained policies and key quorums with AgentKit's rich action library.
+
+<Warning>
+If you call `PrivyWalletProvider.configureWithWallet` **without** a `walletId`, AgentKit will attempt to create a new wallet for you and pass `authorizationKeyId` through to Privy — which hits the same `400 Invalid authorization key IDs` failure described in Privy's Known Quirks. Always pre-create the wallet and pass `walletId`.
+</Warning>
 
 ---
 
@@ -586,7 +621,7 @@ For Sei-native DeFi actions, use the [Cambrian Agent Kit](/evm/ai-tooling/cambri
 
 | Capability | Coinbase AgentKit | Privy |
 | --- | --- | --- |
-| x402 protocol support | Yes — Chain-agnostic, works on Sei via EOA | Yes — Works wherever agent holds stablecoins |
+| x402 protocol support on Sei | No via built-in `x402ActionProvider` (allowlist is Base + Solana only) — possible via a custom action provider | Yes — Works wherever agent holds stablecoins |
 | Agent-to-agent USDC transfers | Yes — ERC-20 transfers with Sei USDC | Yes — Server wallet transfers |
 | Stablecoin operations on Sei | Yes — `erc20ActionProvider` + Sei USDC | Yes — Standard ERC-20 ops |
 
