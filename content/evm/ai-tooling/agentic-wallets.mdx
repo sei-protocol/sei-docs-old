@@ -1,0 +1,655 @@
+---
+title: 'Agentic Wallets'
+description: 'Build AI agents with secure, programmable wallets on Sei using Coinbase AgentKit or Privy server wallets. Includes setup guides, policy engines, and a full feature comparison.'
+keywords: ['agentic wallets', 'ai agents', 'coinbase agentkit', 'privy', 'server wallets', 'sei ai', 'agent wallet', 'cdp wallet', 'wallet policy engine']
+---
+
+import { Tabs } from 'nextra/components';
+import { Steps } from 'nextra/components';
+
+# Agentic Wallets
+
+Agentic wallets give AI agents the ability to hold funds, sign transactions, and interact with smart contracts autonomously — without exposing private keys to the agent or the LLM. This page covers the two leading solutions that work on Sei today: **Coinbase AgentKit** and **Privy server wallets**.
+
+<Info>
+Both platforms support Sei as an EVM-compatible chain. No special integration is required — you point the wallet provider at Sei's RPC and chain ID and everything works out of the box.
+</Info>
+
+## How It Works
+
+An agentic wallet sits between your AI agent and the blockchain:
+
+1. **Agent decides** — The LLM reasons about what onchain action to take (e.g. "send 5 USDC to 0x...").
+2. **SDK prepares** — The wallet SDK constructs and validates the transaction.
+3. **Policy check** — The policy engine evaluates the transaction against spending limits, allowlists, and other guardrails.
+4. **TEE signs** — The private key, isolated in a Trusted Execution Environment, signs the transaction. The key is never exposed to the agent.
+5. **Broadcast** — The signed transaction is submitted to Sei's EVM RPC.
+
+```
+┌─────────┐     ┌───────────┐     ┌──────────────┐     ┌─────────┐     ┌──────────┐
+│ LLM /   │────▶│ Wallet    │────▶│ Policy       │────▶│ TEE     │────▶│ Sei EVM  │
+│ Agent   │     │ SDK       │     │ Engine       │     │ Signer  │     │ RPC      │
+└─────────┘     └───────────┘     └──────────────┘     └─────────┘     └──────────┘
+```
+
+## Quick Comparison
+
+<div className="data-table">
+
+| Dimension | Coinbase AgentKit | Privy Server Wallets |
+| --- | --- | --- |
+| **Type** | Open-source SDK + wallet infra | Wallet-as-a-service API |
+| **Key isolation** | Self-custodial on Sei (bring-your-own key via Viem). CDP's TEE-managed signer does not support Sei. | TEE + Shamir secret sharing |
+| **Sei support** | Via `ViemWalletProvider` (TS) or `EthAccountWalletProvider` (Python) | Via CAIP-2 `eip155:1329` |
+| **Policy engine** | Spending limits, address/contract allowlists, network restrictions | All of the above + time-based controls, key quorums |
+| **Built-in actions** | 40+ action providers (ERC20, NFTs, Pyth, x402, social, DeFi) | Wallet operations only (create, sign, send) |
+| **AI frameworks** | LangChain, Vercel AI SDK, OpenAI Agents SDK, MCP | LangChain (`langchain-privy`) |
+| **Server SDKs** | TypeScript, Python | TypeScript, Python, Java, Rust, Go + REST API |
+| **Open source** | Yes (MIT) | Partial (`langchain-privy` is OSS) |
+| **Pricing** | Free SDK; CDP wallets $0.005/op (5K free/mo) | Free 50K sigs/mo; paid tiers from $299/mo |
+
+</div>
+
+**Use both together:** AgentKit ships with a built-in `PrivyWalletProvider`, so you can combine Privy's policy engine with AgentKit's 40+ action providers.
+
+---
+
+## Coinbase AgentKit on Sei
+
+[AgentKit](https://github.com/coinbase/agentkit) is Coinbase's open-source toolkit for giving AI agents crypto wallets and onchain capabilities. It is framework-agnostic (LangChain, Vercel AI SDK, OpenAI Agents SDK, MCP) and wallet-agnostic (CDP wallets, Privy, Viem, and more).
+
+### Architecture
+
+AgentKit is organized around three concepts:
+
+- **Wallet Providers** — Abstraction over different wallet implementations. For Sei, use `ViemWalletProvider` (TypeScript) or `EthAccountWalletProvider` (Python).
+- **Action Providers** — Units of onchain functionality (ERC20 transfers, Pyth price feeds, x402 payments, etc.). Most action providers work on any EVM chain including Sei.
+- **Framework Extensions** — Adapters that turn AgentKit actions into tools for your AI framework of choice.
+
+### Prerequisites
+
+- Node.js v22+ (TypeScript) or Python 3.10+
+- A [CDP Secret API Key](https://portal.cdp.coinbase.com/) (for CDP wallet providers; not required for Viem)
+- A funded wallet on Sei
+
+### Setup
+
+<Tabs items={['TypeScript', 'Python']}>
+<Tabs.Tab>
+
+<Steps>
+
+### Install packages
+
+```bash copy
+npm install @coinbase/agentkit @coinbase/agentkit-langchain viem
+```
+
+### Create the wallet provider and AgentKit
+
+Viem ships with `sei` (id `1329`) and `seiTestnet` (id `1328`) out of the box, so you can import them directly from `viem/chains`.
+
+```typescript copy
+import { AgentKit, ViemWalletProvider, walletActionProvider, erc20ActionProvider } from '@coinbase/agentkit';
+import { createWalletClient, http } from 'viem';
+import { privateKeyToAccount } from 'viem/accounts';
+import { sei } from 'viem/chains';
+
+// Create a Viem wallet client pointed at Sei
+const account = privateKeyToAccount(process.env.PRIVATE_KEY as `0x${string}`);
+const client = createWalletClient({
+  account,
+  chain: sei,
+  transport: http('https://evm-rpc.sei-apis.com'),
+});
+
+// Wrap it in AgentKit
+const walletProvider = new ViemWalletProvider(client);
+const agentKit = await AgentKit.from({
+  walletProvider,
+  actionProviders: [
+    walletActionProvider(),
+    erc20ActionProvider(),
+    // Add more action providers as needed
+  ],
+});
+```
+
+### Wire into LangChain
+
+```typescript copy
+import { getLangChainTools } from '@coinbase/agentkit-langchain';
+import { ChatOpenAI } from '@langchain/openai';
+import { createReactAgent } from '@langchain/langgraph/prebuilt';
+
+const tools = await getLangChainTools(agentKit);
+const model = new ChatOpenAI({ model: 'gpt-4o' });
+
+const agent = createReactAgent({
+  llm: model,
+  tools,
+  messageModifier:
+    'You are an AI agent operating on the Sei blockchain. You can check balances, transfer tokens, and interact with smart contracts.',
+});
+
+// Run the agent
+const result = await agent.invoke({
+  messages: [{ role: 'user', content: 'What is my SEI balance?' }],
+});
+```
+
+</Steps>
+
+</Tabs.Tab>
+<Tabs.Tab>
+
+<Steps>
+
+### Install packages
+
+```bash copy
+pip install coinbase-agentkit coinbase-agentkit-langchain
+```
+
+### Create the wallet provider
+
+```python copy
+from coinbase_agentkit import (
+    AgentKit,
+    AgentKitConfig,
+    EthAccountWalletProvider,
+    EthAccountWalletProviderConfig,
+)
+from eth_account import Account
+
+account = Account.from_key("YOUR_PRIVATE_KEY")
+
+wallet_provider = EthAccountWalletProvider(
+    config=EthAccountWalletProviderConfig(
+        account=account,
+        chain_id=1329,  # Sei mainnet
+        rpc_url="https://evm-rpc.sei-apis.com",
+    )
+)
+
+agent_kit = AgentKit(AgentKitConfig(wallet_provider=wallet_provider))
+```
+
+### Wire into LangChain
+
+```python copy
+from coinbase_agentkit_langchain import get_langchain_tools
+from langchain_openai import ChatOpenAI
+from langgraph.prebuilt import create_react_agent
+
+tools = get_langchain_tools(agent_kit)
+model = ChatOpenAI(model="gpt-4o")
+
+agent = create_react_agent(
+    model,
+    tools=tools,
+    state_modifier="You are an AI agent on the Sei blockchain.",
+)
+
+result = agent.invoke({
+    "messages": [{"role": "user", "content": "What is my SEI balance?"}]
+})
+```
+
+</Steps>
+
+</Tabs.Tab>
+</Tabs>
+
+### Available Action Providers on Sei
+
+Not every AgentKit action provider works on Sei — some are chain-specific. Here's what you can use:
+
+<div className="data-table">
+
+| Action Provider | Works on Sei | Notes |
+| --- | --- | --- |
+| `walletActionProvider` | Yes | Balance, transfers, native SEI operations |
+| `erc20ActionProvider` | Yes | Any ERC-20 token (USDC, WSEI, etc.) |
+| `erc721ActionProvider` | Yes | NFT minting, transfers |
+| `pythActionProvider` | Yes | Pyth price feeds (Sei is Pyth-supported) |
+| `x402ActionProvider` | Yes | Machine-to-machine payments via x402 protocol |
+| `wethActionProvider` | Yes | Wrap/unwrap native SEI |
+| `cdpApiActionProvider` | Partial | Some endpoints Base-only |
+| `morphoActionProvider` | No | Morpho contracts not deployed on Sei |
+| `moonwellActionProvider` | No | Moonwell contracts not deployed on Sei |
+
+</div>
+
+<Info>
+For Sei-native DeFi actions (swaps on Symphony/DragonSwap, staking via Silo, lending via Takara), use the [Cambrian Agent Kit](/evm/ai-tooling/cambrian-agent-kit) alongside AgentKit, or write custom action providers.
+</Info>
+
+### Known Quirks on Sei
+
+Verified by running AgentKit `0.10.4` against Sei testnet (`chain 1328`):
+
+- **Balances are labeled "ETH" in action output.** `walletActionProvider` hard-codes the native-currency symbol, so `get_wallet_details` returns strings like `Native Balance: 513128.95 ETH` even on Sei. Signing and arithmetic are unaffected — it's a display-only quirk. If the LLM will quote balances to users, add a post-processing step or a system-prompt instruction to rewrite `ETH` → `SEI` when `chain_id == 1329 || 1328`.
+- **`networkId` is `undefined`.** Coinbase's internal `CHAIN_ID_TO_NETWORK_ID` map only includes Base, Ethereum, Polygon, Arbitrum, and Optimism. Sei's chain IDs aren't in it, so `walletProvider.getNetwork()` returns `{ protocolFamily: 'evm', chainId: '1328', networkId: undefined }`. This is harmless for signing/sending, but **any action provider that branches on `networkId`** (notably `cdpApiActionProvider`) will refuse to run on Sei.
+
+### CDP-Managed Wallets and Sei
+
+AgentKit's `CdpEvmWalletProvider` (CDP-managed server wallets with built-in policies) is currently scoped to `base`, `base-sepolia`, `ethereum`, `ethereum-sepolia`, `polygon`, `arbitrum`, and `optimism` — **Sei is not a supported network**.
+
+For managed cloud custody with a policy engine on Sei, use one of:
+
+- **Privy server wallets** (below) — TEE-isolated keys with a policy engine that works on any EVM chain, including Sei.
+- **AgentKit + Privy combined** — use `PrivyWalletProvider` inside AgentKit to keep the 40+ action providers while delegating custody and policy enforcement to Privy. See [Using AgentKit with Privy (Combined)](#using-agentkit-with-privy-combined) below.
+
+If you only need self-custodial keys (no TEE, you hold the private key), use `ViemWalletProvider` as shown above and enforce limits in your own application logic.
+
+---
+
+## Privy Server Wallets on Sei
+
+[Privy](https://docs.privy.io/) provides wallet-as-a-service infrastructure for AI agents. Server wallets are programmatically managed wallets designed for backend use — no user interaction required. Keys are isolated in TEEs with Shamir secret sharing and never leave secure enclaves.
+
+### Prerequisites
+
+- A [Privy account](https://dashboard.privy.io/) with an App ID and App Secret
+- An authorization keypair (generated in the Privy dashboard)
+
+### Setup
+
+<Tabs items={['REST API', 'Node.js SDK', 'Python SDK']}>
+<Tabs.Tab>
+
+<Steps>
+
+### Create a wallet
+
+```bash copy
+curl --request POST https://api.privy.io/v1/wallets \
+  -u "<your-app-id>:<your-app-secret>" \
+  -H "privy-app-id: <your-app-id>" \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "chain_type": "ethereum",
+    "policy_ids": ["your_policy_id"]
+  }'
+```
+
+Response:
+```json
+{
+  "id": "wallet_abc123",
+  "address": "0x1234...abcd",
+  "chain_type": "ethereum",
+  "policy_ids": ["your_policy_id"]
+}
+```
+
+### Send a transaction on Sei
+
+Use `eip155:1329` (CAIP-2 format) to target Sei mainnet:
+
+```bash copy
+curl --request POST https://api.privy.io/v1/wallets/wallet_abc123/rpc \
+  -u "<your-app-id>:<your-app-secret>" \
+  -H "privy-app-id: <your-app-id>" \
+  -H "privy-authorization-signature: <authorization-signature>" \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "method": "eth_sendTransaction",
+    "caip2": "eip155:1329",
+    "params": {
+      "transaction": {
+        "to": "0x742d35Cc6634C0532925a3b844De3e9Fe0b5BaDa",
+        "value": "0x2386F26FC10000",
+        "chain_id": 1329
+      }
+    }
+  }'
+```
+
+### Sign a message
+
+```bash copy
+curl --request POST https://api.privy.io/v1/wallets/wallet_abc123/rpc \
+  -u "<your-app-id>:<your-app-secret>" \
+  -H "privy-app-id: <your-app-id>" \
+  -H "privy-authorization-signature: <authorization-signature>" \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "method": "personal_sign",
+    "caip2": "eip155:1329",
+    "params": {
+      "message": "Hello from Sei"
+    }
+  }'
+```
+
+</Steps>
+
+</Tabs.Tab>
+<Tabs.Tab>
+
+<Steps>
+
+### Install the SDK
+
+```bash copy
+npm install @privy-io/server-auth
+```
+
+### Create a wallet and send a transaction
+
+```typescript copy
+import { PrivyClient } from '@privy-io/server-auth';
+import { parseEther } from 'viem';
+
+const privy = new PrivyClient('<your-app-id>', '<your-app-secret>', {
+  walletApi: { authorizationPrivateKey: process.env.PRIVY_AUTH_KEY },
+});
+
+// Create a server wallet
+const wallet = await privy.walletApi.createWallet({ chainType: 'ethereum' });
+console.log('Wallet address:', wallet.address);
+
+// Send a transaction on Sei
+// NOTE: `value` must be a hex string — Privy's request signer can't
+// serialize a BigInt, so don't pass `parseEther(...)` directly.
+const { hash } = await privy.walletApi.ethereum.sendTransaction({
+  walletId: wallet.id,
+  caip2: 'eip155:1329', // Sei mainnet
+  transaction: {
+    to: '0x742d35Cc6634C0532925a3b844De3e9Fe0b5BaDa',
+    value: '0x' + parseEther('0.01').toString(16),
+    chainId: 1329,
+  },
+});
+console.log('Transaction hash:', hash);
+```
+
+</Steps>
+
+</Tabs.Tab>
+<Tabs.Tab>
+
+<Steps>
+
+### Install the SDK
+
+```bash copy
+pip install privy-client
+```
+
+### Create a wallet and send a transaction
+
+```python copy
+from privy import PrivyAPI
+
+client = PrivyAPI(app_id="<your-app-id>", app_secret="<your-app-secret>")
+
+# Create a server wallet
+wallet = client.wallets.create(chain_type="ethereum")
+print(f"Wallet address: {wallet.address}")
+
+# Send a transaction on Sei
+result = client.wallets.rpc(
+    wallet_id=wallet.id,
+    method="eth_sendTransaction",
+    caip2="eip155:1329",  # Sei mainnet
+    params={
+        "transaction": {
+            "to": "0x742d35Cc6634C0532925a3b844De3e9Fe0b5BaDa",
+            "value": "0x2386F26FC10000",
+            "chain_id": 1329,
+        }
+    },
+)
+print(f"Transaction hash: {result.hash}")
+```
+
+</Steps>
+
+</Tabs.Tab>
+</Tabs>
+
+### Known Quirks on Sei (Privy)
+
+Verified by running `@privy-io/server-auth` `1.32.5` against Sei testnet (`eip155:1328`):
+
+- **`value` must be a hex string, not a `BigInt`.** Privy's request signer uses RFC 8785 JSON canonicalization (`canonicalize`), which throws `TypeError: Do not know how to serialize a BigInt` if you pass a `BigInt` in any field of the `transaction` object. Convert viem's `parseEther(...)` output with `'0x' + parseEther('0.01').toString(16)` before sending.
+- **`authorizationKeyIds` on `createWallet` expects the public-key registration ID, not the dashboard key ID.** Passing the ID shown next to a key in the Privy dashboard can fail with `400 Invalid authorization key IDs`. If you only need an app-owned wallet (app credentials + `authorizationPrivateKey` for request signing), omit `authorizationKeyIds` — the wallet is still fully operable.
+
+### Privy with LangChain
+
+Privy publishes a LangChain integration (`langchain-privy`) that exposes wallet operations as a single LangChain tool. The tool reads `PRIVY_APP_ID` and `PRIVY_APP_SECRET` from the environment and is bound directly to the LLM:
+
+```python copy
+import os
+from langchain_privy import PrivyWalletTool
+from langchain_openai import ChatOpenAI
+
+os.environ["PRIVY_APP_ID"] = "<your-app-id>"
+os.environ["PRIVY_APP_SECRET"] = "<your-app-secret>"
+
+tool = PrivyWalletTool()
+print(f"Wallet: {tool.wallet_address}")
+
+llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+llm_with_tools = llm.bind_tools([tool])
+
+response = llm_with_tools.invoke("What is my wallet address?")
+```
+
+<Warning>
+As of `langchain-privy@0.1.0`, the library's `Chain` enum does not include Sei — the built-in tool only targets Ethereum, Base, Optimism, Arbitrum, Polygon, Zora, Avalanche, BSC, Celo, Linea, Solana, and Bitcoin. For Sei, either:
+
+- Call Privy's REST API / server-auth SDK directly with `caip2: eip155:1329` (shown above), or
+- Use AgentKit's `PrivyWalletProvider` with a LangChain adapter (`@coinbase/agentkit-langchain`) — see the [Combined](#using-agentkit-with-privy-combined) section below.
+</Warning>
+
+### Privy Policy Engine
+
+Privy's policy engine follows a default-deny model. You define policies with rules and conditions that are evaluated server-side before any transaction is signed.
+
+```typescript copy
+// Example: Create a policy that limits spending and restricts to specific contracts
+const policy = await privy.policies().create({
+  name: 'sei-agent-policy',
+  rules: [
+    {
+      // Limit to 10 SEI per transaction
+      type: 'transfer_limit',
+      max_amount: '10000000000000000000', // 10 SEI in wei
+      currency: 'native',
+    },
+    {
+      // Only allow interaction with specific contracts
+      type: 'contract_allowlist',
+      addresses: [
+        '0x3894085ef7ff0f0aedf52e2a2704928d1ec074f1', // Native USDC (USDC.n) on Sei
+      ],
+    },
+    {
+      // Restrict to Sei mainnet only
+      type: 'chain_restriction',
+      chain_ids: [1329],
+    },
+  ],
+});
+
+// Attach policy to wallet
+await privy.wallets().update(wallet.id, {
+  policy_ids: [policy.id],
+});
+```
+
+Privy also supports features not available in Coinbase's policy system:
+
+- **Time-based access controls** — restrict agent operations to specific windows
+- **Key quorums** — require multiple authorization keys to approve high-value transactions
+- **Webhook notifications** — get notified of all wallet activity (works chain-agnostically)
+
+---
+
+## Using AgentKit with Privy (Combined)
+
+AgentKit includes a built-in `PrivyWalletProvider`, so you can use Privy's wallet infrastructure and policy engine as the backend while using AgentKit's 40+ action providers for onchain operations.
+
+```typescript copy
+import { AgentKit, PrivyWalletProvider, walletActionProvider, erc20ActionProvider } from '@coinbase/agentkit';
+
+const walletProvider = await PrivyWalletProvider.configureWithWallet({
+  appId: process.env.PRIVY_APP_ID!,
+  appSecret: process.env.PRIVY_APP_SECRET!,
+  chainId: '1329', // Sei mainnet
+  authorizationPrivateKey: process.env.PRIVY_AUTH_KEY,
+  authorizationKeyId: process.env.PRIVY_AUTH_KEY_ID,
+});
+
+const agentKit = await AgentKit.from({
+  walletProvider,
+  actionProviders: [
+    walletActionProvider(),
+    erc20ActionProvider(),
+  ],
+});
+```
+
+This gives you the best of both worlds: Privy's fine-grained policies and key quorums with AgentKit's rich action library.
+
+---
+
+## Feature Matrix
+
+### Wallet Creation & Key Management
+
+<div className="data-table">
+
+| Capability | Coinbase AgentKit | Privy |
+| --- | --- | --- |
+| Programmatic wallet creation on Sei | Yes — self-custodial via `ViemWalletProvider` (you hold the key). CDP-managed server wallets do not currently support Sei. | Yes — Server wallets on any EVM |
+| TEE-secured key isolation on Sei | No — CDP's TEE signer is scoped to Base/Ethereum/Polygon/Arbitrum/Optimism. Use Privy (standalone or via `PrivyWalletProvider` in AgentKit). | Yes — TEE + key sharding |
+| Managed cloud custody on Sei | No via CDP. Yes via `PrivyWalletProvider`. | Yes — Server wallets with `eip155:1329` |
+| Multi-party key quorum | No | Yes — Authorization key quorums via dashboard |
+| Key export / portability | Yes | Yes |
+
+</div>
+
+### Policy Engine & Guardrails
+
+<div className="data-table">
+
+| Capability | Coinbase AgentKit | Privy |
+| --- | --- | --- |
+| Spending limits (per-tx) on Sei | Only via app-level checks with `ViemWalletProvider`. CDP's `ethValue` policy doesn't apply on Sei. | Yes — Policy engine, any chain |
+| Contract / address allowlisting on Sei | Only via app-level checks with `ViemWalletProvider`. CDP's `evmAddress` policy doesn't apply on Sei. | Yes — Contract allowlist rules |
+| Network restriction policies on Sei | N/A — CDP networkIds don't include Sei | Yes — Chain restrictions |
+| Time-based access controls | No | Yes |
+| Transaction simulation | No | No — Needs Sei-specific RPC |
+
+</div>
+
+### Gas & Transaction Management
+
+<div className="data-table">
+
+| Capability | Coinbase AgentKit | Privy |
+| --- | --- | --- |
+| Gasless / sponsored transactions on Sei | No — Gasless is Base-only | No — Requires Sei-native paymaster |
+| Smart wallet (ERC-4337) on Sei | No — Smart Accounts don't include Sei | No — Possible via ZeroDev or Biconomy integration |
+| Batch transactions on Sei | No — Requires Smart Accounts | Yes |
+| Basic send / transfer on Sei | Yes | Yes |
+| ERC-20 token operations on Sei | Yes — `erc20ActionProvider` | Yes — Standard EVM ops |
+
+</div>
+
+### Agentic DeFi Actions
+
+<div className="data-table">
+
+| Capability | Coinbase AgentKit | Privy |
+| --- | --- | --- |
+| Token swaps on Sei DEXs | No — Built-in swap providers (Jupiter, 0x, Sushi, Enso) don't route Sei DEXs | No |
+| Yield / lending on Sei | No — Built-in lending providers (Morpho, Moonwell, Compound, Yelay) aren't deployed on Sei | No |
+| Liquidity provision on Sei | No | No |
+| Cross-chain bridge to/from Sei | No — Sei not a listed Across route | No |
+| Pyth oracle price feeds | Yes — `pythActionProvider` works on Sei | No |
+
+</div>
+
+<Info>
+For Sei-native DeFi actions, use the [Cambrian Agent Kit](/evm/ai-tooling/cambrian-agent-kit) which includes built-in integrations for Symphony, DragonSwap, Silo, Takara, and Citrex.
+</Info>
+
+### x402 & Machine-to-Machine Payments
+
+<div className="data-table">
+
+| Capability | Coinbase AgentKit | Privy |
+| --- | --- | --- |
+| x402 protocol support | Yes — Chain-agnostic, works on Sei via EOA | Yes — Works wherever agent holds stablecoins |
+| Agent-to-agent USDC transfers | Yes — ERC-20 transfers with Sei USDC | Yes — Server wallet transfers |
+| Stablecoin operations on Sei | Yes — `erc20ActionProvider` + Sei USDC | Yes — Standard ERC-20 ops |
+
+</div>
+
+### Developer Experience
+
+<div className="data-table">
+
+| Capability | Coinbase AgentKit | Privy |
+| --- | --- | --- |
+| MCP server integration | Yes — AgentKit MCP framework extension | No |
+| LangChain / Vercel AI SDK | Yes — Framework extensions for both | Yes — `langchain-privy` |
+| OpenAI Agents SDK | Yes — Native extension | No |
+| Webhook / event monitoring on Sei | No — Webhooks for supported networks only | Yes — Chain-agnostic webhooks |
+| Multi-language SDKs | TypeScript, Python | TypeScript, Python, Java, Rust, Go + REST |
+
+</div>
+
+---
+
+## Other Agentic Wallet Solutions
+
+While Coinbase AgentKit and Privy are the most mature options for Sei, several other platforms support agentic wallet use cases:
+
+<div className="data-table">
+
+| Platform | Approach | Sei Support | Best For |
+| --- | --- | --- | --- |
+| [Turnkey](https://docs.turnkey.com/products/embedded-wallets/features/agentic-wallets) | TEE-based key isolation, sub-100ms signing, granular policies | Yes (any EVM) | Enterprise agents needing fine-grained policies |
+| [Lit Protocol](https://developer.litprotocol.com/) | Decentralized key management (DKG), programmable key pairs as NFTs | Yes (any EVM) | Decentralized, user-owned agent delegation |
+| [Dynamic](https://www.dynamic.xyz/ecosystems/sei) | MPC or smart contract wallets, strong onboarding UX | Yes (explicit Sei support) | Apps serving both humans and agents |
+| [thirdweb](https://thirdweb.com/) | Backend wallets + account abstraction, session keys | Yes (any EVM) | Broadest AI framework support (6+ frameworks) |
+| [Openfort](https://www.openfort.io/solutions/ai-agents) | TEE server wallets, sub-125ms signing, 25+ EVM chains | Yes (any EVM) | Gaming and high-throughput agent workloads |
+
+</div>
+
+---
+
+## Sei Network Configuration Reference
+
+Use these values when configuring any agentic wallet provider for Sei:
+
+<div className="data-table">
+
+| Parameter | Mainnet | Testnet |
+| --- | --- | --- |
+| **Chain ID** | `1329` | `1328` |
+| **Chain ID (hex)** | `0x531` | `0x530` |
+| **CAIP-2** | `eip155:1329` | `eip155:1328` |
+| **RPC URL** | `https://evm-rpc.sei-apis.com` | `https://evm-rpc-testnet.sei-apis.com` |
+| **Currency** | SEI (18 decimals) | SEI (18 decimals) |
+| **Block Explorer** | [seiscan.io](https://seiscan.io) | [seiscan.io](https://testnet.seiscan.io) |
+| **Finality** | ~400ms | ~400ms |
+
+</div>
+
+<Warning>
+**Security Reminders:**
+
+- Never expose private keys or authorization secrets to the LLM/agent process.
+- Always use dedicated wallets for agent operations — never your main wallet.
+- Start with testnet (`eip155:1328`) before deploying to mainnet.
+- Set spending limits and contract allowlists via the policy engine before going live.
+- Monitor agent wallet activity via block explorers or webhook notifications.
+</Warning>
