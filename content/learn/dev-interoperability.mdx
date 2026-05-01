@@ -8,6 +8,12 @@ keywords: ['blockchain interoperability', 'EVM Cosmos bridge', 'dual address sys
 
 # EVM and Cosmos Interoperability
 
+<Info>
+
+**CosmWasm deployments are frozen.** Per [Proposal 115](https://www.mintscan.io/sei/proposals/115), no new CosmWasm contracts can be uploaded or instantiated on Sei. The interoperability features described on this page apply to **already-deployed** CosmWasm contracts, native Bank Module assets, and Cosmos-SDK modules accessed via precompiles. For new smart contract development, build directly on the EVM. See [SIP-3](https://github.com/sei-protocol/sips/blob/main/sips/sip-3.md) for the full migration context.
+
+</Info>
+
 ## Dual Address Support
 
 Sei utilizes two distinct address types:
@@ -24,16 +30,17 @@ For more details on interoperability, explore our article
 
 ## Virtual Machine Interoperability
 
-EVM and CosmWasm based smart contracts co-exist on Sei, but live in different
-execution environments. This creates a challenge for users, who use wallets that
-typically only support a single execution environment. Likewise for developers,
-existing tooling and libraries can only interact with either EVM or Wasm (Think
-EthersJS vs CosmJS).
+EVM and existing CosmWasm-based smart contracts co-exist on Sei, but live in
+different execution environments. This creates a challenge for users, who use
+wallets that typically only support a single execution environment. Likewise for
+developers, existing tooling and libraries can only interact with either EVM or
+Wasm (Think EthersJS vs CosmJS).
 
 To bridge the gap between EVM and Wasm, Sei has introduced two interoperability
 features, allowing for smooth and easy interactions between both environments.
-Precompiled EVM contracts and Pointer Contracts enable all contracts to be
-accessible from both VM environments.
+Precompiled EVM contracts and Pointer Contracts enable existing CosmWasm
+contracts and Cosmos-SDK modules to be accessible from the EVM. New smart
+contracts on Sei should be deployed on the EVM directly.
 
 ## Precompile Contracts
 
@@ -49,7 +56,9 @@ Pointer Contracts are a unique feature introduced on Sei, designed to enhance
 interoperability between EVM and Cosmos environments. These contracts serve as a proxy, or interface for either token standard, making them compatible with both EVM and Cosmos-SDK clients.
 
 Pointer contracts can be deployed for any Smart Contract (ERC20,
-ERC721, etc.).
+ERC721, etc.) and for already-deployed CosmWasm contracts (CW20, CW721, CW1155).
+Note that Prop 115 disables new CosmWasm deployments, so pointer creation on the
+CW side is now mainly a tool for surfacing legacy assets on the EVM.
 
 ## Example Diagram
 

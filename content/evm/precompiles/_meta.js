@@ -6,5 +6,5 @@ export default {
 	oracle: 'Oracle',
 	staking: 'Staking',
 	'p256-precompile': 'P256',
-	'cosmwasm-precompiles': 'Cosmos'
+	'cosmwasm-precompiles': 'Cosmos (Legacy)'
 };

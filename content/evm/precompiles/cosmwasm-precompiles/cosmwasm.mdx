@@ -1,7 +1,7 @@
 ---
 title: 'CosmWasm Precompile'
-description: "Learn how to interact with Sei's CosmWasm precompile through ethers.js, enabling instantiation, execution, batch operations, and querying of CosmWasm contracts directly from your EVM smart contracts."
-keywords: ['cosmwasm precompile', 'ethers.js', 'contract instantiation', 'wasm execution', 'cross-chain contracts', 'sei evm', 'blockchain interoperability']
+description: "Learn how to interact with Sei's CosmWasm precompile through ethers.js, enabling execution, batch operations, and querying of pre-existing CosmWasm contracts directly from your EVM smart contracts."
+keywords: ['cosmwasm precompile', 'ethers.js', 'wasm execution', 'cross-chain contracts', 'sei evm', 'blockchain interoperability']
 ---
 
 import { Tabs } from 'nextra/components';
@@ -10,13 +10,23 @@ import { Tabs } from 'nextra/components';
 
 **Address:** `0x0000000000000000000000000000000000001002`
 
-The Sei CosmWasm precompile allows EVM applications to interact directly with CosmWasm contracts through standard smart contract calls. This enables instantiation, execution, batch operations, and querying of CosmWasm contracts directly from your dApps without needing separate Cosmos SDK integration.
+<Danger>
+
+**Deprecation Notice — Prop 115**
+
+Per [governance Proposal 115](https://www.mintscan.io/sei/proposals/115), CosmWasm code uploads (`MsgStoreCode`) and contract instantiations (`MsgInstantiateContract`) are disabled chain-wide. The `instantiate()` function on this precompile **will revert** for all callers. Only `execute()`, `execute_batch()`, and `query()` against pre-existing CosmWasm contracts remain functional, and all CosmWasm functionality is deprecated in favor of EVM-only per [SIP-3](https://github.com/sei-protocol/sips/blob/main/sips/sip-3.md).
+
+For new smart contract development, use the EVM directly. See [Deploy a Smart Contract](/evm/evm-general).
+
+</Danger>
+
+The Sei CosmWasm precompile allows EVM applications to interact directly with **pre-existing** CosmWasm contracts through standard smart contract calls. This enables execution, batch operations, and querying of CosmWasm contracts directly from your dApps without needing separate Cosmos SDK integration.
 
 <Info> **What is a precompile?** A precompile is a special smart contract deployed at a fixed address by the Sei protocol itself, that exposes custom native chain logic to EVM-based applications. It acts like a regular contract from the EVM's perspective, but executes privileged, low-level logic efficiently. </Info>
 
 ## How Does the CosmWasm Precompile Work?
 
-The CosmWasm precompile at address `0x0000000000000000000000000000000000001002` exposes functions like `instantiate()`, `execute()`, `execute_batch()`, and `query()`.
+The CosmWasm precompile at address `0x0000000000000000000000000000000000001002` exposes functions like `execute()`, `execute_batch()`, and `query()`.
 
 - **Direct Integration:** EVM contracts and dApps can call CosmWasm functions like any other smart contract method.
 - **Native Execution:** Operations are executed at the Cosmos SDK level for maximum efficiency and security.
@@ -26,7 +36,6 @@ The CosmWasm precompile at address `0x0000000000000000000000000000000000001002` 
 
 By the end of this guide, you'll be able to:
 
-- **Deploy CosmWasm Contracts** - Instantiate new CosmWasm contracts directly from EVM applications
 - **Execute Contract Functions** - Call CosmWasm contract methods and handle message formatting
 - **Batch Operations** - Execute multiple contract calls efficiently in a single transaction
 - **Query Contract State** - Read CosmWasm contract data without gas costs
@@ -38,23 +47,9 @@ The CosmWasm precompile exposes the following functions:
 
 ### Transaction Functions
 
-```solidity
-/// Instantiates a new CosmWasm contract.
-/// @param codeID The codeID of the contract.
-/// @param admin The Sei address of the account to be set as contract admin.
-/// @param msg The msg to send for instantiation. The format is specified by the contract code.
-/// @param label Any labels to include for the new contract.
-/// @param coins Any non-sei denominations that the contract requires for instantiation.
-/// @return contractAddr The contract address and associated data.
-/// @return data Additional data returned from instantiation.
-function instantiate(
-    uint64 codeID,
-    string memory admin,
-    bytes memory msg,
-    string memory label,
-    bytes memory coins
-) payable external returns (string memory contractAddr, bytes memory data);
+<Warning>The `instantiate()` function has been disabled by [Prop 115](https://www.mintscan.io/sei/proposals/115) and will revert. It is omitted from this reference. The ABI in `@sei-js/precompiles` may still expose it for backwards compatibility, but calling it on-chain will fail.</Warning>
 
+```solidity
 /// Executes some message on a CosmWasm contract.
 /// @param contractAddress The Sei address of the contract to execute.
 /// @param msg The msg to send for execution. The format is specified by the contract code.
@@ -155,7 +150,6 @@ The CosmWasm precompile requires **JSON-encoded messages** that conform to each 
 
 | Function | Input/Output | Format Type | Example |
 | --- | --- | --- | --- |
-| `instantiate()` | msg parameter (input) | JSON bytes | `ethers.toUtf8Bytes(jsonString)` |
 | `execute()` | msg parameter (input) | JSON bytes | `ethers.toUtf8Bytes(jsonString)` |
 | `query()` | req parameter (input) | JSON bytes | `ethers.toUtf8Bytes(jsonString)` |
 | **All functions** | response (output) | JSON bytes | `JSON.parse(ethers.toUtf8String(response))` |
@@ -166,7 +160,6 @@ The CosmWasm precompile requires **JSON-encoded messages** that conform to each 
 
 **All CosmWasm functions require JSON-encoded byte arrays:**
 
-- `instantiate()` - accepts instantiation message as JSON bytes
 - `execute()` - accepts execution message as JSON bytes
 - `query()` - accepts query message as JSON bytes
 
@@ -182,11 +175,6 @@ When working with CosmWasm messages, use proper JSON encoding:
 ```typescript copy
 // Helper functions for message encoding
 class CosmWasmMessageEncoder {
-  // Encode instantiate message
-  static encodeInstantiateMsg(msg: object): Uint8Array {
-    return ethers.toUtf8Bytes(JSON.stringify(msg));
-  }
-
   // Encode execute message
   static encodeExecuteMsg(msg: object): Uint8Array {
     return ethers.toUtf8Bytes(JSON.stringify(msg));
@@ -211,13 +199,6 @@ class CosmWasmMessageEncoder {
 }
 
 // Usage examples
-const instantiateMsg = CosmWasmMessageEncoder.encodeInstantiateMsg({
-  name: 'My Token',
-  symbol: 'MTK',
-  decimals: 6,
-  initial_balances: []
-});
-
 const executeMsg = CosmWasmMessageEncoder.encodeExecuteMsg({
   transfer: {
     recipient: 'sei1...',
@@ -237,11 +218,6 @@ Use these helper functions to handle CosmWasm message formatting:
 ```typescript copy
 // Helper functions for CosmWasm message handling
 class CosmWasmHelper {
-  // Create instantiate message bytes
-  static createInstantiateMsg(msgObject: any): Uint8Array {
-    return ethers.toUtf8Bytes(JSON.stringify(msgObject));
-  }
-
   // Create execute message bytes
   static createExecuteMsg(msgObject: any): Uint8Array {
     return ethers.toUtf8Bytes(JSON.stringify(msgObject));
@@ -273,12 +249,6 @@ class CosmWasmHelper {
 }
 
 // Usage examples
-const instantiateMsg = CosmWasmHelper.createInstantiateMsg({
-  name: 'My DeFi Token',
-  symbol: 'MDT',
-  decimals: 6
-});
-
 const executeMsg = CosmWasmHelper.createExecuteMsg({
   mint: {
     recipient: 'sei1recipient...',
@@ -290,81 +260,6 @@ const coins = CosmWasmHelper.createCoins([{ denom: 'uusdc', amount: '1000000' }]
 ```
 
 ## Step-by-Step Guide: Using the CosmWasm Precompile
-
-### Instantiate a CosmWasm Contract
-
-<Tabs items={['JavaScript','Solidity']}>
-<Tabs.Tab>
-
-```typescript copy
-// Instantiate a CW20 token contract
-const codeId = 1; // The stored code ID on Sei
-const admin = ''; // Provide Sei address
-const label = 'My Token Contract';
-
-// Create instantiate message (contract-specific format)
-const instantiateMsg = CosmWasmHelper.createInstantiateMsg({
-  name: 'My Token',
-  symbol: 'MTK',
-  decimals: 6,
-  initial_balances: [
-    {
-      address: 'sei1recipient...',
-      amount: '1000000000' // 1000 tokens with 6 decimals
-    }
-  ],
-  mint: {
-    minter: 'sei1minter...'
-  }
-});
-
-// No additional coins needed for this instantiation
-const coins = CosmWasmHelper.createCoins([]);
-
-// Send SEI for instantiation fee if required
-const seiAmount = ethers.parseEther('0.1'); // 0.1 SEI
-
-const tx = await cosmwasm.instantiate(codeId, admin, instantiateMsg, label, coins, { value: seiAmount });
-
-const receipt = await tx.wait();
-console.log('Contract instantiated:', receipt);
-
-// Parse the contract address from logs
-const contractAddress = receipt.logs[0].topics[1]; // Contract address is in logs
-console.log('New contract address:', contractAddress);
-```
-
-</Tabs.Tab>
-<Tabs.Tab>
-
-```solidity copy
-contract CosmWasmManager {
-    ICosmWasm constant COSMWASM = ICosmWasm(0x0000000000000000000000000000000000001002);
-
-    event ContractInstantiated(string contractAddress, bytes data);
-
-    function instantiateContract(
-        uint64 codeId,
-        string memory admin,
-        bytes memory msg,
-        string memory label,
-        bytes memory coins
-    ) external payable {
-        (string memory contractAddr, bytes memory data) = COSMWASM.instantiate{value: msg.value}(
-            codeId,
-            admin,
-            msg,
-            label,
-            coins
-        );
-
-        emit ContractInstantiated(contractAddr, data);
-    }
-}
-```
-
-</Tabs.Tab>
-</Tabs>
 
 ### Execute a CosmWasm Contract
 
@@ -620,32 +515,11 @@ async function cosmwasmExample() {
 
   const userAddress = await signer.getAddress();
 
+  // Replace with the address of an existing CosmWasm contract you want to interact with.
+  const contractAddress = 'sei1contract...';
+
   try {
-    // 1. Instantiate a CW20 token contract
-    console.log('=== Instantiating CW20 Token ===');
-    const codeId = 1;
-    const instantiateMsg = CosmWasmHelper.createInstantiateMsg({
-      name: 'Test Token',
-      symbol: 'TEST',
-      decimals: 6,
-      initial_balances: [],
-      mint: { minter: 'sei1minter...' }
-    });
-
-    const instantiateTx = await cosmwasm.instantiate(
-      codeId,
-      '', // No admin
-      instantiateMsg,
-      'Test Token Contract',
-      CosmWasmHelper.createCoins([]),
-      { value: ethers.parseEther('0.1') }
-    );
-
-    const instantiateReceipt = await instantiateTx.wait();
-    const contractAddress = 'sei1contract...'; // Extract from logs
-    console.log('Contract instantiated at:', contractAddress);
-
-    // 2. Execute mint operation
+    // 1. Execute mint operation against an existing contract
     console.log('=== Minting Tokens ===');
     const mintMsg = CosmWasmHelper.createExecuteMsg({
       mint: {
@@ -658,7 +532,7 @@ async function cosmwasmExample() {
     await mintTx.wait();
     console.log('Tokens minted successfully');
 
-    // 3. Query token information
+    // 2. Query token information
     console.log('=== Querying Token Info ===');
     const tokenInfoMsg = CosmWasmHelper.createQueryMsg({ token_info: {} });
     const tokenInfoBytes = await cosmwasm.query(contractAddress, tokenInfoMsg);
@@ -671,7 +545,7 @@ async function cosmwasmExample() {
       total_supply: tokenInfo.total_supply
     });
 
-    // 4. Query user balance
+    // 3. Query user balance
     const balanceMsg = CosmWasmHelper.createQueryMsg({
       balance: { address: 'sei1recipient...' }
     });
@@ -680,7 +554,7 @@ async function cosmwasmExample() {
 
     console.log('User balance:', balance.balance);
 
-    // 5. Execute batch transfer
+    // 4. Execute batch transfer
     console.log('=== Batch Transfer ===');
     const batchMsgs = [
       {
@@ -730,14 +604,6 @@ interface ICosmWasmPrecompile {
         bytes coins;
     }
 
-    function instantiate(
-        uint64 codeID,
-        string memory admin,
-        bytes memory msg,
-        string memory label,
-        bytes memory coins
-    ) payable external returns (string memory contractAddr, bytes memory data);
-
     function execute(
         string memory contractAddress,
         bytes memory msg,
@@ -757,30 +623,9 @@ interface ICosmWasmPrecompile {
 contract CosmWasmBridge {
     ICosmWasmPrecompile constant COSMWASM = ICosmWasmPrecompile(0x0000000000000000000000000000000000001002);
 
-    event ContractInstantiated(string contractAddress, bytes data);
     event ContractExecuted(string contractAddress, bytes response);
     event BatchExecuted(uint256 msgCount);
     event QueryExecuted(string contractAddress, bytes response);
-
-    // Instantiate a new CosmWasm contract
-    function instantiateContract(
-        uint64 codeId,
-        string memory admin,
-        bytes memory instantiateMsg,
-        string memory label,
-        bytes memory coins
-    ) external payable returns (string memory) {
-        (string memory contractAddr, bytes memory data) = COSMWASM.instantiate{value: msg.value}(
-            codeId,
-            admin,
-            instantiateMsg,
-            label,
-            coins
-        );
-
-        emit ContractInstantiated(contractAddr, data);
-        return contractAddr;
-    }
 
     // Execute a message on a CosmWasm contract
     function executeContract(
@@ -834,7 +679,7 @@ contract CosmWasmBridge {
 }
 ```
 
-<Info> **Note:** This contract acts as a bridge between EVM and CosmWasm. Message encoding/decoding should be handled client-side for complex operations. </Info>
+<Info> **Note:** This contract acts as a bridge between EVM and existing CosmWasm contracts. Message encoding/decoding should be handled client-side for complex operations. </Info>
 
 **Client Integration Example**
 
@@ -855,32 +700,30 @@ async function main() {
   await bridge.waitForDeployment();
   console.log('CosmWasmBridge deployed to:', await bridge.getAddress());
 
-  // Encode instantiate message
-  const instantiateMsg = ethers.toUtf8Bytes(
+  // Address of an existing CosmWasm contract you want to interact with
+  const contractAddress = 'sei1contract...';
+
+  // Encode an execute message (e.g., a CW20 transfer)
+  const executeMsg = ethers.toUtf8Bytes(
     JSON.stringify({
-      name: 'Bridge Token',
-      symbol: 'BRIDGE',
-      decimals: 6,
-      initial_balances: []
+      transfer: {
+        recipient: 'sei1recipient...',
+        amount: '1000000'
+      }
     })
   );
 
-  // Instantiate contract
-  const codeId = 1;
-  const admin = '';
-  const label = 'Bridge Token Contract';
   const coins = ethers.toUtf8Bytes('[]');
 
-  const instantiateTx = await bridge.instantiateContract(codeId, admin, instantiateMsg, label, coins, { value: ethers.parseEther('0.1') });
+  const tx = await bridge.executeContract(contractAddress, executeMsg, coins);
+  const receipt = await tx.wait();
 
-  const receipt = await instantiateTx.wait();
-  console.log('Instantiation transaction hash:', instantiateTx.hash);
+  console.log('Execute transaction hash:', tx.hash);
 
-  // Extract contract address from events
-  const event = receipt.logs.find((log) => log.topics[0] === ethers.id('ContractInstantiated(string,bytes)'));
+  const event = receipt.logs.find((log) => log.topics[0] === ethers.id('ContractExecuted(string,bytes)'));
 
   if (event) {
-    console.log('New CosmWasm contract instantiated');
+    console.log('CosmWasm execute call confirmed');
   }
 }
 
@@ -925,7 +768,6 @@ const incorrectMsg = ethers.toUtf8Bytes('invalid json');
 | `contract not found` | Invalid contract address | Verify contract address format |
 | `insufficient funds` | Not enough tokens for operation | Check balance and reduce amount |
 | `execution failed` | Contract execution error | Check contract state and parameters |
-| `code id not found` | Invalid code ID for instantiation | Use valid stored code ID |
 | `unauthorized` | Insufficient permissions | Check admin/owner permissions |
 | `query parsing failed` | Invalid query message format | Match contract's query schema |
 
@@ -945,9 +787,7 @@ const incorrectMsg = ethers.toUtf8Bytes('invalid json');
 
 - Use valid Sei contract addresses with `sei1...` prefix
 - These are Cosmos-format addresses, not EVM addresses
-- Contract addresses are generated deterministically during instantiation
 - **Contract Existence:** Verify contracts exist before calling
-- **Code ID Validity:** Ensure code IDs exist on the network
 
 ### Cross-Runtime Considerations
 

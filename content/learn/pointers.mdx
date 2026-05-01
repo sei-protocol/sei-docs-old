@@ -10,6 +10,12 @@ import { Icon } from '../../src/components/Icon';
 
 # Pointer Contracts
 
+<Info>
+
+**Pointer contracts are now primarily a legacy / migration tool.** Per [Proposal 115](https://www.mintscan.io/sei/proposals/115), no new CosmWasm contracts can be uploaded or instantiated on Sei, so the CW20 / CW721 / CW1155 → ERC20 / ERC721 / ERC1155 pointer flow only applies to already-deployed CosmWasm contracts. Native (Bank Module) pointers continue to work normally. For new tokens or NFTs, deploy ERC20 / ERC721 / ERC1155 contracts directly on the EVM.
+
+</Info>
+
 Pointer Contracts enable tokens to be used interoperably in both EVM and
 Cosmos environments. Intended to be efficient and quick to deploy, a pointer
 simply serves as an interpreter between the two "languages" used in either

@@ -38,14 +38,16 @@ Sei's EVM and Ethereum itself:
 
 **Deprecation Notice**
 
-Cosmos SDK and CosmWasm functionality will be deprecated in favor of EVM-only. For more details, see [SIP-3](https://github.com/sei-protocol/sips/blob/main/sips/sip-3.md) and the [governance proposal](https://www.mintscan.io/sei/proposals/99).
+Cosmos SDK and CosmWasm functionality is being deprecated in favor of EVM-only. For more details, see [SIP-3](https://github.com/sei-protocol/sips/blob/main/sips/sip-3.md) and [Proposal 99](https://www.mintscan.io/sei/proposals/99).
+
+[Proposal 115](https://www.mintscan.io/sei/proposals/115) further disables CosmWasm code uploads and contract instantiations chain-wide — no new CosmWasm contracts can be deployed. Only `execute` and `query` against pre-existing CosmWasm contracts remain available.
 
 </Danger>
 
 - **Sei is a dual-execution environment (EVM and Cosmos-SDK).** This means:
   - Non-EVM transactions can update EVM-accessible state.
     - For example, an account's SEI balance can be affected by both Cosmos (bank send, wasm execute) transactions as well as EVM send transactions
-  - Sei assets can not only exist as EVM (i.e., ERC20/721/1155), but also as CW (i.e., CW20, CW721) or as "native" (Sei).
+  - Sei assets can exist as EVM tokens (ERC20/721/1155), as legacy CosmWasm tokens (CW20/CW721/CW1155, no longer deployable per Prop 115), or as "native" Bank Module assets (Sei).
   - User accounts on Sei have [two addresses](/learn/accounts) derived from the same public key (Cosmos Bech32 and EVM-compatible 0x…)
   - Interoperability between EVM and Cosmos-SDK modules is governed and navigated via [precompiles](/evm/precompiles/example-usage) and [pointer contracts](/learn/pointers)
 

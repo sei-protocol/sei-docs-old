@@ -7,6 +7,12 @@ keywords: ['token standards', 'erc20', 'cw20', 'nfts']
 
 # Token Standards
 
+<Info>
+
+**Use ERC20 / ERC721 / ERC1155 for new tokens.** Per [Proposal 115](https://www.mintscan.io/sei/proposals/115), CosmWasm code uploads and contract instantiations are disabled on Sei, so no new CW20 / CW721 / CW1155 tokens can be deployed. The CW standards described below are documented for users and developers interacting with already-deployed legacy contracts.
+
+</Info>
+
 In this section, we delve into the various token standards supported on Sei.
 Understanding these standards is crucial for developers as they form the
 foundation of many decentralized applications.
@@ -48,24 +54,20 @@ are not unique. Sei supports both ERC20 and CW20 fungible token standards.
 
 ### Smart Contract Tokens
 
-- **ERC20**: The ERC20 standard defines a common set of rules for fungible
-  tokens on EVM-based blockchains. These tokens can be transferred, approved,
-  and queried using standard functions.
-- **Standard Compatibility**: Supporting both CW20 and ERC20 ensure
-  compatibility with existing dApps and ecosystems while enabling onboarding of
-  EVM-centric projects.
-- **Interoperability**: Both standards support pointer contracts, enabling
-  seamless interaction between Cosmos and EVM environments.
+- **ERC20** (recommended): The ERC20 standard defines a common set of rules for
+  fungible tokens on EVM-based blockchains. These tokens can be transferred,
+  approved, and queried using standard functions. **Use ERC20 for any new
+  fungible token on Sei.**
+- **CW20** (legacy only): The Cosmos-side fungible token standard. Per
+  [Prop 115](https://www.mintscan.io/sei/proposals/115), no new CW20 contracts
+  can be deployed. Existing CW20 tokens continue to function and can still have
+  pointer contracts created for them.
 - **Interoperability and Pointer Contracts**:
-  [Pointer contracts](/learn/pointers) enable interoperability
-  between ERC20 and CW20 tokens, allowing for seamless interaction between the
-  two standards. A registry is kept to track pointer contracts and facilitate
-  interoperability.
-- **Recommended Use**: Suitable for applications needing standard token
-  interactions for use with existing dApps and maximum compatibility.
+  [Pointer contracts](/learn/pointers) expose existing CW20 tokens as ERC20 on
+  the EVM. A registry tracks pointer contracts and facilitates discovery.
 
 <Info>
-**Interoperability:** CW20/ERC20 tokens can have pointer contracts deployed, facilitating seamless cross-vm interoperability.
+**Interoperability:** Existing CW20 tokens can have ERC20 pointer contracts deployed for them. New tokens should be deployed as ERC20 directly.
 
 For more detailed guidance, refer to the
 [Pointer Contracts Documentation](/learn/pointers).
@@ -74,18 +76,19 @@ For more detailed guidance, refer to the
 
 ## NFTs
 
-Non-fungible tokens (NFTs) represent unique digital assets. Sei supports both
-ERC721 and CW721 standards as well as their counterparts with royalties (2981).
+Non-fungible tokens (NFTs) represent unique digital assets. Sei supports
+ERC721 and ERC1155 (and their royalty-aware counterparts via ERC2981) as the
+standards for new NFT collections, along with legacy CW721 / CW1155 contracts.
 
-- **ERC721**: The ERC721 standard defines the structure for non-fungible tokens
-  on EVM-based blockchains. Each token is unique and cannot be exchanged on a
-  one-to-one basis like fungible tokens.
-- **ERC2981**: These standards define royalty mechanisms for NFTs,
-  ensuring creators receive a percentage of sales.
-- **Interoperability**: Similar to fungible tokens, NFTs can interact across
-  different standards using pointer contracts.
-- **Pointer Contract Registry**: A registry for tracking pointer contracts
-  specific to NFTs.
+- **ERC721 / ERC1155** (recommended): EVM standards for non-fungible and
+  semi-fungible tokens. **Use these for any new NFT collection on Sei.**
+- **ERC2981**: Defines a royalty mechanism for NFTs, ensuring creators receive
+  a percentage of sales.
+- **CW721 / CW1155** (legacy only): Per [Prop 115](https://www.mintscan.io/sei/proposals/115),
+  no new CW721 / CW1155 contracts can be deployed. Existing collections continue
+  to function and can be surfaced on the EVM via pointer contracts.
+- **Interoperability**: Similar to fungible tokens, legacy CW NFT collections
+  can interact with the EVM using pointer contracts.
 
 ## Wrapped Sei (wSei)
 

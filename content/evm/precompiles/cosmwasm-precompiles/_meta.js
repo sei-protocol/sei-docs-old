@@ -4,6 +4,5 @@ export default {
 	bank: 'Bank',
 	cosmwasm: 'CosmWasm',
 	ibc: 'IBC',
-	pointer: 'Pointer',
 	pointerview: 'Pointerview'
 };

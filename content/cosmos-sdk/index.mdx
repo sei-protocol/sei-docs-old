@@ -15,7 +15,9 @@ import { ChainInformation } from '../../src/components';
 
 **Deprecation Notice**
 
-Cosmos SDK and CosmWasm functionality will be deprecated in favor of EVM-only. For more details, see [SIP-3](https://github.com/sei-protocol/sips/blob/main/sips/sip-3.md) and the [governance proposal](https://www.mintscan.io/sei/proposals/99).
+Cosmos SDK and CosmWasm functionality is being deprecated in favor of EVM-only. For more details, see [SIP-3](https://github.com/sei-protocol/sips/blob/main/sips/sip-3.md) and [Proposal 99](https://www.mintscan.io/sei/proposals/99).
+
+In addition, [Proposal 115](https://www.mintscan.io/sei/proposals/115) disables CosmWasm code uploads (`MsgStoreCode`) and contract instantiations (`MsgInstantiateContract`) chain-wide. No new CosmWasm contracts can be deployed; only `execute` and `query` against pre-existing contracts remain available via the [CosmWasm precompile](/evm/precompiles/cosmwasm-precompiles/cosmwasm).
 
 </Danger>
 

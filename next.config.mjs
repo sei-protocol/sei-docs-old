@@ -1099,6 +1099,11 @@ export default withNextra({
 				permanent: true
 			},
 			{
+				source: '/evm/precompiles/cosmwasm-precompiles/pointer',
+				destination: '/learn/pointers',
+				permanent: true
+			},
+			{
 				source: '/evm/installing-seid',
 				destination: '/evm/installing-seid-cli',
 				permanent: true

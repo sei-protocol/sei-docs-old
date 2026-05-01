@@ -5,9 +5,15 @@ keywords: ["precompile example", "ethers.js", "cosmwasm query", "evm integration
 ---
 
 
+<Info>
+
+Per [Proposal 115](https://www.mintscan.io/sei/proposals/115), no new CosmWasm contracts can be deployed on Sei. The examples below apply to **pre-existing CosmWasm contracts** only — `instantiate()` will revert.
+
+</Info>
+
 The Sei precompiles can be used like any standard smart contract on the EVM. For
 example, using [ethers.js](https://docs.ethers.org/v6/), you can query and
-execute actions on a CosmWasm contract as follows:
+execute actions on an existing CosmWasm contract as follows:
 
 ## Setup
 
