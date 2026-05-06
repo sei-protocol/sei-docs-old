@@ -7,8 +7,6 @@ name: Sync default seid configs
 # Triggers:
 #   - workflow_dispatch  (manual; can override the seid version)
 #   - schedule           (weekly, Mondays 06:00 UTC)
-#   - repository_dispatch with type=sei-chain-release  (optional; lets the
-#     sei-chain repo poke this workflow when it cuts a new release)
 
 on:
   workflow_dispatch:
@@ -20,8 +18,6 @@ on:
         default: ''
   schedule:
     - cron: '0 6 * * 1'
-  repository_dispatch:
-    types: [sei-chain-release]
 
 permissions:
   contents: write
@@ -44,10 +40,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           INPUT_VERSION: ${{ inputs.sei_version }}
-          DISPATCH_VERSION: ${{ github.event.client_payload.sei_version }}
         run: |
           set -euo pipefail
-          requested="${INPUT_VERSION:-${DISPATCH_VERSION:-}}"
+          requested="${INPUT_VERSION:-}"
           if [[ -n "$requested" ]]; then
             tag="$requested"
             echo "Using requested seid tag: $tag"
