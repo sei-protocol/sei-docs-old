@@ -22,8 +22,8 @@ import { execSync } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import process from 'node:process';
+import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, '..');
@@ -61,9 +61,7 @@ function buildTree() {
 			encoding: 'utf8',
 			stdio: ['ignore', 'pipe', 'pipe']
 		});
-		return out
-			.replace(new RegExp(SEI_HOME.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&'), 'g'), '$HOME/.sei')
-			.replace(/\s+$/u, '');
+		return out.replace(new RegExp(SEI_HOME.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&'), 'g'), '$HOME/.sei').replace(/\s+$/u, '');
 	} catch (err) {
 		console.warn('warn: `tree` not available, falling back to find-based listing:', err.message);
 		const out = execSync(`find "${SEI_HOME}" -maxdepth 3 | sort`, { encoding: 'utf8' });
