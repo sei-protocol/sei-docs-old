@@ -22,6 +22,17 @@ on:
     - cron: '0 6 * * 1'
   repository_dispatch:
     types: [sei-chain-release]
+  # TEMPORARY: lets us exercise the workflow on the feat branch before merging
+  # to main (workflow_dispatch only shows up in the UI for workflows on the
+  # default branch). Remove this `push:` block once we've verified one full
+  # green run.
+  push:
+    branches:
+      - feat/sync-default-configs-workflow
+    paths:
+      - '.github/workflows/sync-default-configs.yml'
+      - 'scripts/sync-default-configs.mjs'
+      - 'content/node/default-configs.mdx'
 
 permissions:
   contents: write
