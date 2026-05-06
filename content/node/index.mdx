@@ -543,6 +543,13 @@ seid query staking validator $(seid keys show <your_key> --bech val -a)
                <p className="text-sm text-neutral-500 dark:text-neutral-500">Specialized instructions for validators, including staking, commission settings, and security best practices.</p>
              </div>
            </Link>
+           <Link href="/node/default-configs" className="flex items-start gap-3 group">
+             <Icon icon="file-text" className="h-5 w-5 text-neutral-500 dark:text-neutral-400 shrink-0 group-hover:text-sei-maroon-100 transition-colors mt-0.5" />
+             <div>
+               <h4 className="font-medium text-neutral-700 dark:text-neutral-300 group-hover:text-sei-maroon-100 dark:group-hover:text-sei-maroon-25 transition-colors mb-0.5">Default Config Reference</h4>
+               <p className="text-sm text-neutral-500 dark:text-neutral-500">Auto-generated <code>app.toml</code>, <code>config.toml</code>, and folder layout from the latest <code>seid init</code>.</p>
+             </div>
+           </Link>
         </div>
 
         <div className="flex flex-col gap-5">
