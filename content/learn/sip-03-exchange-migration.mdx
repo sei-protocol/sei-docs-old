@@ -1,0 +1,79 @@
+---
+title: 'Sei EVM Upgrade for Exchanges and Custodians'
+description: 'Practical steps and resources for users and exchanges migrating during SIP-03, including asset transfer, USDC, and exchange migration guidance.'
+keywords: ['SIP-03', 'migration', 'asset transfer', 'USDC on Sei', 'Keplr', 'Leap', 'Compass', 'EVM wallet', 'exchange migration', 'FundsForwarder', 'address association']
+---
+
+
+# Sei EVM Upgrade for Exchanges and Custodians
+
+This section is for exchanges, custodians, and other service providers that currently support Sei deposits and withdrawals using native (`sei1...`) addresses. It explains what SIP-03 changes for exchange integrations, the options available for migrating customer holdings to EVM (`0x...`) addresses, and the timeline by which migration must be complete.
+
+### What SIP-03 changes for exchanges
+
+For exchanges, the practical implication of the SIP-03 migration is that any integration treating "Sei" (native) and "Sei EVM" as two separate chains needs to be reconciled into a single integration before the Cosmos shutdown. Every native address (`sei1...`) on Sei has a corresponding EVM address (`0x...`) on the same chain. This is not two distinct chains or wallets — it is one chain with two ways to interact with it.
+
+### Migration options
+
+There are four ways an exchange or custodian can migrate customer holdings to EVM.
+
+#### 1) Combine native and EVM access points
+
+The exchange surfaces the EVM (`0x...`) address corresponding to each existing native (`sei1...`) wallet directly to the customer. Each `sei1...` address has exactly one corresponding `0x...` address, determined by the public key the addresses are derived from. They are not freely pairable, and association does not create the pairing — it only registers it onchain. Because the pairing already exists at the keypair level, no funds need to move.
+
+This is the cleanest path and requires no customer action. It does require the exchange to:
+
+- Derive or look up the EVM address for each native wallet under management.
+- Ensure the native and EVM addresses are associated on-chain (see [Address association](#address-association) below).
+- Update internal accounting and customer-facing UI to present the EVM address as the canonical Sei address.
+
+#### 2) Automated forwarding contract
+
+The exchange uses a `FundsForwarder` smart contract to programmatically move customer funds from the native side to the customer's EVM wallet on the exchange. The exchange handles deployment and triggering; the customer sees the funds arrive at the new address without taking any action themselves.
+
+This is appropriate when the exchange cannot or does not want to expose EVM addresses for existing native wallets directly, but is willing to operate the migration itself.
+
+#### 3) User-directed forwarding contract
+
+The exchange notifies customers of the change and directs them to the `FundsForwarder` contract address. Customers initiate the transfer themselves; the contract automatically forwards funds to the appropriate EVM wallet on the exchange.
+
+This is functionally similar to option 2 but pushes the trigger action onto the customer. It is appropriate when the exchange cannot operate the contract directly but wants to provide an automated destination.
+
+#### 4) Fully manual transfer
+
+The exchange notifies customers of the change and asks them to manually withdraw funds to a self-custody wallet (e.g., MetaMask) and then redeposit them to the EVM address provided by the exchange.
+
+### Address association
+
+The first two options depend on the exchange's native and EVM addresses being **associated** on-chain. Association is the explicit on-chain link between a `sei1...` address and its corresponding `0x...` address. Without it, the chain cannot recognize that the two addresses belong to the same account, and funds held under the native address will not be accessible via EVM after support for CosmWasm is deprecated.
+
+<Warning>
+**Address association must be completed prior to deprecation. After that point, there is no mechanism to associate addresses.**
+</Warning>
+
+For details on how to query association status and the methods for associating addresses, see [Accounts](/learn/accounts).
+
+### FundsForwarder contract
+
+The `FundsForwarder` is a one-way smart contract that accepts deposits at a native (`sei1...`) address and forwards the full balance to a pre-configured EVM (`0x...`) destination address. It is the underlying mechanism for options 2 and 3 above.
+
+Key properties:
+
+- The destination address is fixed at deployment and cannot be changed. Funds can only be forwarded to that address.
+- The contract accepts deposits via native `sei1...` transfers and forwards the full balance to the configured `0x...` destination.
+- The `FundsForwarder` has been audited by OtterSec and has undergone internal security review by Sei Labs.
+
+The source code for the `FundsForwarder` contract has been verified at [seiscan.io/address/0xbae10c7edcd2d4b15f542e53b04f21c0436fcdd2](https://seiscan.io/address/0xbae10c7edcd2d4b15f542e53b04f21c0436fcdd2#code).
+
+### Migration milestone
+
+Address association needs to completed by **June 15, 2026**, prior to deprecation of all Cosmos, CosmWasm, and IBC related functionality. After deprecation:
+
+- Exchanges and their users will not be able to access or transfer funds.
+- Cosmos-native transaction interfaces will no longer be available. Exchanges will not be able to broadcast Cosmos-format transactions, sign with Cosmos key derivations against the live chain, or interact with the chain through Cosmos RPC endpoints.
+- Address associations can no longer be created through a Cosmos wallet.
+- The `FundsForwarder` pattern will no longer function for new deposits.
+
+### Exchange support
+
+For technical questions about exchange migration, contact the Sei Labs team via the [Sei Tech Chat](https://t.me/+KZdhZ1eE-G01NmZk) or [Discord](https://discord.com/invite/sei).
