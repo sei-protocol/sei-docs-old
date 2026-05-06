@@ -88,12 +88,13 @@ function escapeRe(s) {
 	return s.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
 }
 
-const today = new Date().toISOString().slice(0, 10);
-
+// Intentionally no timestamp here — embedding `today` would cause the weekly
+// cron to open a no-op PR every run. Git history is the source of truth for
+// "last synced".
 const metadataBlock =
 	`> **Generated from** \`seid ${SEI_VERSION}\`` +
 	(SEI_COMMIT ? ` (commit \`${SEI_COMMIT}\`)` : '') +
-	` — produced by \`seid init docs-example --chain-id pacific-1\` on ${today}.\n` +
+	` — produced by \`seid init docs-example --chain-id pacific-1\`.\n` +
 	`> Source repo: [sei-protocol/sei-chain @ ${SEI_VERSION}](https://github.com/sei-protocol/sei-chain/releases/tag/${SEI_VERSION}).`;
 
 const treeBlock = '```text\n' + buildTree() + '\n```';
