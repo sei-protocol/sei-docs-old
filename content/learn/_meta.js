@@ -11,6 +11,7 @@ export default {
 	accounts: 'Account Linking',
 
 	'sip-03-migration': 'SIP-03 Migration',
+	'sip-03-exchange-migration': 'Sei EVM Upgrade for Exchanges and Custodians',
 
 	'-- Core Architecture': {
 		type: 'separator',
