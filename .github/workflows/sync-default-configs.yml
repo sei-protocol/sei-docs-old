@@ -129,7 +129,10 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: bot/sync-default-configs
-          base: main
+          # Normally targets main. When the workflow is exercised by a push to
+          # a feature branch (test path), target that branch instead so the
+          # cherry-pick has a base that already contains default-configs.mdx.
+          base: ${{ github.event_name == 'push' && github.ref_name || 'main' }}
           commit-message: 'docs(node): sync default configs from seid ${{ steps.version.outputs.tag }}'
           title: 'docs(node): sync default configs from seid ${{ steps.version.outputs.tag }}'
           body: |
