@@ -5,9 +5,7 @@ import { CopyButton } from '../CopyText';
 import { addOrSwitchSeiNetwork, networks } from './config';
 import type { NetworkEntry } from './types';
 
-type NetworkType = 'Cosmos' | 'EVM';
-
-export const ChainInformation = ({ networkType }: { networkType: NetworkType }) => (
+export const ChainInformation = () => (
 	<div className='mt-8 overflow-x-auto'>
 		<table className='w-full text-sm border border-neutral-200 dark:border-neutral-700'>
 			<thead>
@@ -16,40 +14,36 @@ export const ChainInformation = ({ networkType }: { networkType: NetworkType }) 
 					<th className='px-3 py-2 text-left font-medium text-neutral-700 dark:text-neutral-300'>Chain Id</th>
 					<th className='px-3 py-2 text-left font-medium text-neutral-700 dark:text-neutral-300'>RPC URL</th>
 					<th className='px-3 py-2 text-left font-medium text-neutral-700 dark:text-neutral-300 whitespace-nowrap'>Explorer URL</th>
-					{networkType === 'EVM' && <th className='px-3 py-2 text-left font-medium text-neutral-700 dark:text-neutral-300 whitespace-nowrap'>MetaMask</th>}
+					<th className='px-3 py-2 text-left font-medium text-neutral-700 dark:text-neutral-300 whitespace-nowrap'>MetaMask</th>
 				</tr>
 			</thead>
 			<tbody>
-				{networks
-					.filter((net) => net.type === networkType)
-					.map((net: NetworkEntry) => (
-						<tr key={net.name} className='border-t border-neutral-200 dark:border-neutral-700'>
-							<td className='px-3 py-2 font-medium text-neutral-900 dark:text-neutral-100'>{net.name}</td>
-							<td className='px-3 py-2'>
-								<div className='flex flex-col gap-2'>
-									<CopyButton value={net.chainId} />
-									{net.hexChainId && <CopyButton value={net.hexChainId} />}
-								</div>
-							</td>
-							<td className='px-3 py-2'>
-								<CopyButton copyDisabled={false} value={net.rpcUrl} />
-							</td>
-							<td className='px-3 py-2'>
-								<div className='flex flex-col gap-2'>
-									{net.explorerLinks.map((explorer) => (
-										<a key={explorer.name} href={explorer.url} target='_blank' rel='noopener noreferrer' className='underline hover:opacity-50'>
-											{explorer.name}
-										</a>
-									))}
-								</div>
-							</td>
-							{net.type === 'EVM' && net.chainParams && (
-								<td className='px-3 py-2'>
-									<AddSeiButton chainParams={net.chainParams} label={`Add Sei ${net.name} to your wallet`} />
-								</td>
-							)}
-						</tr>
-					))}
+				{networks.map((net: NetworkEntry) => (
+					<tr key={net.name} className='border-t border-neutral-200 dark:border-neutral-700'>
+						<td className='px-3 py-2 font-medium text-neutral-900 dark:text-neutral-100'>{net.name}</td>
+						<td className='px-3 py-2'>
+							<div className='flex flex-col gap-2'>
+								<CopyButton value={net.chainId} />
+								{net.hexChainId && <CopyButton value={net.hexChainId} />}
+							</div>
+						</td>
+						<td className='px-3 py-2'>
+							<CopyButton copyDisabled={false} value={net.rpcUrl} />
+						</td>
+						<td className='px-3 py-2'>
+							<div className='flex flex-col gap-2'>
+								{net.explorerLinks.map((explorer) => (
+									<a key={explorer.name} href={explorer.url} target='_blank' rel='noopener noreferrer' className='underline hover:opacity-50'>
+										{explorer.name}
+									</a>
+								))}
+							</div>
+						</td>
+						<td className='px-3 py-2'>
+							<AddSeiButton chainParams={net.chainParams} label={`Add Sei ${net.name} to your wallet`} />
+						</td>
+					</tr>
+				))}
 				<tr className='border-t border-neutral-200 dark:border-neutral-700'>
 					<td className='px-3 py-2' />
 					<td className='px-3 py-2' />

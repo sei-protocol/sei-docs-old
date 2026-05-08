@@ -7,8 +7,6 @@ canonical: /evm
 image: /assets/docs-banner.png
 ---
 
-import { ChainInformation } from '../../src/components';
-
 # Cosmos-SDK
 
 <Danger>
@@ -20,7 +18,3 @@ Cosmos SDK and CosmWasm functionality is being deprecated in favor of EVM-only. 
 In addition, [Proposal 115](https://www.mintscan.io/sei/proposals/115) disables CosmWasm code uploads (`MsgStoreCode`) and contract instantiations (`MsgInstantiateContract`) chain-wide. No new CosmWasm contracts can be deployed; only `execute` and `query` against pre-existing contracts remain available via the [CosmWasm precompile](/evm/precompiles/cosmwasm-precompiles/cosmwasm).
 
 </Danger>
-
-## Cosmos-SDK type Endpoints
-
-<ChainInformation networkType="Cosmos" />

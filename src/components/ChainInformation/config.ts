@@ -28,7 +28,6 @@ export const SEI_TESTNET_CHAIN_PARAMS = {
 
 export const networks: NetworkEntry[] = [
 	{
-		type: 'EVM',
 		name: 'Mainnet',
 		chainId: '1329',
 		hexChainId: '0x531',
@@ -40,7 +39,6 @@ export const networks: NetworkEntry[] = [
 		chainParams: SEI_MAINNET_CHAIN_PARAMS
 	},
 	{
-		type: 'EVM',
 		name: 'Testnet',
 		chainId: '1328',
 		hexChainId: '0x530',
@@ -50,20 +48,6 @@ export const networks: NetworkEntry[] = [
 			{ name: 'SeiStream', url: 'https://testnet.seistream.app' }
 		],
 		chainParams: SEI_TESTNET_CHAIN_PARAMS
-	},
-	{
-		type: 'Cosmos',
-		name: 'Mainnet',
-		chainId: 'pacific-1',
-		rpcUrl: 'https://rpc.sei-apis.com',
-		explorerLinks: [{ name: 'Mintscan', url: 'https://www.mintscan.io/sei' }]
-	},
-	{
-		type: 'Cosmos',
-		name: 'Testnet',
-		chainId: 'atlantic-2',
-		rpcUrl: 'https://rpc-testnet.sei-apis.com',
-		explorerLinks: [{ name: 'Mintscan', url: 'https://www.mintscan.io/sei-testnet' }]
 	}
 ];
 
