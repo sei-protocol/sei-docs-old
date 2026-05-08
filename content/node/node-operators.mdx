@@ -38,47 +38,63 @@ section.
 
 ```toml copy
 [p2p]
-# Public IP for other nodes to reach you
+# Public address other nodes use to dial in (host:port)
 external-address = "your-public-ip:26656"
 # Local address to listen for incoming P2P connections
 laddr = "tcp://0.0.0.0:26656"
-# Number of peers allowed
-max-num-inbound-peers = 40
-max-num-outbound-peers = 20
-# Network bandwidth limits to prevent congestion
-send-rate = 204800000  # 200MB/s
-recv-rate = 204800000  # 200MB/s
+# Combined inbound + outbound peer limit. Default is 100; raise it for
+# well-connected RPC nodes. (`max-num-inbound-peers` / `max-num-outbound-peers`
+# from older Tendermint configs no longer apply.)
+max-connections = 200
+# Per-connection bandwidth caps in bytes/sec. Defaults are 20 MiB/s; raise
+# only if your link can sustain it.
+send-rate = 20971520
+recv-rate = 20971520
 
 [rpc]
 # RPC listen address
 laddr = "tcp://0.0.0.0:26657"
-# Maximum number of simultaneous connections
+# Maximum number of simultaneous connections (HTTP + WS)
 max-open-connections = 900
-# Transaction confirmation timeout
+# Transaction confirmation timeout for /broadcast_tx_commit
 timeout-broadcast-tx-commit = "10s"
 ```
 
 #### Application Settings (app.toml)
 
 ```toml copy
-# Minimum gas prices [to prevent spam transactions]
+# Minimum gas prices to prevent spam transactions
 minimum-gas-prices = "0.01usei"
 
+# Block retention for /block, /block_results, etc., and the floor used by
+# the receipt store's pruner. 0 disables block pruning.
+min-retain-blocks = 100000
+
+# Concurrent transaction execution workers. The default is set dynamically
+# (2× CPU cores, capped at 128, minimum 10).
+concurrency-workers = 10
+
+# Optimistic Concurrency Control for parallel tx execution
+occ-enabled = true
+
 [api]
-# Enable the API server
+# Enable the REST/Cosmos API server (port 1317)
 enable = true
 max-open-connections = 1000
 
 [state-commit]
-# Use SeiDB for improved performance
+# SeiDB state-commit (memiavl + FlatKV). Recommended on every node.
 sc-enable = true
 
 [state-store]
-# Enable state store for historical queries
+# Historical SS layer for queries. Required for any node serving RPC.
 ss-enable = true
-# Retain 100,000 blocks for queryability
-# 0 = "keep all"
+# 0 = keep everything; 100,000 is roughly 28 hours of pacific-1 history.
 ss-keep-recent = 100000
+
+[receipt-store]
+# Storage backend for EVM transaction receipts (pebbledb or parquet).
+rs-backend = "pebbledb"
 ```
 
 ### Default Configurations
@@ -1352,41 +1368,151 @@ broadcast-mode = "sync"
 
 ## Database Management
 
-### Database Types
+### Architecture
 
-Sei supports two database backends:
+Sei stores chain data through **SeiDB**, a two-layer design that replaces the
+legacy single-database IAVL store with separate hot- and historical-data tiers:
 
-1. **SeiDB (Recommended)**
+1. **State Commit (SC)** — the active chain state used for transaction
+   execution and to compute the per-block app hash. Cosmos modules sit on a
+   memory-mapped Merkle tree (`memiavl`) ported from Cronos. EVM state can
+   additionally be routed through **FlatKV**, an EVM-tuned PebbleDB store
+   with per-type sub-databases (`account`, `code`, `storage`, `legacy`,
+   `metadata`). Routing is controlled by `sc-write-mode` / `sc-read-mode`
+   and defaults to memiavl-only — FlatKV is only opened when one of those
+   modes is set to a non-default value.
+2. **State Store (SS)** — versioned raw key/value pairs used for historical
+   queries. Required for any node that serves RPC. The default backend is
+   **PebbleDB**; **RocksDB** is available for iteration-heavy workloads such
+   as archive nodes or RPC nodes that run a lot of `debug_trace*` (see the
+   [RocksDB Backend Guide](/node/rocksdb-backend) for build instructions).
 
-   - Optimized for performance and sync times
-   - Reduces resource usage
-   - Best for all nodes
+The legacy IAVL backend is still selectable via `sc-enable = false` but is
+deprecated and slated for removal — new deployments and existing nodes
+should run on SeiDB.
 
-2. **Legacy IAVL DB**
-   - Standard Cosmos SDK database
-   - More widely tested
+### SeiDB Configuration
 
-### Sei-DB Configuration
+The full set of knobs is in the auto-generated
+[Default Configurations](#default-configurations) above. The block below
+covers the values most node operators tune in practice.
 
 ```toml copy
 [state-commit]
+# Enable SeiDB. Disable to fall back to legacy IAVL.
 sc-enable = true
+
+# Async commit queue. Larger values improve catch-up; 0 = synchronous.
 sc-async-commit-buffer = 100
-sc-keep-recent = 1  # Keep only the most recent state for performance
-sc-snapshot-interval = 10000  # Take state snapshots every 10,000 blocks
+
+# How many memiavl snapshots to keep besides the latest one.
+# 0 = current snapshot only. Set to 1 if you serve IBC light-client queries
+# so relayers can verify against an older snapshot height.
+sc-keep-recent = 1
+
+# Take a state-commit snapshot every N blocks.
+sc-snapshot-interval = 10000
+
+# Minimum wall-clock interval (seconds) between snapshots; prevents overlap
+# during catch-up. Lower this if you set sc-snapshot-interval below ~5000.
+sc-snapshot-min-time-interval = 3600
+
+# Cap on snapshot write throughput across all trees (MB/s). 0 = unlimited.
+sc-snapshot-write-rate-mbps = 100
+
+# EVM data routing between the Cosmos memiavl tree and FlatKV.
+# Default: cosmos_only / cosmos_only — all EVM state lives in memiavl. See
+# the Giga Storage section below for the dual_write + split_read setup.
+sc-write-mode = "cosmos_only"
+sc-read-mode = "cosmos_only"
+sc-enable-lattice-hash = false
+
+[state-commit.flatkv]
+# FlatKV is the EVM-optimized commit store (PebbleDB). It is only opened
+# when sc-write-mode is dual_write or split_write — otherwise these
+# settings have no effect. WAL crash recovery is idempotent, so fsync
+# stays off by default.
+fsync = false
+async-write-buffer = 0
+snapshot-interval = 10000
+snapshot-keep-recent = 2
 
 [state-store]
+# Historical SS layer. Validators can disable this to save disk; any node
+# serving RPC must keep it on.
 ss-enable = true
-ss-backend = "pebbledb"  # Default, required
+
+# pebbledb (default) or rocksdb (faster iteration, archive-friendly).
+ss-backend = "pebbledb"
+
 ss-async-write-buffer = 100
-ss-keep-recent = 100000  # Keep last 100,000 blocks
-ss-prune-interval = 600  # Cleanup interval for pruning
+# Versions to retain. 0 = keep everything (archive-style). 100,000 ≈ 28h.
+ss-keep-recent = 100000
+# Pruning interval, plus a small random jitter, to avoid colliding with
+# snapshot creation.
+ss-prune-interval = 600
+
+# Optional EVM SS routing — same semantics as the SC modes above. Leave on
+# cosmos_only unless you have completed the Giga SS Store migration.
+evm-ss-write-mode = "cosmos_only"
+evm-ss-read-mode = "cosmos_only"
+evm-ss-separate-dbs = false
+
+[receipt-store]
+# pebbledb (default) or parquet. Receipts are pruned together with blocks
+# according to min-retain-blocks above.
+rs-backend = "pebbledb"
+async-write-buffer = 100
+prune-interval-seconds = 600
 ```
 
-Setting very small [more frequent] pruning intervals may cause issues with automated
-snapshotting in the event those events collide. Too large [less frequent]
-pruning intervals means it will take a longer overall time to prune which may
-cause missed blocks and excessive resync time.
+Setting very small (more frequent) pruning intervals may collide with
+snapshot creation. Too-large (less frequent) intervals mean pruning takes
+longer overall, which can cause missed blocks and excessive resync time.
+
+### Giga Storage and Giga Executor
+
+These are two **separate** opt-in features that ship in newer `seid`
+releases. Both default to off; only enable them deliberately and after
+following the relevant migration guide.
+
+**Giga Storage** repartitions SeiDB so EVM state lives in its own
+databases at both the SC and SS layers, freeing non-EVM modules from EVM
+write amplification.
+
+<Info>For step-by-step instructions — including the full state-sync flow, startup verification, safety checks, and rollback — see the [Giga SS Store Migration Guide](/node/giga-storage-migration). The snippet below is just the resulting `app.toml` shape.</Info>
+
+
+```toml copy
+[state-commit]
+sc-write-mode = "dual_write"   # write EVM data to memiavl AND FlatKV
+sc-read-mode = "split_read"    # read EVM data from FlatKV
+sc-enable-lattice-hash = true  # required for split-mode app-hash equality
+
+[state-store]
+evm-ss-write-mode = "split_write"
+evm-ss-read-mode = "split_read"
+```
+
+Enabling Giga Storage requires a fresh state sync — flipping the EVM SS
+modes on a node with existing data fails the startup safety checks because
+the new EVM SS DB starts empty while Cosmos SS already has history. The
+full procedure is in the
+[Giga SS Store Migration Guide](/node/giga-storage-migration) and is
+currently supported on **RPC nodes only**; validators and archive nodes are
+not yet covered.
+
+**Giga Executor** is independent of Giga Storage. It swaps the EVM
+interpreter from go-ethereum's geth to an evmone-based executor for
+higher throughput, with optional OCC parallelism on top:
+
+```toml copy
+[giga_executor]
+# Use the evmone-based executor instead of geth's interpreter. Experimental.
+enabled = false
+# Run Giga-executed txs in parallel with Optimistic Concurrency Control.
+occ_enabled = false
+```
 
 ### Database Maintenance
 
