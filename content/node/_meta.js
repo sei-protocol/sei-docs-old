@@ -21,5 +21,6 @@ export default {
 	},
 	'advanced-config-monitoring': 'Advanced Configuration & Monitoring',
 	'rocksdb-backend': 'RocksDB Backend',
+	'giga-storage-migration': 'Giga SS Store Migration',
 	'technical-reference': 'Technical Reference'
 };
