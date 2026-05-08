@@ -1,5 +1,5 @@
 import { useMDXComponents as getThemeComponents } from 'nextra-theme-docs';
-import { Check, Danger, Info, Note, Tip, Warning } from './src/components/MintlifyShims';
+import { Check, Danger, Info, Note, Tab, Tabs, Tip, Warning } from './src/components/MintlifyShims';
 
 const themeComponents = getThemeComponents();
 
@@ -12,6 +12,8 @@ export function useMDXComponents(components) {
 		Tip,
 		Check,
 		Danger,
+		Tabs,
+		Tab,
 		...components
 	};
 }

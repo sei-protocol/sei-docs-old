@@ -7,7 +7,6 @@ export default {
 		title: 'Node Operations'
 	},
 	'node-operators': 'Overview',
-	'default-configs': 'Default Config Reference',
 	seictl: 'Seictl Setup Helper',
 	statesync: 'Statesync',
 	snapshot: 'Snapshot Sync',

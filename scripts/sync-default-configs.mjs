@@ -1,21 +1,26 @@
 #!/usr/bin/env node
 /**
- * Regenerates content/node/default-configs.mdx with the unmodified output of
- * `seid init` against a freshly built seid binary.
+ * Refreshes the inlined default `app.toml`, `config.toml`, and `client.toml`
+ * blocks inside `content/node/node-operators.mdx` with the unmodified output
+ * of `seid init` against a freshly built seid binary.
  *
  * Inputs (env):
  *   SEI_HOME      Directory `seid init` wrote to (default: $HOME/.sei)
  *   SEI_VERSION   Tag of the seid release that was built (e.g. v6.4.4) [required]
- *   SEI_COMMIT    Short commit SHA the binary was built from [optional]
- *   OUTPUT_FILE   MDX file to update (default: content/node/default-configs.mdx)
+ *   SEI_COMMIT    Short commit SHA the binary was built from [optional, unused but kept for compatibility]
+ *   OUTPUT_FILE   MDX file to update (default: content/node/node-operators.mdx)
  *
  * The MDX file uses paired marker comments such as
- *   <!-- AUTO-GENERATED:APP_TOML:START -->
+ *   {/* AUTO-GENERATED:APP_TOML:START *\/}
  *   ...replaced content...
- *   <!-- AUTO-GENERATED:APP_TOML:END -->
+ *   {/* AUTO-GENERATED:APP_TOML:END *\/}
  * Everything between START/END (inclusive of newlines) is replaced; everything
  * outside is preserved so docs writers can edit prose without touching the
  * sync script.
+ *
+ * NOTE: MDX comments ({/* ... *\/}) are required instead of HTML comments
+ * (<!-- ... -->) because Nextra/MDX does not accept HTML comments at the
+ * top level and will fail to parse the page.
  */
 
 import { execSync } from 'node:child_process';
@@ -30,8 +35,7 @@ const REPO_ROOT = resolve(__dirname, '..');
 
 const SEI_HOME = process.env.SEI_HOME || join(homedir(), '.sei');
 const SEI_VERSION = process.env.SEI_VERSION;
-const SEI_COMMIT = process.env.SEI_COMMIT || '';
-const OUTPUT_FILE = resolve(REPO_ROOT, process.env.OUTPUT_FILE || 'content/node/default-configs.mdx');
+const OUTPUT_FILE = resolve(REPO_ROOT, process.env.OUTPUT_FILE || 'content/node/node-operators.mdx');
 
 if (!SEI_VERSION) {
 	console.error('error: SEI_VERSION env var is required (e.g. v6.4.4)');
@@ -55,27 +59,13 @@ function readToml(name) {
 	return readFileSync(p, 'utf8').replace(/\s+$/u, '') + '\n';
 }
 
-function buildTree() {
-	try {
-		const out = execSync(`tree -L 3 --noreport --charset=ascii "${SEI_HOME}"`, {
-			encoding: 'utf8',
-			stdio: ['ignore', 'pipe', 'pipe']
-		});
-		return out.replace(new RegExp(SEI_HOME.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&'), 'g'), '$HOME/.sei').replace(/\s+$/u, '');
-	} catch (err) {
-		console.warn('warn: `tree` not available, falling back to find-based listing:', err.message);
-		const out = execSync(`find "${SEI_HOME}" -maxdepth 3 | sort`, { encoding: 'utf8' });
-		return out
-			.split('\n')
-			.filter(Boolean)
-			.map((line) => line.replace(SEI_HOME, '$HOME/.sei'))
-			.join('\n');
-	}
+function escapeRe(s) {
+	return s.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
 }
 
 function replaceBlock(source, marker, replacement) {
-	const start = `<!-- AUTO-GENERATED:${marker}:START -->`;
-	const end = `<!-- AUTO-GENERATED:${marker}:END -->`;
+	const start = `{/* AUTO-GENERATED:${marker}:START */}`;
+	const end = `{/* AUTO-GENERATED:${marker}:END */}`;
 	const pattern = new RegExp(`${escapeRe(start)}[\\s\\S]*?${escapeRe(end)}`, 'u');
 	if (!pattern.test(source)) {
 		console.error(`error: missing marker block ${marker} in ${OUTPUT_FILE}`);
@@ -84,30 +74,16 @@ function replaceBlock(source, marker, replacement) {
 	return source.replace(pattern, `${start}\n\n${replacement}\n\n${end}`);
 }
 
-function escapeRe(s) {
-	return s.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
-}
-
-// Intentionally no timestamp here — embedding `today` would cause the weekly
-// cron to open a no-op PR every run. Git history is the source of truth for
-// "last synced".
-const metadataBlock =
-	`> **Generated from** \`seid ${SEI_VERSION}\`` +
-	(SEI_COMMIT ? ` (commit \`${SEI_COMMIT}\`)` : '') +
-	` — produced by \`seid init docs-example --chain-id pacific-1\`.\n` +
-	`> Source repo: [sei-protocol/sei-chain @ ${SEI_VERSION}](https://github.com/sei-protocol/sei-chain/releases/tag/${SEI_VERSION}).`;
-
-const treeBlock = '```text\n' + buildTree() + '\n```';
-const appBlock = '```toml\n' + readToml('app.toml') + '```';
-const configBlock = '```toml\n' + readToml('config.toml') + '```';
-const clientBlock = '```toml\n' + readToml('client.toml') + '```';
+const blocks = {
+	APP_TOML: '```toml\n' + readToml('app.toml') + '```',
+	CONFIG_TOML: '```toml\n' + readToml('config.toml') + '```',
+	CLIENT_TOML: '```toml\n' + readToml('client.toml') + '```'
+};
 
 let source = readFileSync(OUTPUT_FILE, 'utf8');
-source = replaceBlock(source, 'METADATA', metadataBlock);
-source = replaceBlock(source, 'TREE', treeBlock);
-source = replaceBlock(source, 'APP_TOML', appBlock);
-source = replaceBlock(source, 'CONFIG_TOML', configBlock);
-source = replaceBlock(source, 'CLIENT_TOML', clientBlock);
+for (const [marker, content] of Object.entries(blocks)) {
+	source = replaceBlock(source, marker, content);
+}
 
 writeFileSync(OUTPUT_FILE, source);
 console.log(`wrote ${OUTPUT_FILE} from seid ${SEI_VERSION}`);
