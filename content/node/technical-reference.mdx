@@ -182,15 +182,18 @@ Understanding network parameters helps you operate your node effectively.
 These parameters define the network's behavior:
 
 ```text copy
-Block Time: 1 second target
-Max Validators: 100
+Block Time: ~400ms target
+Max Validators: 40
 Unbonding Period: 21 days
-Slashing Conditions:
-  - Downtime: 0.01%
-  - Double Sign: 5%
 Minimum Self Delegation: 1 SEI
-Maximum Commission Rate: 20%
-Maximum Commission Change Rate: 1% per day
+
+Slashing Parameters:
+  - signed_blocks_window:        108,000 blocks
+  - min_signed_per_window:       5%   (validator must sign ≥5% of blocks in the window)
+  - downtime_jail_duration:      10 minutes
+  - slash_fraction_downtime:     0%   (no stake slash; jail only)
+  - slash_fraction_double_sign:  0%   (no stake slash; double-signing still triggers
+                                       permanent tombstoning)
 ```
 
 ## File Locations
